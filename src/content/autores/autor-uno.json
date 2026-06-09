@@ -1,0 +1,12 @@
+{
+  "nombre": "[NOMBRE_AUTOR_1]",
+  "cargo": "[CARGO_AUTOR_1]",
+  "afiliacion": "Facultad de Ingeniería",
+  "bio": "[BIO_AUTOR_1] Breve descripción profesional y académica del autor.",
+  "email": "autor1@placeholder.edu",
+  "orcid": "0000-0000-0000-0001",
+  "redes": {
+    "linkedin": "https://linkedin.com/in/placeholder1",
+    "web": "https://placeholder.edu/autor1"
+  }
+}

@@ -1,0 +1,211 @@
+/* =========================================================================
+   SISTEMA TIPOGRÁFICO EDITORIAL
+   Inspirado en normas APA 7: jerarquía clara, lectura cómoda, formal.
+   ========================================================================= */
+
+/* --- Fuentes auto-hospedadas --- */
+
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SourceSerif4-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SourceSerif4-Italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/SourceSerif4-SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/SourceSerif4-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont.woff2') format('woff2-variations');
+}
+
+/* --- Bases --- */
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: calc(var(--fs-base) * var(--fs-scale));
+  line-height: 1.6;
+  color: var(--color-texto);
+  background-color: var(--color-fondo);
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Titulares (siempre serif, color institucional) --- */
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--font-serif);
+  color: var(--color-titulo);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1, .h1 { font-size: calc(var(--fs-3xl) * var(--fs-scale)); line-height: 1.05; letter-spacing: -0.025em; }
+h2, .h2 { font-size: calc(var(--fs-2xl) * var(--fs-scale)); line-height: 1.10; letter-spacing: -0.02em; }
+h3, .h3 { font-size: calc(var(--fs-xl)  * var(--fs-scale)); line-height: 1.20; }
+h4, .h4 { font-size: calc(var(--fs-lg)  * var(--fs-scale)); line-height: 1.25; }
+h5, .h5 { font-size: calc(var(--fs-md)  * var(--fs-scale)); line-height: 1.30; font-weight: 600; }
+h6, .h6 { font-size: calc(var(--fs-base)* var(--fs-scale)); line-height: 1.35; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* --- Texto académico (.prosa) ---
+   Aplicar a cualquier contenedor cuyo texto deba leerse cómodamente.
+   Sigue lineamientos APA: serif, 1.5–1.8 interlineado, 65ch máx, sangría primera línea opcional. */
+
+.prosa {
+  font-family: var(--font-serif);
+  font-size: calc(var(--fs-base) * var(--fs-scale));
+  line-height: 1.75;
+  color: var(--color-texto);
+  max-width: var(--ancho-prosa);
+  hyphens: auto;
+  text-wrap: pretty;
+}
+
+.prosa > * + * { margin-top: var(--space-5); }
+
+.prosa h2,
+.prosa h3,
+.prosa h4 {
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-4);
+}
+
+.prosa p {
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+/* Sangría primera línea estilo APA (excepto el primer párrafo tras un título) */
+.prosa p + p {
+  text-indent: 1.5em;
+  margin-top: var(--space-2);
+}
+
+.prosa blockquote {
+  font-style: italic;
+  font-size: calc(var(--fs-md) * var(--fs-scale));
+  line-height: 1.6;
+  color: var(--color-texto-suave);
+  border-left: 3px solid var(--color-acento);
+  padding: var(--space-4) var(--space-6);
+  margin: var(--space-8) 0;
+  background: var(--color-fondo-alt);
+  border-radius: 0 var(--radio) var(--radio) 0;
+}
+
+.prosa a {
+  color: var(--color-enlace);
+  text-decoration: underline;
+  text-decoration-color: var(--color-acento);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: var(--t-rapida);
+}
+
+.prosa a:hover {
+  color: var(--color-enlace-hover);
+  text-decoration-thickness: 2px;
+}
+
+.prosa code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-fondo-alt);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radio-sm);
+}
+
+.prosa ul,
+.prosa ol {
+  padding-left: 1.5em;
+}
+
+.prosa li + li { margin-top: var(--space-2); }
+
+.prosa hr {
+  border: none;
+  border-top: 1px solid var(--color-linea-base);
+  margin: var(--space-12) auto;
+  width: 30%;
+}
+
+/* --- Etiquetas / overlines --- */
+
+.overline {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-acento-fuerte);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-xxs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-acento);
+  padding: 4px 10px;
+  border: 1px solid currentColor;
+  border-radius: var(--radio-sm);
+}
+
+.dropcap::first-letter {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.85;
+  margin: 0.1em 0.1em 0 0;
+  color: var(--color-titulo);
+}
+
+/* --- Caption / pie de figura --- */
+
+.pie-figura,
+.image-caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-style: italic;
+  color: var(--color-texto-tenue);
+  text-align: center;
+  margin-top: var(--space-3);
+  letter-spacing: 0.01em;
+}

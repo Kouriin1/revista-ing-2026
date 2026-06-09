@@ -1,0 +1,122 @@
+---
+interface Props {
+  numeroEdicion: string;
+}
+const { numeroEdicion } = Astro.props;
+const anio = new Date().getFullYear();
+---
+
+<footer class="sitio-footer">
+  <div class="contenedor sitio-footer__inner">
+    <div class="footer-bloque">
+      <div class="footer-marca">FACULTAD DE INGENIERÍA</div>
+      <p class="footer-meta">Edición {numeroEdicion}</p>
+      <p class="footer-meta">[NOMBRE_UNIVERSIDAD]</p>
+    </div>
+
+    <div class="footer-bloque">
+      <h6 class="footer-titulo">Navegación</h6>
+      <ul>
+        <li><a href="/">Portada</a></li>
+        <li><a href="/indice">Índice de la edición</a></li>
+        <li><a href="/editorial">Editorial</a></li>
+        <li><a href="/contraportada">Créditos</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-bloque">
+      <h6 class="footer-titulo">Contacto</h6>
+      <ul>
+        <li>[CORREO_REVISTA]</li>
+        <li>[TELEFONO]</li>
+        <li>[DIRECCION_FACULTAD]</li>
+      </ul>
+    </div>
+
+    <div class="footer-bloque">
+      <h6 class="footer-titulo">Redes</h6>
+      <ul class="footer-redes">
+        <li><a href="#" aria-label="Twitter">Twitter</a></li>
+        <li><a href="#" aria-label="LinkedIn">LinkedIn</a></li>
+        <li><a href="#" aria-label="Instagram">Instagram</a></li>
+        <li><a href="#" aria-label="YouTube">YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sitio-footer__legal">
+    <div class="contenedor footer-legal-inner">
+      <span>&copy; {anio} Facultad de Ingeniería. Todos los derechos reservados.</span>
+      <span>ISSN: [ISSN_PLACEHOLDER]</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .sitio-footer {
+    background: var(--color-azul-oxford);
+    color: var(--color-papel);
+    margin-top: var(--space-24);
+  }
+  .sitio-footer__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-10);
+    padding-block: var(--space-16) var(--space-10);
+  }
+  .footer-marca {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    color: var(--color-dorado-claro);
+    margin-bottom: var(--space-2);
+    letter-spacing: 0.02em;
+  }
+  .footer-meta {
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.7);
+    margin: 2px 0;
+  }
+  .footer-titulo {
+    color: var(--color-dorado-claro);
+    margin-bottom: var(--space-3);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-family: var(--font-sans);
+    font-weight: 700;
+  }
+  .footer-bloque ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .footer-bloque a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    transition: color var(--t-rapida);
+  }
+  .footer-bloque a:hover { color: var(--color-dorado-claro); }
+  .footer-bloque li {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: var(--fs-sm);
+  }
+  .footer-redes { flex-direction: row !important; flex-wrap: wrap; gap: var(--space-4) !important; }
+
+  .sitio-footer__legal {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.2);
+    padding-block: var(--space-4);
+  }
+  .footer-legal-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+    font-size: var(--fs-xs);
+    color: rgba(255, 255, 255, 0.55);
+  }
+</style>

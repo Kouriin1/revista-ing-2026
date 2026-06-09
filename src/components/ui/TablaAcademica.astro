@@ -1,0 +1,100 @@
+---
+interface Columna {
+  clave: string;
+  etiqueta: string;
+  alinear?: 'izquierda' | 'centro' | 'derecha';
+}
+interface Props {
+  titulo?: string;
+  numero?: string;       // ej "Tabla 1"
+  nota?: string;         // nota al pie estilo APA
+  columnas: Columna[];
+  filas: Array<Record<string, string | number>>;
+}
+const { titulo, numero = 'Tabla', nota, columnas, filas } = Astro.props;
+---
+
+<figure class="tabla-academica">
+  {(titulo || numero) && (
+    <figcaption class="tabla-academica__caption">
+      <span class="tabla-academica__num">{numero}</span>
+      {titulo && <span class="tabla-academica__titulo">{titulo}</span>}
+    </figcaption>
+  )}
+  <div class="tabla-academica__scroll">
+    <table>
+      <thead>
+        <tr>
+          {columnas.map((c) => (
+            <th class={`alinear-${c.alinear ?? 'izquierda'}`}>{c.etiqueta}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {filas.map((fila) => (
+          <tr>
+            {columnas.map((c) => (
+              <td class={`alinear-${c.alinear ?? 'izquierda'}`}>{fila[c.clave]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {nota && <p class="tabla-academica__nota"><em>Nota.</em> {nota}</p>}
+</figure>
+
+<style>
+  .tabla-academica {
+    margin: var(--space-10) 0;
+    font-family: var(--font-sans);
+  }
+  .tabla-academica__caption {
+    display: block;
+    margin-bottom: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+  }
+  .tabla-academica__num {
+    font-weight: 700;
+    color: var(--color-titulo);
+    margin-right: var(--space-2);
+  }
+  .tabla-academica__titulo {
+    font-style: italic;
+    color: var(--color-texto-suave);
+  }
+  .tabla-academica__scroll {
+    overflow-x: auto;
+    border-top: 1.5px solid var(--color-titulo);
+    border-bottom: 1.5px solid var(--color-titulo);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+  }
+  thead tr {
+    border-bottom: 1px solid var(--color-titulo);
+  }
+  th, td {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+  }
+  th {
+    font-weight: 700;
+    color: var(--color-titulo);
+  }
+  tbody tr:nth-child(even) {
+    background: var(--color-fondo-alt);
+  }
+  .alinear-centro   { text-align: center; }
+  .alinear-derecha  { text-align: right; }
+  .alinear-izquierda { text-align: left; }
+  .tabla-academica__nota {
+    font-size: var(--fs-xs);
+    color: var(--color-texto-suave);
+    margin-top: var(--space-3);
+    line-height: 1.4;
+  }
+</style>

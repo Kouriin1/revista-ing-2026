@@ -1,0 +1,174 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Placeholder from './Placeholder.astro';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+  variante?: 'estandar' | 'destacado' | 'compacto';
+  autorNombre?: string;
+}
+
+const { articulo, variante = 'estandar', autorNombre } = Astro.props;
+const { titulo, subtitulo, resumen, seccion, imagenPrincipal, tiempoLectura } = articulo.data;
+const href = `/articulo/${articulo.id.replace(/\.(md|mdx)$/, '')}`;
+---
+
+<article class={`card-articulo card-articulo--${variante} revelar`}>
+  <a href={href} class="card-articulo__enlace">
+    <div class="card-articulo__media">
+      {imagenPrincipal ? (
+        <Image src={imagenPrincipal} alt={titulo} loading="lazy" widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 33vw" />
+      ) : (
+        <Placeholder etiqueta="IMAGEN_PRINCIPAL" ratio={variante === 'destacado' ? '16/9' : '4/3'} />
+      )}
+      <span class="card-articulo__seccion">{seccion}</span>
+    </div>
+    <div class="card-articulo__cuerpo">
+      {autorNombre && <span class="card-articulo__autor">Por {autorNombre}</span>}
+      <h3 class="card-articulo__titulo">{titulo}</h3>
+      {subtitulo && <p class="card-articulo__subtitulo">{subtitulo}</p>}
+      {variante !== 'compacto' && resumen && (
+        <p class="card-articulo__resumen">{resumen}</p>
+      )}
+      <div class="card-articulo__pie">
+        {tiempoLectura && <span>{tiempoLectura} min de lectura</span>}
+        <span class="card-articulo__cta">Leer artículo →</span>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .card-articulo {
+    background: var(--color-fondo);
+    border: 1px solid var(--color-linea-base);
+    border-radius: var(--radio-lg);
+    overflow: hidden;
+    transition: transform var(--t-media), box-shadow var(--t-media), border-color var(--t-media);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .card-articulo:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-lg);
+    border-color: var(--color-acento);
+  }
+  .card-articulo__enlace {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+  .card-articulo__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-fondo-alt);
+  }
+  .card-articulo__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--t-lenta);
+  }
+  .card-articulo:hover .card-articulo__media img { transform: scale(1.05); }
+
+  .card-articulo__seccion {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    background: var(--color-azul-oxford);
+    color: var(--color-dorado-claro);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xxs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border-radius: var(--radio-sm);
+  }
+
+  .card-articulo__cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-6) var(--space-6);
+    flex-grow: 1;
+  }
+  .card-articulo__autor {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-acento-fuerte);
+  }
+  .card-articulo__titulo {
+    font-size: var(--fs-md);
+    line-height: 1.25;
+    margin: 0;
+  }
+  .card-articulo__subtitulo {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-texto-suave);
+    font-size: var(--fs-sm);
+    margin: 0;
+  }
+  .card-articulo__resumen {
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--color-texto-suave);
+    margin: var(--space-2) 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-articulo__pie {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    color: var(--color-texto-tenue);
+    border-top: 1px solid var(--color-linea-base);
+    margin-top: var(--space-5);
+  }
+  .card-articulo__cta {
+    color: var(--color-acento-fuerte);
+    font-weight: 700;
+  }
+
+  /* Destacado: card horizontal grande */
+  .card-articulo--destacado {
+    grid-column: span 2;
+  }
+  .card-articulo--destacado .card-articulo__enlace {
+    flex-direction: row;
+  }
+  .card-articulo--destacado .card-articulo__media {
+    flex: 1 1 50%;
+    aspect-ratio: unset;
+    min-height: 320px;
+  }
+  .card-articulo--destacado .card-articulo__cuerpo {
+    flex: 1 1 50%;
+    padding: var(--space-8);
+    justify-content: center;
+  }
+  .card-articulo--destacado .card-articulo__titulo {
+    font-size: var(--fs-xl);
+  }
+  @media (max-width: 768px) {
+    .card-articulo--destacado { grid-column: span 1; }
+    .card-articulo--destacado .card-articulo__enlace { flex-direction: column; }
+    .card-articulo--destacado .card-articulo__media { aspect-ratio: 16 / 10; min-height: 0; }
+    .card-articulo--destacado .card-articulo__cuerpo { padding: var(--space-5) var(--space-6) var(--space-6); }
+    .card-articulo--destacado .card-articulo__titulo { font-size: var(--fs-md); }
+  }
+</style>

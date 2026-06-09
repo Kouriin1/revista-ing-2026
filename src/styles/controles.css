@@ -1,0 +1,63 @@
+/* =========================================================================
+   ESTILOS DE CONTROLES DE LECTURA (islands)
+   ========================================================================= */
+
+.control-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid var(--color-linea-base);
+  color: var(--color-texto);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radio-sm);
+  cursor: pointer;
+  transition: border-color var(--t-rapida), color var(--t-rapida), background var(--t-rapida);
+  white-space: nowrap;
+}
+.control-btn:hover:not(:disabled) {
+  border-color: var(--color-acento);
+  color: var(--color-acento-fuerte);
+}
+.control-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.control-btn--icono {
+  padding: 6px 8px;
+  min-width: 32px;
+  justify-content: center;
+}
+.control-btn__txt {
+  font-size: var(--fs-xxs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.control-grupo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--color-linea-base);
+  border-radius: var(--radio-sm);
+  padding: 2px;
+}
+.control-grupo .control-btn {
+  border: none;
+  padding: 4px 8px;
+}
+.control-grupo__estado {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xxs);
+  color: var(--color-texto-tenue);
+  padding: 0 4px;
+}
+
+@media (max-width: 900px) {
+  .control-btn__txt {
+    display: none;
+  }
+}

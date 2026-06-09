@@ -1,0 +1,98 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { obtenerEdicionActiva } from '@lib/edicion';
+
+const edicion = await obtenerEdicionActiva();
+const editorialesArt = await getCollection('articulos', ({ data }) => data.seccion === 'editorial');
+const editorialesInst = await getCollection('institucional', ({ data }) => data.tipo === 'editorial');
+
+const editorial = editorialesArt[0] ?? editorialesInst[0];
+const Contenido = editorial ? (await render(editorial as any)).Content : null;
+
+const titulo = editorial?.data.titulo ?? '[TITULO_EDITORIAL]';
+const autor = (editorial as any)?.data.autor
+  ?? (editorial as any)?.data.autoresInvitados?.[0]
+  ?? '[AUTOR_EDITORIAL]';
+---
+
+<BaseLayout
+  titulo={`Editorial — ${titulo}`}
+  descripcion="Editorial de la edición"
+  numeroEdicion={edicion.data.numero}
+>
+  <article class="pagina-editorial">
+    <div class="contenedor contenedor--lectura">
+      <header class="editorial-header revelar">
+        <div class="editorial-letra">E</div>
+        <span class="overline">Editorial</span>
+        <h1>{titulo}</h1>
+        <p class="editorial-firma">Por <strong>{autor}</strong></p>
+      </header>
+
+      <div class="editorial-cuerpo prosa revelar">
+        {Contenido ? (
+          <Contenido />
+        ) : (
+          <>
+            <p>
+              [Reemplaza este contenido creando <code>src/content/articulos/00-editorial.mdx</code>
+              con <code>seccion: editorial</code>, o
+              <code>src/content/institucional/editorial.md</code> con
+              <code>tipo: editorial</code>.]
+            </p>
+            <p>
+              [TEXTO_EDITORIAL_PLACEHOLDER] Donec sodales sagittis magna. Sed consequat, leo eget
+              bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero.
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .pagina-editorial {
+    padding-block: var(--space-16) var(--space-20);
+  }
+  .editorial-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+    position: relative;
+  }
+  .editorial-letra {
+    font-family: var(--font-serif);
+    font-size: clamp(8rem, 18vw, 14rem);
+    color: var(--color-fondo-alt);
+    line-height: 0.8;
+    position: absolute;
+    top: -0.15em;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .editorial-header h1 {
+    font-size: var(--fs-3xl);
+    margin: var(--space-3) 0;
+    max-width: 22ch;
+    margin-inline: auto;
+  }
+  .editorial-firma {
+    font-family: var(--font-sans);
+    color: var(--color-texto-suave);
+    font-size: var(--fs-sm);
+    margin: var(--space-4) 0 0;
+  }
+  .editorial-firma strong {
+    color: var(--color-acento-fuerte);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.95em;
+  }
+  .editorial-cuerpo {
+    margin: 0 auto;
+  }
+</style>

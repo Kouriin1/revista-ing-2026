@@ -1,0 +1,165 @@
+/* =========================================================================
+   ESTILOS DEL MODO REVISTA (PageFlip)
+   ========================================================================= */
+
+.pf-contenedor {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-6);
+  background: var(--color-fondo-alt);
+}
+
+.pf-fuente {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pf-cargando {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--color-texto-suave);
+  z-index: 10;
+}
+.pf-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-linea-base);
+  border-top-color: var(--color-acento);
+  border-radius: 50%;
+  animation: pf-spin 800ms linear infinite;
+}
+@keyframes pf-spin { to { transform: rotate(360deg); } }
+
+.pf-libro {
+  width: 100%;
+  max-width: 1100px;
+  margin: var(--space-4) auto;
+}
+
+.pf-hoja {
+  background: var(--color-papel);
+  box-shadow: var(--sombra-pagina);
+  overflow: hidden;
+}
+.pf-hoja__inner {
+  width: 100%;
+  height: 100%;
+  padding: 40px 36px 56px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.pf-hoja__contenido {
+  flex: 1;
+  overflow: hidden;
+  font-family: var(--font-serif);
+  line-height: 1.7;
+  color: var(--color-texto);
+}
+.pf-hoja__contenido h1,
+.pf-hoja__contenido h2,
+.pf-hoja__contenido h3 {
+  font-family: var(--font-serif);
+  color: var(--color-titulo);
+  line-height: 1.2;
+  margin-top: 0.6em;
+  margin-bottom: 0.4em;
+}
+.pf-hoja__contenido h1 { font-size: 1.7rem; }
+.pf-hoja__contenido h2 { font-size: 1.35rem; }
+.pf-hoja__contenido h3 { font-size: 1.15rem; }
+.pf-hoja__contenido p {
+  margin: 0 0 0.8em;
+  text-align: justify;
+  font-size: 0.95rem;
+}
+.pf-hoja__contenido img,
+.pf-hoja__contenido figure {
+  max-width: 100%;
+  height: auto;
+  margin: 0.8em auto;
+  display: block;
+}
+.pf-hoja__contenido figure { margin: 1em 0; }
+.pf-hoja__contenido figcaption {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--color-texto-tenue);
+  text-align: center;
+  margin-top: 0.4em;
+}
+.pf-hoja__pie {
+  position: absolute;
+  bottom: 18px;
+  left: 36px;
+  right: 36px;
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-texto-tenue);
+  border-top: 1px solid var(--color-linea-suave);
+  padding-top: 8px;
+}
+
+.pf-controles {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  background: var(--color-fondo);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  box-shadow: var(--sombra);
+  border: 1px solid var(--color-linea-base);
+}
+.pf-nav {
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-azul-oxford);
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: background var(--t-rapida), color var(--t-rapida);
+}
+.pf-nav:hover {
+  background: var(--color-azul-oxford);
+  color: var(--color-dorado-claro);
+}
+.pf-indicador {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-texto-suave);
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Permitir gestos táctiles en móviles */
+.pf-libro .stf__wrapper { touch-action: pan-y; }
+
+@media (max-width: 600px) {
+  .pf-contenedor { padding: var(--space-3); }
+  .pf-hoja__inner { padding: 28px 22px 44px; }
+  .pf-hoja__contenido p { font-size: 0.92rem; }
+}

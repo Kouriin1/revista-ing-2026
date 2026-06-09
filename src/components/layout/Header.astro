@@ -1,0 +1,244 @@
+---
+import SelectorTema from '@components/islands/SelectorTema.tsx';
+import SelectorFuente from '@components/islands/SelectorFuente.tsx';
+import SelectorModo from '@components/islands/SelectorModo.tsx';
+import ControlSonido from '@components/islands/ControlSonido.tsx';
+
+interface Props {
+  numeroEdicion: string;
+}
+const { numeroEdicion } = Astro.props;
+
+const enlaces = [
+  { href: '/', etiqueta: 'Portada' },
+  { href: '/indice', etiqueta: 'Índice' },
+  { href: '/editorial', etiqueta: 'Editorial' },
+  { href: '/decano', etiqueta: 'Decano' },
+  { href: '/contraportada', etiqueta: 'Créditos' },
+];
+---
+
+<header class="sitio-header" id="header-principal">
+  <div class="contenedor sitio-header__inner">
+    <a href="/" class="sitio-header__marca" aria-label="Inicio">
+      <span class="marca__nombre">
+        FACULTAD DE <strong>INGENIERÍA</strong>
+      </span>
+      <span class="marca__edicion">Edición {numeroEdicion}</span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      id="menu-toggle"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="nav-principal"
+    >
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav id="nav-principal" class="sitio-header__nav" aria-label="Principal">
+      <ul class="nav-lista">
+        {enlaces.map((e) => (
+          <li><a href={e.href}>{e.etiqueta}</a></li>
+        ))}
+      </ul>
+
+      <div class="controles-lectura" role="group" aria-label="Preferencias de lectura">
+        <SelectorModo client:idle />
+        <SelectorTema client:idle />
+        <SelectorFuente client:idle />
+        <ControlSonido client:idle />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const init = () => {
+    const header = document.getElementById('header-principal');
+    const toggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('nav-principal');
+    if (!header || !toggle || !nav) return;
+
+    const onScroll = () => {
+      header.classList.toggle('scrolleado', window.scrollY > 40);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const abierto = nav.classList.toggle('abierto');
+      toggle.classList.toggle('abierto', abierto);
+      toggle.setAttribute('aria-expanded', String(abierto));
+    });
+
+    nav.querySelectorAll('a').forEach((a) =>
+      a.addEventListener('click', () => {
+        nav.classList.remove('abierto');
+        toggle.classList.remove('abierto');
+        toggle.setAttribute('aria-expanded', 'false');
+      }),
+    );
+
+    document.addEventListener('click', (e) => {
+      if (
+        nav.classList.contains('abierto') &&
+        !nav.contains(e.target as Node) &&
+        !toggle.contains(e.target as Node)
+      ) {
+        nav.classList.remove('abierto');
+        toggle.classList.remove('abierto');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  };
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>
+
+<style>
+  .sitio-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    background: color-mix(in srgb, var(--color-fondo) 92%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--t-rapida), background var(--t-rapida);
+  }
+  .sitio-header.scrolleado {
+    border-bottom-color: var(--color-linea-base);
+    box-shadow: var(--sombra-sm);
+  }
+
+  .sitio-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    height: 72px;
+  }
+
+  .sitio-header__marca {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    text-decoration: none;
+    color: var(--color-titulo);
+  }
+  .marca__nombre {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .marca__nombre strong {
+    color: var(--color-acento-fuerte);
+    font-weight: 700;
+  }
+  .marca__edicion {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: var(--fs-xs);
+    color: var(--color-texto-tenue);
+    margin-top: 2px;
+  }
+
+  .sitio-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .nav-lista {
+    display: flex;
+    gap: var(--space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-lista a {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    color: var(--color-texto);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 6px 2px;
+    border-bottom: 2px solid transparent;
+    transition: border-color var(--t-rapida), color var(--t-rapida);
+  }
+  .nav-lista a:hover {
+    color: var(--color-acento-fuerte);
+    border-bottom-color: var(--color-acento);
+  }
+
+  .controles-lectura {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding-left: var(--space-4);
+    border-left: 1px solid var(--color-linea-base);
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 34px;
+    height: 28px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    position: relative;
+    z-index: calc(var(--z-nav) + 1);
+  }
+  .menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--color-titulo);
+    margin: 5px 0;
+    border-radius: 2px;
+    transition: transform var(--t-rapida), opacity var(--t-rapida);
+  }
+  .menu-toggle.abierto span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.abierto span:nth-child(2) { opacity: 0; }
+  .menu-toggle.abierto span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 900px) {
+    .menu-toggle { display: block; }
+    .sitio-header__nav {
+      position: fixed;
+      inset: 72px 0 0 0;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      padding: var(--space-8) var(--space-6);
+      background: var(--color-fondo);
+      transform: translateX(100%);
+      transition: transform var(--t-media);
+      gap: var(--space-6);
+      overflow-y: auto;
+    }
+    .sitio-header__nav.abierto { transform: translateX(0); }
+
+    .nav-lista {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .nav-lista a {
+      font-size: var(--fs-lg);
+      font-family: var(--font-serif);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--color-linea-base);
+    }
+    .controles-lectura {
+      flex-wrap: wrap;
+      padding: var(--space-4) 0 0;
+      border-left: none;
+      border-top: 1px solid var(--color-linea-base);
+    }
+  }
+</style>

@@ -1,0 +1,166 @@
+/* =========================================================================
+   ENTRY POINT GLOBAL
+   Orden importa: tailwind → tokens → tipografía → reglas globales.
+   ========================================================================= */
+
+@import 'tailwindcss';
+@import './tokens.css';
+@import './tipografia.css';
+@import './controles.css';
+@import './revista.css';
+
+/* Tailwind v4: declaramos las fuentes y colores institucionales como theme tokens */
+@theme {
+  --font-serif:  'Source Serif 4', Georgia, serif;
+  --font-sans:   'Inter', system-ui, sans-serif;
+
+  --color-oxford-50:  #E6EBF2;
+  --color-oxford-100: #CCD7E5;
+  --color-oxford-200: #99AFCC;
+  --color-oxford-300: #6687B2;
+  --color-oxford-400: #335F99;
+  --color-oxford-500: #002147;
+  --color-oxford-600: #001B3A;
+  --color-oxford-700: #00152E;
+  --color-oxford-800: #001023;
+  --color-oxford-900: #000817;
+
+  --color-dorado-50:  #FBF6EB;
+  --color-dorado-100: #F4E7C7;
+  --color-dorado-200: #E9CF92;
+  --color-dorado-300: #DDB75D;
+  --color-dorado-400: #C5A059;
+  --color-dorado-500: #B08D55;
+  --color-dorado-600: #8E7239;
+  --color-dorado-700: #6B561B;
+  --color-dorado-800: #4A3B0E;
+  --color-dorado-900: #2A2208;
+
+  --color-papel: #FDFCF7;
+  --color-tinta: #1A1A1A;
+}
+
+/* =========================================================================
+   RESET LIGERO + DEFAULTS
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+img, picture, video, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+  border-radius: var(--radio-sm);
+}
+
+::selection {
+  background: var(--color-acento);
+  color: var(--color-azul-oxford-oscuro);
+}
+
+/* =========================================================================
+   LAYOUT HELPERS
+   ========================================================================= */
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-contenedor);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+.contenedor--lectura {
+  max-width: var(--ancho-contenedor-lectura);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--color-azul-oxford);
+  color: var(--color-papel);
+  padding: var(--space-3) var(--space-5);
+  z-index: var(--z-modal);
+  transition: top var(--t-rapida);
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* =========================================================================
+   ANIMACIONES SUAVES (no obligatorias)
+   ========================================================================= */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.aparece     { animation: fadeInUp var(--t-lenta) both; }
+.aparece-sin { animation: fadeIn    var(--t-lenta) both; }
+
+/* Scroll reveal (activado por IntersectionObserver en BaseLayout) */
+.revelar {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--t-lenta), transform var(--t-lenta);
+}
+.revelar.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================================
+   IMPRESIÓN
+   ========================================================================= */
+
+@media print {
+  .no-imprimir,
+  header.sitio-header,
+  footer.sitio-footer,
+  .controles-lectura {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+}

@@ -1,0 +1,180 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import Placeholder from '@components/ui/Placeholder.astro';
+import { tituloSeccion } from '@lib/edicion';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+  autoresResueltos: CollectionEntry<'autores'>[];
+  variante?: 'centrada' | 'lateral' | 'sobreimagen';
+}
+
+const { articulo, autoresResueltos, variante = 'centrada' } = Astro.props;
+const { titulo, subtitulo, seccion, imagenPrincipal, pieImagenPrincipal, fechaPublicacion, tiempoLectura, autoresInvitados } = articulo.data;
+
+const todosLosNombres = [
+  ...autoresResueltos.map((a) => a.data.nombre),
+  ...autoresInvitados,
+];
+const fechaFmt = fechaPublicacion
+  ? new Intl.DateTimeFormat('es', { day: 'numeric', month: 'long', year: 'numeric' }).format(fechaPublicacion)
+  : null;
+---
+
+<header class={`cabecera-articulo cabecera-articulo--${variante}`}>
+  {variante === 'sobreimagen' && (
+    <div class="cabecera-articulo__fondo" aria-hidden="true">
+      {imagenPrincipal ? (
+        <Image src={imagenPrincipal} alt="" loading="eager" widths={[800, 1600, 2400]} sizes="100vw" />
+      ) : (
+        <Placeholder etiqueta="IMAGEN_PORTADA_ARTICULO" alto="100%" />
+      )}
+    </div>
+  )}
+
+  <div class="cabecera-articulo__contenido">
+    <span class="overline cabecera-articulo__seccion">{tituloSeccion(seccion)}</span>
+    <h1 class="cabecera-articulo__titulo">{titulo}</h1>
+    {subtitulo && <p class="cabecera-articulo__subtitulo">{subtitulo}</p>}
+
+    <div class="cabecera-articulo__meta">
+      {todosLosNombres.length > 0 && (
+        <span class="meta-autor">Por <strong>{todosLosNombres.join(', ')}</strong></span>
+      )}
+      {fechaFmt && <span class="meta-separador">·</span>}
+      {fechaFmt && <span>{fechaFmt}</span>}
+      {tiempoLectura && <span class="meta-separador">·</span>}
+      {tiempoLectura && <span>{tiempoLectura} min de lectura</span>}
+    </div>
+  </div>
+
+  {variante !== 'sobreimagen' && (imagenPrincipal || true) && (
+    <figure class="cabecera-articulo__figura">
+      {imagenPrincipal ? (
+        <Image src={imagenPrincipal} alt={titulo} loading="eager" widths={[800, 1200, 1800]} sizes="(max-width: 768px) 100vw, 80vw" />
+      ) : (
+        <Placeholder etiqueta="IMAGEN_PRINCIPAL" ratio="16/9" />
+      )}
+      {pieImagenPrincipal && <figcaption class="pie-figura">{pieImagenPrincipal}</figcaption>}
+    </figure>
+  )}
+</header>
+
+<style>
+  .cabecera-articulo {
+    margin-bottom: var(--space-16);
+  }
+  .cabecera-articulo__seccion {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+  }
+  .cabecera-articulo__titulo {
+    font-size: calc(var(--fs-3xl) * var(--fs-scale));
+    line-height: 1.05;
+    margin: 0 0 var(--space-4);
+    text-wrap: balance;
+  }
+  .cabecera-articulo__subtitulo {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: calc(var(--fs-lg) * var(--fs-scale));
+    color: var(--color-texto-suave);
+    line-height: 1.35;
+    margin: 0 0 var(--space-6);
+    max-width: 60ch;
+  }
+  .cabecera-articulo__meta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    color: var(--color-texto-suave);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-linea-base);
+  }
+  .meta-autor strong { color: var(--color-titulo); font-weight: 700; }
+  .meta-separador { opacity: 0.4; }
+
+  .cabecera-articulo__figura { margin: var(--space-10) 0 0; }
+  .cabecera-articulo__figura img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra-lg);
+  }
+
+  /* CENTRADA */
+  .cabecera-articulo--centrada .cabecera-articulo__contenido {
+    text-align: center;
+    max-width: 65ch;
+    margin: 0 auto;
+  }
+  .cabecera-articulo--centrada .cabecera-articulo__subtitulo {
+    margin-inline: auto;
+  }
+  .cabecera-articulo--centrada .cabecera-articulo__meta {
+    justify-content: center;
+  }
+
+  /* LATERAL (titulo a la izq, imagen a la der) */
+  .cabecera-articulo--lateral {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+  .cabecera-articulo--lateral .cabecera-articulo__figura {
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .cabecera-articulo--lateral {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* SOBREIMAGEN (hero estilo revista) */
+  .cabecera-articulo--sobreimagen {
+    position: relative;
+    height: clamp(420px, 70vh, 720px);
+    color: var(--color-papel);
+    border-radius: var(--radio-lg);
+    overflow: hidden;
+    margin-inline: calc(50% - min(50vw, var(--ancho-contenedor) / 2));
+    margin-bottom: var(--space-16);
+    isolation: isolate;
+  }
+  .cabecera-articulo__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .cabecera-articulo__fondo img,
+  .cabecera-articulo__fondo > div {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cabecera-articulo__fondo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 21, 46, 0.35) 0%, rgba(0, 21, 46, 0.95) 100%);
+  }
+  .cabecera-articulo--sobreimagen .cabecera-articulo__contenido {
+    position: absolute;
+    bottom: var(--space-10);
+    left: var(--space-10);
+    right: var(--space-10);
+    max-width: 60ch;
+  }
+  .cabecera-articulo--sobreimagen .cabecera-articulo__titulo { color: var(--color-papel); }
+  .cabecera-articulo--sobreimagen .cabecera-articulo__subtitulo { color: rgba(255, 255, 255, 0.85); }
+  .cabecera-articulo--sobreimagen .cabecera-articulo__meta {
+    color: rgba(255, 255, 255, 0.75);
+    border-top-color: rgba(255, 255, 255, 0.2);
+  }
+  .cabecera-articulo--sobreimagen .meta-autor strong { color: var(--color-dorado-claro); }
+</style>

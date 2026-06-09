@@ -1,0 +1,140 @@
+---
+/**
+ * PLANTILLA D — Investigación académica
+ * Estructura tipo paper: resumen, palabras clave, secciones numeradas,
+ * tablas, figuras, referencias APA. Para artículos formales con DOI.
+ */
+import type { CollectionEntry } from 'astro:content';
+import CabeceraArticulo from './CabeceraArticulo.astro';
+import Referencias from '@components/ui/Referencias.astro';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+  autoresResueltos: CollectionEntry<'autores'>[];
+}
+const { articulo, autoresResueltos } = Astro.props;
+const { referencias, resumen, palabrasClave, doi } = articulo.data;
+---
+
+<article class="plantilla-d">
+  <CabeceraArticulo articulo={articulo} autoresResueltos={autoresResueltos} variante="centrada" />
+
+  <section class="plantilla-d__metadata">
+    {doi && (
+      <div class="metadata-fila">
+        <span class="metadata-etiqueta">DOI:</span>
+        <a href={`https://doi.org/${doi}`} class="metadata-valor">{doi}</a>
+      </div>
+    )}
+
+    {autoresResueltos.length > 0 && autoresResueltos[0]?.data.afiliacion && (
+      <div class="metadata-fila">
+        <span class="metadata-etiqueta">Afiliación:</span>
+        <span class="metadata-valor">{autoresResueltos[0].data.afiliacion}</span>
+      </div>
+    )}
+  </section>
+
+  {resumen && (
+    <section class="plantilla-d__resumen">
+      <h2>Resumen</h2>
+      <p>{resumen}</p>
+      {palabrasClave.length > 0 && (
+        <p class="palabras-clave">
+          <strong>Palabras clave:</strong> {palabrasClave.join(', ')}.
+        </p>
+      )}
+    </section>
+  )}
+
+  <div class="plantilla-d__cuerpo prosa">
+    <slot />
+  </div>
+
+  <Referencias items={referencias} titulo="Referencias bibliográficas" />
+</article>
+
+<style>
+  .plantilla-d {
+    counter-reset: seccion;
+  }
+  .plantilla-d__metadata {
+    max-width: var(--ancho-prosa);
+    margin: 0 auto var(--space-8);
+    padding: var(--space-4) var(--space-6);
+    border-top: 2px solid var(--color-azul-oxford);
+    border-bottom: 2px solid var(--color-azul-oxford);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+  }
+  .metadata-fila {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+  }
+  .metadata-fila + .metadata-fila {
+    border-top: 1px solid var(--color-linea-suave);
+  }
+  .metadata-etiqueta {
+    font-weight: 700;
+    color: var(--color-titulo);
+    min-width: 100px;
+  }
+  .metadata-valor {
+    color: var(--color-texto);
+  }
+  a.metadata-valor {
+    color: var(--color-enlace);
+    text-decoration: underline;
+    text-decoration-color: var(--color-acento);
+  }
+
+  .plantilla-d__resumen {
+    max-width: var(--ancho-prosa);
+    margin: var(--space-8) auto var(--space-12);
+    padding: var(--space-6) var(--space-8);
+    background: var(--color-fondo-alt);
+    border-radius: var(--radio);
+    font-family: var(--font-serif);
+  }
+  .plantilla-d__resumen h2 {
+    font-size: var(--fs-md);
+    margin-bottom: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .plantilla-d__resumen p {
+    line-height: 1.7;
+    text-align: justify;
+    color: var(--color-texto);
+  }
+  .palabras-clave {
+    margin-top: var(--space-4);
+    font-size: var(--fs-sm);
+    color: var(--color-texto-suave);
+  }
+  .palabras-clave strong { color: var(--color-titulo); }
+
+  .plantilla-d__cuerpo {
+    margin: 0 auto;
+  }
+  .plantilla-d__cuerpo :global(h2) {
+    counter-increment: seccion;
+    counter-reset: subseccion;
+    border-bottom: 1px solid var(--color-linea-base);
+    padding-bottom: var(--space-2);
+  }
+  .plantilla-d__cuerpo :global(h2::before) {
+    content: counter(seccion) ". ";
+    color: var(--color-acento-fuerte);
+    font-weight: 700;
+  }
+  .plantilla-d__cuerpo :global(h3) {
+    counter-increment: subseccion;
+  }
+  .plantilla-d__cuerpo :global(h3::before) {
+    content: counter(seccion) "." counter(subseccion) " ";
+    color: var(--color-acento-fuerte);
+    margin-right: 0.3em;
+  }
+</style>

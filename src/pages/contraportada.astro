@@ -1,0 +1,235 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { obtenerEdicionActiva } from '@lib/edicion';
+
+const edicion = await obtenerEdicionActiva();
+const consejo = edicion.data.consejoEditorial;
+const fechaFmt = new Intl.DateTimeFormat('es', {
+  day: 'numeric', month: 'long', year: 'numeric',
+}).format(edicion.data.fechaPublicacion);
+---
+
+<BaseLayout
+  titulo={`Créditos — Edición ${edicion.data.numero}`}
+  descripcion="Créditos institucionales"
+  numeroEdicion={edicion.data.numero}
+>
+  <article class="contraportada">
+    <div class="contenedor contenedor--lectura">
+      <header class="contra-header revelar">
+        <span class="overline">Créditos institucionales</span>
+        <h1>Edición {edicion.data.numero}</h1>
+        <p class="contra-fecha">Publicada el {fechaFmt}</p>
+      </header>
+
+      <section class="contra-bloque revelar">
+        <h2>Consejo editorial</h2>
+        {consejo.length > 0 ? (
+          <ul class="contra-lista">
+            {consejo.map((m) => (
+              <li>
+                <strong>{m.nombre}</strong>
+                <span>{m.cargo}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ul class="contra-lista">
+            <li><strong>[NOMBRE_DIRECTOR]</strong><span>Director Editorial</span></li>
+            <li><strong>[NOMBRE_EDITOR]</strong><span>Editor en Jefe</span></li>
+            <li><strong>[NOMBRE_DISENADOR]</strong><span>Diseño Editorial</span></li>
+            <li><strong>[NOMBRE_CORRECTOR]</strong><span>Corrección de Estilo</span></li>
+          </ul>
+        )}
+      </section>
+
+      <section class="contra-bloque revelar">
+        <h2>Institución</h2>
+        <div class="contra-institucion">
+          <p><strong>Facultad de Ingeniería</strong></p>
+          <p>[NOMBRE_UNIVERSIDAD]</p>
+          <p>[DIRECCION_FACULTAD]</p>
+          <p>[CIUDAD], [PAIS]</p>
+        </div>
+      </section>
+
+      <section class="contra-bloque revelar">
+        <h2>Contacto</h2>
+        <ul class="contra-contacto">
+          <li><span class="contacto-etiqueta">Correo</span><span>[CORREO_REVISTA]</span></li>
+          <li><span class="contacto-etiqueta">Teléfono</span><span>[TELEFONO_REVISTA]</span></li>
+          <li><span class="contacto-etiqueta">Sitio web</span><span>[URL_FACULTAD]</span></li>
+          <li><span class="contacto-etiqueta">ISSN</span><span>[ISSN_PLACEHOLDER]</span></li>
+        </ul>
+      </section>
+
+      <section class="contra-bloque revelar">
+        <h2>Redes sociales</h2>
+        <ul class="contra-redes">
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </section>
+
+      {edicion.data.colofon && (
+        <section class="contra-colofon revelar">
+          <p>{edicion.data.colofon}</p>
+        </section>
+      )}
+
+      <footer class="contra-pie revelar">
+        <p>© {new Date().getFullYear()} Facultad de Ingeniería · Todos los derechos reservados.</p>
+        <p class="contra-pie-nota">
+          Esta publicación es de carácter académico. El contenido refleja la opinión de sus autores.
+        </p>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .contraportada {
+    padding-block: var(--space-16) var(--space-20);
+    background:
+      linear-gradient(180deg, var(--color-fondo) 0%, var(--color-fondo-alt) 100%);
+    min-height: 100dvh;
+  }
+  .contra-header {
+    text-align: center;
+    margin-bottom: var(--space-16);
+    padding-bottom: var(--space-8);
+    border-bottom: 2px solid var(--color-acento);
+  }
+  .contra-header h1 {
+    font-size: var(--fs-3xl);
+    margin: var(--space-3) 0;
+  }
+  .contra-fecha {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-texto-suave);
+    margin: 0;
+  }
+
+  .contra-bloque {
+    margin-bottom: var(--space-12);
+  }
+  .contra-bloque h2 {
+    font-size: var(--fs-md);
+    color: var(--color-acento-fuerte);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--color-linea-base);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-5);
+  }
+
+  .contra-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-5);
+  }
+  .contra-lista li {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-fondo);
+    border-radius: var(--radio-sm);
+    border-left: 3px solid var(--color-acento);
+  }
+  .contra-lista strong {
+    font-family: var(--font-serif);
+    color: var(--color-titulo);
+    font-size: var(--fs-md);
+    margin-bottom: 4px;
+  }
+  .contra-lista span {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-texto-tenue);
+  }
+
+  .contra-institucion p {
+    font-family: var(--font-serif);
+    margin: var(--space-1) 0;
+    color: var(--color-texto);
+  }
+
+  .contra-contacto {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .contra-contacto li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-linea-suave);
+    font-family: var(--font-sans);
+  }
+  .contacto-etiqueta {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: var(--fs-xs);
+    letter-spacing: 0.08em;
+    color: var(--color-texto-tenue);
+  }
+
+  .contra-redes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .contra-redes a {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-fondo);
+    border: 1px solid var(--color-linea-base);
+    border-radius: 999px;
+    color: var(--color-texto);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    transition: var(--t-rapida);
+  }
+  .contra-redes a:hover {
+    background: var(--color-azul-oxford);
+    color: var(--color-dorado-claro);
+    border-color: var(--color-azul-oxford);
+  }
+
+  .contra-colofon {
+    padding: var(--space-6);
+    background: var(--color-fondo);
+    border-left: 4px solid var(--color-acento);
+    border-radius: var(--radio-sm);
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-texto-suave);
+  }
+
+  .contra-pie {
+    text-align: center;
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-linea-base);
+    font-size: var(--fs-xs);
+    color: var(--color-texto-tenue);
+  }
+  .contra-pie-nota {
+    font-style: italic;
+    margin-top: var(--space-2);
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+import '@styles/global.css';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  titulo: string;
+  descripcion?: string;
+  imagen?: string;
+  tipo?: 'website' | 'article';
+  numeroEdicion?: string;
+  ocultarHeader?: boolean;
+  ocultarFooter?: boolean;
+}
+
+const {
+  titulo,
+  descripcion = 'Revista digital de la Facultad de Ingeniería',
+  imagen,
+  tipo = 'website',
+  numeroEdicion = '2026-1',
+  ocultarHeader = false,
+  ocultarFooter = false,
+} = Astro.props;
+
+const canonica = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="es" data-tema="auto" data-modo="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#002147" />
+
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content={tipo} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    {imagen && <meta property="og:image" content={new URL(imagen, Astro.site).toString()} />}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+
+    <!-- Pre-aplicar tema y escala desde localStorage (sin parpadeo) -->
+    <script is:inline>
+      (() => {
+        try {
+          const t = localStorage.getItem('rev:tema');
+          if (t && t !== 'auto') document.documentElement.setAttribute('data-tema', t);
+          const f = Number(localStorage.getItem('rev:fuente'));
+          if (Number.isFinite(f) && f > 0) {
+            document.documentElement.style.setProperty('--fs-scale', String(f));
+          }
+          const m = localStorage.getItem('rev:modo');
+          if (m) document.documentElement.setAttribute('data-modo', m);
+        } catch (_) {}
+      })();
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <ClientRouter />
+  </head>
+
+  <body>
+    <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
+
+    {!ocultarHeader && <Header numeroEdicion={numeroEdicion} />}
+
+    <main id="contenido-principal" class="sitio-main">
+      <slot />
+    </main>
+
+    {!ocultarFooter && <Footer numeroEdicion={numeroEdicion} />}
+
+    <!-- Scroll reveal con IntersectionObserver -->
+    <script>
+      const activar = () => {
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                obs.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+        );
+        document.querySelectorAll('.revelar').forEach((el) => io.observe(el));
+      };
+      activar();
+      document.addEventListener('astro:after-swap', activar);
+    </script>
+  </body>
+</html>
+
+<style>
+  .sitio-main {
+    min-height: calc(100dvh - 80px);
+  }
+</style>

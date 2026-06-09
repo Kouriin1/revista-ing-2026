@@ -1,0 +1,69 @@
+---
+/**
+ * PLANTILLA B — Dos Columnas (estilo revista impresa)
+ * Cuerpo a 2 columnas en desktop, 1 en mobile. Imágenes flotantes y citas pull.
+ */
+import type { CollectionEntry } from 'astro:content';
+import CabeceraArticulo from './CabeceraArticulo.astro';
+import Referencias from '@components/ui/Referencias.astro';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+  autoresResueltos: CollectionEntry<'autores'>[];
+}
+const { articulo, autoresResueltos } = Astro.props;
+const { referencias } = articulo.data;
+---
+
+<article class="plantilla-b">
+  <CabeceraArticulo articulo={articulo} autoresResueltos={autoresResueltos} variante="lateral" />
+  <div class="plantilla-b__cuerpo prosa">
+    <slot />
+  </div>
+  <Referencias items={referencias} />
+</article>
+
+<style>
+  .plantilla-b__cuerpo {
+    max-width: var(--ancho-contenedor);
+    column-count: 2;
+    column-gap: var(--space-12);
+    column-rule: 1px solid var(--color-linea-base);
+  }
+  /* Reset estilos de .prosa que rompen columnas */
+  .plantilla-b__cuerpo {
+    max-width: 100%;
+    text-align: justify;
+  }
+  .plantilla-b__cuerpo :global(h2),
+  .plantilla-b__cuerpo :global(h3),
+  .plantilla-b__cuerpo :global(.cita--destacada),
+  .plantilla-b__cuerpo :global(.figura--amplio),
+  .plantilla-b__cuerpo :global(.figura--completo),
+  .plantilla-b__cuerpo :global(.galeria),
+  .plantilla-b__cuerpo :global(.tabla-academica) {
+    column-span: all;
+    break-inside: avoid;
+    margin-block: var(--space-8);
+  }
+  .plantilla-b__cuerpo :global(figure),
+  .plantilla-b__cuerpo :global(.cita) {
+    break-inside: avoid;
+  }
+  /* primer parrafo: drop cap */
+  .plantilla-b__cuerpo :global(p:first-of-type::first-letter) {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 3.5em;
+    float: left;
+    line-height: 0.9;
+    margin: 0.1em 0.12em 0 0;
+    color: var(--color-titulo);
+  }
+
+  @media (max-width: 900px) {
+    .plantilla-b__cuerpo {
+      column-count: 1;
+    }
+  }
+</style>

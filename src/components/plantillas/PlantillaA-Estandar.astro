@@ -1,0 +1,31 @@
+---
+/**
+ * PLANTILLA A — Estándar
+ * Una columna, ancho de prosa óptimo, imagen principal arriba.
+ * Pensada para artículos extensos de lectura cómoda.
+ */
+import type { CollectionEntry } from 'astro:content';
+import CabeceraArticulo from './CabeceraArticulo.astro';
+import Referencias from '@components/ui/Referencias.astro';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+  autoresResueltos: CollectionEntry<'autores'>[];
+}
+const { articulo, autoresResueltos } = Astro.props;
+const { referencias } = articulo.data;
+---
+
+<article class="plantilla-a">
+  <CabeceraArticulo articulo={articulo} autoresResueltos={autoresResueltos} variante="centrada" />
+  <div class="plantilla-a__cuerpo prosa dropcap">
+    <slot />
+  </div>
+  <Referencias items={referencias} />
+</article>
+
+<style>
+  .plantilla-a__cuerpo {
+    margin: 0 auto;
+  }
+</style>

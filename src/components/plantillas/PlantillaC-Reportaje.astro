@@ -1,0 +1,80 @@
+---
+/**
+ * PLANTILLA C — Reportaje visual
+ * Hero a página completa con imagen de fondo. Texto lateral compacto.
+ * Ideal para entrevistas, eventos, galerías destacadas.
+ */
+import type { CollectionEntry } from 'astro:content';
+import CabeceraArticulo from './CabeceraArticulo.astro';
+import Referencias from '@components/ui/Referencias.astro';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+  autoresResueltos: CollectionEntry<'autores'>[];
+}
+const { articulo, autoresResueltos } = Astro.props;
+const { referencias } = articulo.data;
+---
+
+<article class="plantilla-c">
+  <CabeceraArticulo articulo={articulo} autoresResueltos={autoresResueltos} variante="sobreimagen" />
+
+  <div class="plantilla-c__cuerpo">
+    <aside class="plantilla-c__lateral">
+      <div class="plantilla-c__sticky">
+        <span class="overline">Reportaje</span>
+        <h2 class="plantilla-c__lateral-titulo">[TITULO_LATERAL]</h2>
+        <p class="plantilla-c__lateral-texto">[TEXTO_LATERAL_PLACEHOLDER]</p>
+      </div>
+    </aside>
+    <div class="plantilla-c__principal prosa">
+      <slot />
+    </div>
+  </div>
+
+  <Referencias items={referencias} />
+</article>
+
+<style>
+  .plantilla-c__cuerpo {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-12);
+    align-items: start;
+    margin-top: var(--space-8);
+  }
+  .plantilla-c__lateral {
+    position: relative;
+  }
+  .plantilla-c__sticky {
+    position: sticky;
+    top: 100px;
+    padding: var(--space-6);
+    background: var(--color-fondo-alt);
+    border-radius: var(--radio);
+    border-left: 4px solid var(--color-acento);
+  }
+  .plantilla-c__lateral-titulo {
+    font-size: var(--fs-lg);
+    margin: var(--space-3) 0;
+  }
+  .plantilla-c__lateral-texto {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-texto-suave);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+  .plantilla-c__principal {
+    max-width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .plantilla-c__cuerpo {
+      grid-template-columns: 1fr;
+    }
+    .plantilla-c__sticky {
+      position: static;
+    }
+  }
+</style>

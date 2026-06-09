@@ -1,0 +1,380 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Placeholder from '@components/ui/Placeholder.astro';
+import CardArticulo from '@components/ui/CardArticulo.astro';
+import { Image } from 'astro:assets';
+import { obtenerEdicionActiva, obtenerArticulosDeEdicion } from '@lib/edicion';
+import { getEntries } from 'astro:content';
+
+const edicion = await obtenerEdicionActiva();
+const articulos = await obtenerArticulosDeEdicion(edicion.data.numero);
+const destacado = articulos.find((a) => a.data.destacado) ?? articulos[0];
+const resto = articulos.filter((a) => a !== destacado).slice(0, 8);
+
+const nombresDestacado = destacado
+  ? [...(await getEntries(destacado.data.autores)).map((a) => a.data.nombre), ...destacado.data.autoresInvitados]
+  : [];
+
+const fechaTexto = new Intl.DateTimeFormat('es', { month: 'long', year: 'numeric' })
+  .format(edicion.data.fechaPublicacion);
+---
+
+<BaseLayout
+  titulo={`${edicion.data.titulo} | Revista de Ingeniería`}
+  descripcion={edicion.data.subtitulo}
+  numeroEdicion={edicion.data.numero}
+>
+  <!-- PORTADA -->
+  <section class="portada" aria-label="Portada de la edición">
+    <div class="portada__fondo" aria-hidden="true">
+      {edicion.data.portada ? (
+        <Image src={edicion.data.portada} alt="" loading="eager" widths={[800, 1600, 2400]} sizes="100vw" />
+      ) : (
+        <Placeholder etiqueta="IMAGEN_PORTADA_EDICION" alto="100%" variante="oscuro" />
+      )}
+    </div>
+
+    <div class="portada__overlay" aria-hidden="true"></div>
+
+    <div class="contenedor portada__inner">
+      <header class="portada__cabecera">
+        <div class="portada__logos">
+          {edicion.data.logoUniversidad ? (
+            <Image src={edicion.data.logoUniversidad} alt="Logo de la universidad" class="portada__logo" />
+          ) : (
+            <div class="portada__logo-placeholder">[LOGO_UNIVERSIDAD]</div>
+          )}
+          {edicion.data.logoFacultad ? (
+            <Image src={edicion.data.logoFacultad} alt="Logo de la facultad" class="portada__logo" />
+          ) : (
+            <div class="portada__logo-placeholder">[LOGO_FACULTAD]</div>
+          )}
+        </div>
+        <div class="portada__cintillo">
+          <span>Boletín Académico</span>
+          <span class="portada__pleca"></span>
+          <span>Edición {edicion.data.numero}</span>
+        </div>
+      </header>
+
+      <div class="portada__contenido">
+        <span class="eyebrow">Facultad de Ingeniería · {fechaTexto}</span>
+        <h1 class="portada__titulo">{edicion.data.titulo}</h1>
+        {edicion.data.subtitulo && (
+          <p class="portada__subtitulo">{edicion.data.subtitulo}</p>
+        )}
+
+        {edicion.data.tema && (
+          <p class="portada__tema">
+            <strong>Tema central:</strong> <em>{edicion.data.tema}</em>
+          </p>
+        )}
+
+        <div class="portada__acciones">
+          <a href="/indice" class="boton boton--primario">Explorar la edición</a>
+          {destacado && (
+            <a href={`/articulo/${destacado.id.replace(/\.(md|mdx)$/, '')}`} class="boton boton--secundario">
+              Leer artículo destacado
+            </a>
+          )}
+        </div>
+      </div>
+
+      <div class="portada__pie">
+        <span class="portada__ed-numero">N° {edicion.data.numero}</span>
+        <span class="portada__caudal">ISSN [PLACEHOLDER] · {fechaTexto}</span>
+      </div>
+    </div>
+
+    <a href="#contenidos" class="portada__scroll" aria-label="Ver contenido">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ARTÍCULO DESTACADO -->
+  {destacado && (
+    <section id="contenidos" class="seccion-destacado">
+      <div class="contenedor">
+        <div class="seccion-header">
+          <span class="overline">Lectura recomendada</span>
+          <h2>Artículo destacado de esta edición</h2>
+          <div class="seccion-header__linea"></div>
+        </div>
+        <CardArticulo articulo={destacado} variante="destacado" autorNombre={nombresDestacado.join(', ')} />
+      </div>
+    </section>
+  )}
+
+  <!-- GRID DE ARTÍCULOS -->
+  {resto.length > 0 && (
+    <section class="seccion-grid">
+      <div class="contenedor">
+        <div class="seccion-header">
+          <span class="overline">Producción intelectual</span>
+          <h2>En esta edición</h2>
+          <div class="seccion-header__linea"></div>
+        </div>
+        <div class="grid-articulos">
+          {resto.map((art) => <CardArticulo articulo={art} />)}
+        </div>
+        <div class="grid-cta">
+          <a href="/indice" class="boton boton--ghost">Ver índice completo →</a>
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  /* --- PORTADA --- */
+  .portada {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    align-items: stretch;
+    color: var(--color-papel);
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .portada__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .portada__fondo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: kenBurns 30s ease-in-out infinite alternate;
+  }
+  @keyframes kenBurns {
+    from { transform: scale(1) translate(0, 0); }
+    to   { transform: scale(1.1) translate(-1%, -1.5%); }
+  }
+  .portada__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(180deg, rgba(0, 21, 46, 0.55) 0%, rgba(0, 21, 46, 0.85) 100%),
+      radial-gradient(circle at 20% 100%, rgba(197, 160, 89, 0.25), transparent 60%);
+  }
+
+  .portada__inner {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    width: 100%;
+    padding-block: var(--space-10) var(--space-8);
+    min-height: 100dvh;
+  }
+
+  .portada__cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  .portada__logos {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .portada__logo,
+  .portada__logo-placeholder {
+    height: 60px;
+    max-width: 180px;
+    object-fit: contain;
+  }
+  .portada__logo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 1px dashed rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    border-radius: var(--radio-sm);
+  }
+  .portada__cintillo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-dorado-claro);
+  }
+  .portada__pleca {
+    width: 30px;
+    height: 1px;
+    background: var(--color-dorado);
+  }
+
+  .portada__contenido {
+    align-self: center;
+    max-width: 950px;
+    margin: var(--space-12) 0;
+  }
+  .portada__contenido .eyebrow {
+    color: var(--color-dorado-claro);
+    margin-bottom: var(--space-6);
+  }
+  .portada__titulo {
+    font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--color-papel);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .portada__subtitulo {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.15rem, 1.5vw + 0.6rem, 1.7rem);
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.4;
+    margin: var(--space-6) 0;
+    max-width: 60ch;
+    border-left: 2px solid var(--color-dorado);
+    padding-left: var(--space-5);
+  }
+  .portada__tema {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    color: rgba(255, 255, 255, 0.7);
+    margin: var(--space-4) 0;
+  }
+  .portada__tema strong {
+    color: var(--color-dorado-claro);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85em;
+    margin-right: 0.5em;
+  }
+  .portada__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+  }
+
+  .portada__pie {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    font-family: var(--font-sans);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: var(--fs-xs);
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .portada__ed-numero {
+    font-family: var(--font-serif);
+    font-size: var(--fs-2xl);
+    color: var(--color-dorado-claro);
+    line-height: 1;
+  }
+
+  .portada__scroll {
+    position: absolute;
+    bottom: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+  }
+  .portada__scroll span {
+    width: 3px;
+    height: 8px;
+    background: var(--color-dorado-claro);
+    border-radius: 2px;
+    animation: scrollHint 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollHint {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(10px); opacity: 0.2; }
+  }
+
+  /* --- BOTONES --- */
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 14px 28px;
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: var(--radio-sm);
+    transition: transform var(--t-rapida), background var(--t-rapida), color var(--t-rapida);
+  }
+  .boton--primario {
+    background: var(--color-dorado);
+    color: var(--color-azul-oxford-oscuro);
+  }
+  .boton--primario:hover {
+    background: var(--color-dorado-claro);
+    transform: translateY(-2px);
+  }
+  .boton--secundario {
+    background: transparent;
+    color: var(--color-papel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+  .boton--secundario:hover {
+    background: var(--color-papel);
+    color: var(--color-azul-oxford);
+  }
+  .boton--ghost {
+    background: transparent;
+    color: var(--color-azul-oxford);
+    border: 1px solid var(--color-azul-oxford);
+  }
+  .boton--ghost:hover {
+    background: var(--color-azul-oxford);
+    color: var(--color-papel);
+  }
+
+  /* --- SECCIONES --- */
+  .seccion-destacado,
+  .seccion-grid {
+    padding-block: var(--space-20);
+  }
+  .seccion-grid {
+    background: var(--color-fondo-alt);
+  }
+  .seccion-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+  .seccion-header h2 {
+    font-size: var(--fs-2xl);
+    margin: var(--space-2) 0;
+  }
+  .seccion-header__linea {
+    width: 60px;
+    height: 3px;
+    background: var(--color-acento);
+    margin: var(--space-4) auto 0;
+  }
+
+  .grid-articulos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+  .grid-cta {
+    text-align: center;
+    margin-top: var(--space-12);
+  }
+</style>

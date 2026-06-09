@@ -1,0 +1,28 @@
+# build
+dist/
+.output/
+.vercel/
+
+# deps
+node_modules/
+
+# astro
+.astro/
+
+# env
+.env
+.env.production
+.env.local
+
+# editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

@@ -1,0 +1,191 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { obtenerEdicionActiva, obtenerArticulosPorSeccion, tituloSeccion } from '@lib/edicion';
+import { getEntries } from 'astro:content';
+
+const edicion = await obtenerEdicionActiva();
+const porSeccion = await obtenerArticulosPorSeccion(edicion.data.numero);
+
+const secciones = Object.entries(porSeccion);
+
+// Resolver autores por adelantado
+const autoresPorArt = new Map<string, string>();
+for (const [, arts] of secciones) {
+  for (const art of arts) {
+    const refs = art.data.autores;
+    const resueltos = refs.length > 0 ? await getEntries(refs) : [];
+    const nombres = [...resueltos.map((a) => a.data.nombre), ...art.data.autoresInvitados];
+    autoresPorArt.set(art.id, nombres.join(', '));
+  }
+}
+---
+
+<BaseLayout
+  titulo={`Índice — ${edicion.data.titulo}`}
+  descripcion="Tabla de contenidos de la edición"
+  numeroEdicion={edicion.data.numero}
+>
+  <article class="contenedor pagina-indice">
+    <header class="indice-header">
+      <span class="overline">Edición {edicion.data.numero}</span>
+      <h1>Índice de la edición</h1>
+      <p class="indice-subtitulo">
+        Una guía completa a los contenidos de <em>{edicion.data.titulo}</em>.
+      </p>
+    </header>
+
+    {secciones.length === 0 && (
+      <p class="indice-vacio">
+        Aún no hay artículos en esta edición. Crea archivos en
+        <code>src/content/articulos/</code> para verlos aquí.
+      </p>
+    )}
+
+    {secciones.map(([seccion, arts]) => (
+      <section class="indice-seccion">
+        <h2 class="indice-seccion__titulo">{tituloSeccion(seccion)}</h2>
+        <ol class="indice-lista">
+          {arts.map((art) => {
+            const href = `/articulo/${art.id.replace(/\.(md|mdx)$/, '')}`;
+            return (
+              <li class="indice-item revelar">
+                <a href={href} class="indice-item__enlace">
+                  <span class="indice-item__num">{String(art.data.orden).padStart(2, '0')}</span>
+                  <div class="indice-item__cuerpo">
+                    <h3 class="indice-item__titulo">{art.data.titulo}</h3>
+                    {art.data.subtitulo && (
+                      <p class="indice-item__sub">{art.data.subtitulo}</p>
+                    )}
+                    <span class="indice-item__autor">
+                      {autoresPorArt.get(art.id) || '[AUTOR]'}
+                    </span>
+                  </div>
+                  <span class="indice-item__flecha" aria-hidden="true">→</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    ))}
+  </article>
+</BaseLayout>
+
+<style>
+  .pagina-indice {
+    padding-block: var(--space-16) var(--space-20);
+    max-width: 980px;
+  }
+  .indice-header {
+    text-align: center;
+    margin-bottom: var(--space-16);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-linea-base);
+  }
+  .indice-header h1 {
+    font-size: var(--fs-3xl);
+    margin: var(--space-3) 0;
+  }
+  .indice-subtitulo {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-texto-suave);
+    font-size: var(--fs-md);
+    max-width: 55ch;
+    margin: 0 auto;
+  }
+  .indice-vacio {
+    text-align: center;
+    padding: var(--space-12);
+    background: var(--color-fondo-alt);
+    border-radius: var(--radio);
+    color: var(--color-texto-suave);
+  }
+  .indice-vacio code {
+    background: var(--color-papel);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+  }
+
+  .indice-seccion + .indice-seccion {
+    margin-top: var(--space-16);
+  }
+  .indice-seccion__titulo {
+    font-size: var(--fs-xl);
+    color: var(--color-acento-fuerte);
+    border-bottom: 2px solid var(--color-acento);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: var(--fs-md);
+  }
+  .indice-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .indice-item + .indice-item {
+    border-top: 1px solid var(--color-linea-base);
+  }
+  .indice-item__enlace {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-5) 0;
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left var(--t-rapida), background var(--t-rapida);
+  }
+  .indice-item__enlace:hover {
+    padding-left: var(--space-3);
+    background: var(--color-fondo-alt);
+  }
+  .indice-item__num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-2xl);
+    color: var(--color-acento);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .indice-item__titulo {
+    font-size: var(--fs-md);
+    line-height: 1.3;
+    margin: 0;
+  }
+  .indice-item__sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-texto-suave);
+    margin: 4px 0 0;
+    font-size: var(--fs-sm);
+  }
+  .indice-item__autor {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-texto-tenue);
+  }
+  .indice-item__flecha {
+    color: var(--color-acento);
+    font-size: var(--fs-xl);
+    transition: transform var(--t-rapida);
+  }
+  .indice-item:hover .indice-item__flecha {
+    transform: translateX(6px);
+  }
+
+  @media (max-width: 600px) {
+    .indice-item__enlace {
+      grid-template-columns: 50px 1fr;
+      gap: var(--space-3);
+    }
+    .indice-item__flecha { display: none; }
+    .indice-item__num { font-size: var(--fs-xl); }
+  }
+</style>

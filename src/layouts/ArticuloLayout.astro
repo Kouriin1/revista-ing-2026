@@ -1,0 +1,81 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ReadingProgress from '@components/layout/ReadingProgress.astro';
+import PlantillaA from '@components/plantillas/PlantillaA-Estandar.astro';
+import PlantillaB from '@components/plantillas/PlantillaB-DosColumnas.astro';
+import PlantillaC from '@components/plantillas/PlantillaC-Reportaje.astro';
+import PlantillaD from '@components/plantillas/PlantillaD-Academica.astro';
+import PageFlipWrapper from '@components/islands/PageFlipWrapper.tsx';
+import { getEntries, type CollectionEntry } from 'astro:content';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+}
+
+const { articulo } = Astro.props;
+const { titulo, resumen, plantilla, autores: refs } = articulo.data;
+const autoresResueltos = refs.length > 0 ? await getEntries(refs) : [];
+
+const Plantilla =
+  plantilla === 'A' ? PlantillaA :
+  plantilla === 'B' ? PlantillaB :
+  plantilla === 'C' ? PlantillaC :
+  PlantillaD;
+---
+
+<BaseLayout titulo={`${titulo} | Revista de Ingeniería`} descripcion={resumen} tipo="article">
+  <ReadingProgress />
+
+  <!-- Modo SCROLL (por defecto, siempre disponible) -->
+  <div id="modo-scroll" class="contenedor contenedor--lectura modo-scroll">
+    <Plantilla articulo={articulo} autoresResueltos={autoresResueltos}>
+      <slot />
+    </Plantilla>
+  </div>
+
+  <!-- Modo REVISTA (island, se activa via data-modo en <html>) -->
+  <div id="modo-revista" class="modo-revista" hidden>
+    <PageFlipWrapper client:only="react">
+      <div id="contenido-revista">
+        <Plantilla articulo={articulo} autoresResueltos={autoresResueltos}>
+          <slot />
+        </Plantilla>
+      </div>
+    </PageFlipWrapper>
+  </div>
+
+  <script>
+    /* Alterna entre modos segun data-modo en <html>.
+       SelectorModo cambia el atributo; aqui solo mostramos/ocultamos. */
+    const aplicar = () => {
+      const modo = document.documentElement.getAttribute('data-modo') ?? 'auto';
+      const esMovil = window.matchMedia('(max-width: 900px)').matches;
+      const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let efectivo: 'scroll' | 'revista' = 'scroll';
+      if (modo === 'revista' && !reducido) efectivo = 'revista';
+      else if (modo === 'auto' && esMovil && !reducido) efectivo = 'revista';
+
+      const ms = document.getElementById('modo-scroll');
+      const mr = document.getElementById('modo-revista');
+      if (!ms || !mr) return;
+      ms.hidden = efectivo === 'revista';
+      mr.hidden = efectivo === 'scroll';
+    };
+    aplicar();
+    window.addEventListener('resize', aplicar);
+    new MutationObserver(aplicar).observe(document.documentElement, { attributes: true, attributeFilter: ['data-modo'] });
+    document.addEventListener('astro:after-swap', aplicar);
+  </script>
+
+  <style>
+    .modo-scroll {
+      padding-block: var(--space-16) var(--space-20);
+    }
+    .modo-revista {
+      width: 100%;
+      min-height: 100dvh;
+      background: var(--color-fondo-alt);
+    }
+  </style>
+</BaseLayout>

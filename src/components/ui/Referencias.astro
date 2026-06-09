@@ -1,0 +1,68 @@
+---
+interface Referencia {
+  cita: string;
+  url?: string;
+}
+interface Props {
+  items: Referencia[];
+  titulo?: string;
+}
+const { items, titulo = 'Referencias' } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="referencias">
+    <h3 class="referencias__titulo">{titulo}</h3>
+    <ol class="referencias__lista">
+      {items.map((r) => (
+        <li>
+          <span set:html={r.cita} />
+          {r.url && <a href={r.url} target="_blank" rel="noopener noreferrer">{r.url}</a>}
+        </li>
+      ))}
+    </ol>
+  </section>
+)}
+
+<style>
+  .referencias {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-linea-base);
+  }
+  .referencias__titulo {
+    font-size: var(--fs-md);
+    margin-bottom: var(--space-4);
+  }
+  .referencias__lista {
+    list-style: none;
+    counter-reset: refs;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+  .referencias__lista li {
+    counter-increment: refs;
+    padding-left: 2em;
+    text-indent: -2em;
+    margin-bottom: var(--space-3);
+    color: var(--color-texto-suave);
+  }
+  .referencias__lista li::before {
+    content: '[' counter(refs) '] ';
+    font-weight: 700;
+    color: var(--color-acento-fuerte);
+    text-indent: 0;
+    margin-right: 0.3em;
+  }
+  .referencias__lista a {
+    display: block;
+    color: var(--color-enlace);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    word-break: break-all;
+    margin-top: 2px;
+  }
+</style>

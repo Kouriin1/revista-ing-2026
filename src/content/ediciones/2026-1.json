@@ -1,0 +1,15 @@
+{
+  "numero": "2026-1",
+  "titulo": "[TITULO_EDICION]",
+  "subtitulo": "[SUBTITULO_EDICION]",
+  "fechaPublicacion": "2026-06-01",
+  "tema": "[TEMA_CENTRAL_EDICION]",
+  "activa": true,
+  "consejoEditorial": [
+    { "nombre": "[NOMBRE_DIRECTOR]", "cargo": "Director Editorial" },
+    { "nombre": "[NOMBRE_EDITOR_JEFE]", "cargo": "Editor en Jefe" },
+    { "nombre": "[NOMBRE_DISENADOR]", "cargo": "Diseño Editorial" },
+    { "nombre": "[NOMBRE_CORRECTOR]", "cargo": "Corrección de Estilo" }
+  ],
+  "colofon": "[Esta edición fue compuesta en Source Serif 4 e Inter. Impresa digitalmente en formato web por la Facultad de Ingeniería.]"
+}

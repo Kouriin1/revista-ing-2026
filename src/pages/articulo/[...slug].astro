@@ -1,0 +1,27 @@
+---
+import ArticuloLayout from '@layouts/ArticuloLayout.astro';
+import Cita from '@components/ui/Cita.astro';
+import Figura from '@components/ui/Figura.astro';
+import TablaAcademica from '@components/ui/TablaAcademica.astro';
+import Galeria from '@components/ui/Galeria.astro';
+import Placeholder from '@components/ui/Placeholder.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('articulos', ({ data }) => !data.borrador);
+  return articulos.map((art) => ({
+    params: { slug: art.id.replace(/\.(md|mdx)$/, '') },
+    props: { articulo: art },
+  }));
+}
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+}
+const { articulo } = Astro.props;
+const { Content } = await render(articulo);
+---
+
+<ArticuloLayout articulo={articulo}>
+  <Content components={{ Cita, Figura, Tabla: TablaAcademica, Galeria, Placeholder }} />
+</ArticuloLayout>

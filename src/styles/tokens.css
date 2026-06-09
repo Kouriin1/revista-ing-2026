@@ -1,0 +1,147 @@
+/* =========================================================================
+   TOKENS DE DISEÑO — Revista Ingeniería 2026
+   Cambiar aquí afecta a toda la revista. NO tocar en otros archivos.
+   ========================================================================= */
+
+:root {
+  /* --- PALETA INSTITUCIONAL --- */
+  --color-azul-oxford:        #002147;
+  --color-azul-oxford-claro:  #1a3a66;
+  --color-azul-oxford-oscuro: #00152e;
+  --color-dorado:             #C5A059;
+  --color-dorado-claro:       #E6C680;
+  --color-dorado-oscuro:      #8e7239;
+
+  /* --- NEUTRALES (modo claro) --- */
+  --color-papel:        #FDFCF7;   /* blanco hueso — fondo "página" */
+  --color-papel-suave:  #F5F3EB;
+  --color-tinta:        #1A1A1A;   /* cuerpo de texto */
+  --color-tinta-suave:  #4A4A4A;
+  --color-tinta-tenue:  #8A8A8A;
+  --color-linea:        #E2DDD0;
+  --color-linea-suave:  #EFEBE0;
+
+  /* --- SEMÁNTICOS --- */
+  --color-fondo:        var(--color-papel);
+  --color-fondo-alt:    var(--color-papel-suave);
+  --color-texto:        var(--color-tinta);
+  --color-texto-suave:  var(--color-tinta-suave);
+  --color-texto-tenue:  var(--color-tinta-tenue);
+  --color-titulo:       var(--color-azul-oxford);
+  --color-acento:       var(--color-dorado);
+  --color-acento-fuerte:var(--color-dorado-oscuro);
+  --color-linea-base:   var(--color-linea);
+  --color-enlace:       var(--color-azul-oxford);
+  --color-enlace-hover: var(--color-dorado-oscuro);
+
+  /* --- TIPOGRAFÍA --- */
+  --font-serif:  'Source Serif 4', 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+  --font-sans:   'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono:   'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
+
+  /* --- ESCALA TIPOGRÁFICA (fluida, basada en clamp) --- */
+  --fs-xxs:  clamp(0.70rem, 0.68rem + 0.10vw, 0.78rem);
+  --fs-xs:   clamp(0.78rem, 0.76rem + 0.12vw, 0.88rem);
+  --fs-sm:   clamp(0.88rem, 0.85rem + 0.15vw, 0.98rem);
+  --fs-base: clamp(1.00rem, 0.96rem + 0.20vw, 1.15rem);
+  --fs-md:   clamp(1.15rem, 1.10rem + 0.25vw, 1.30rem);
+  --fs-lg:   clamp(1.30rem, 1.22rem + 0.40vw, 1.55rem);
+  --fs-xl:   clamp(1.60rem, 1.45rem + 0.75vw, 2.10rem);
+  --fs-2xl:  clamp(2.00rem, 1.75rem + 1.25vw, 2.85rem);
+  --fs-3xl:  clamp(2.50rem, 2.10rem + 2.00vw, 3.75rem);
+  --fs-4xl:  clamp(3.00rem, 2.40rem + 3.00vw, 5.00rem);
+
+  /* Multiplicador global controlado por SelectorFuente */
+  --fs-scale: 1;
+
+  /* --- ESPACIADO (escala 4px) --- */
+  --space-1:  0.25rem;
+  --space-2:  0.50rem;
+  --space-3:  0.75rem;
+  --space-4:  1.00rem;
+  --space-5:  1.25rem;
+  --space-6:  1.50rem;
+  --space-8:  2.00rem;
+  --space-10: 2.50rem;
+  --space-12: 3.00rem;
+  --space-16: 4.00rem;
+  --space-20: 5.00rem;
+  --space-24: 6.00rem;
+  --space-32: 8.00rem;
+
+  /* --- LAYOUT EDITORIAL --- */
+  --ancho-prosa:       65ch;          /* ~75 caracteres por línea — óptimo APA */
+  --ancho-prosa-ancho: 80ch;
+  --ancho-contenedor:  1240px;
+  --ancho-contenedor-lectura: 760px;
+
+  /* --- RADIOS --- */
+  --radio-sm: 4px;
+  --radio:    8px;
+  --radio-lg: 16px;
+  --radio-xl: 24px;
+
+  /* --- SOMBRAS --- */
+  --sombra-sm:  0 1px 2px rgba(0, 21, 46, 0.05);
+  --sombra:     0 4px 12px -2px rgba(0, 21, 46, 0.08);
+  --sombra-md:  0 10px 30px -10px rgba(0, 21, 46, 0.15);
+  --sombra-lg:  0 20px 40px -10px rgba(0, 21, 46, 0.20);
+  --sombra-pagina: 0 12px 28px -8px rgba(0, 21, 46, 0.25);
+
+  /* --- TRANSICIONES --- */
+  --t-rapida: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-media:  300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --t-lenta:  500ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  --t-pagina: 700ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* --- Z-INDEX --- */
+  --z-base:    1;
+  --z-overlay: 10;
+  --z-nav:     100;
+  --z-modal:   1000;
+  --z-toast:   2000;
+
+  /* --- BREAKPOINTS (referencia, no usados en CSS) --- */
+  --bp-sm: 640px;
+  --bp-md: 768px;
+  --bp-lg: 1024px;
+  --bp-xl: 1280px;
+  --bp-2xl: 1536px;
+  --bp-ultra: 1920px;
+}
+
+/* =========================================================================
+   MODO OSCURO
+   Activado por (1) atributo data-tema="oscuro" en <html>, o
+                (2) prefers-color-scheme: dark cuando no hay override.
+   ========================================================================= */
+
+[data-tema='oscuro'] {
+  --color-fondo:        #0E1116;
+  --color-fondo-alt:    #161B22;
+  --color-texto:        #E8E6E0;
+  --color-texto-suave:  #B8B4AC;
+  --color-texto-tenue:  #7A7670;
+  --color-titulo:       #F2E8D0;
+  --color-acento:       #E6C680;
+  --color-acento-fuerte:#F9E4B1;
+  --color-linea-base:   #2A2F38;
+  --color-enlace:       #F2E8D0;
+  --color-enlace-hover: #E6C680;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema='claro']) {
+    --color-fondo:        #0E1116;
+    --color-fondo-alt:    #161B22;
+    --color-texto:        #E8E6E0;
+    --color-texto-suave:  #B8B4AC;
+    --color-texto-tenue:  #7A7670;
+    --color-titulo:       #F2E8D0;
+    --color-acento:       #E6C680;
+    --color-acento-fuerte:#F9E4B1;
+    --color-linea-base:   #2A2F38;
+    --color-enlace:       #F2E8D0;
+    --color-enlace-hover: #E6C680;
+  }
+}
