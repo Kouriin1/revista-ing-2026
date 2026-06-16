@@ -1,6 +1,7 @@
 /* =========================================================================
    ENTRY POINT GLOBAL
    Orden importa: tailwind → tokens → tipografía → reglas globales.
+   (Google Fonts se carga via <link> en BaseLayout.astro)
    ========================================================================= */
 
 @import 'tailwindcss';

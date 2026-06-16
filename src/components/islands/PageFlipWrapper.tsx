@@ -42,13 +42,31 @@ export default function PageFlipWrapper({ children }: Props) {
   // Limpiamos la pagina de elementos que no sirvan para el libro 3D
   const obtenerNodosReales = (padre: HTMLElement): HTMLElement[] => {
     const hijos = Array.from(padre.children) as HTMLElement[];
+
+    // Caso 1: astro-island envuelve todo (comportamiento antiguo)
     if (hijos.length === 1 && hijos[0].tagName.toLowerCase() === 'astro-island') {
       const nietos = Array.from(hijos[0].children) as HTMLElement[];
       const contenedor = nietos.find(n => n.tagName.toLowerCase() === 'astro-slot');
       if (contenedor) return Array.from(contenedor.children) as HTMLElement[];
     }
-    return hijos;
+
+    // Caso 2: astro-slot es hijo directo (client:only en Astro moderno)
+    if (hijos.length === 1 && hijos[0].tagName.toLowerCase() === 'astro-slot') {
+      return Array.from(hijos[0].children) as HTMLElement[];
+    }
+
+    // Caso 3: varios hijos, pero algunos son astro-slot — aplanar
+    const resultado: HTMLElement[] = [];
+    for (const hijo of hijos) {
+      if (hijo.tagName.toLowerCase() === 'astro-slot') {
+        resultado.push(...Array.from(hijo.children) as HTMLElement[]);
+      } else {
+        resultado.push(hijo);
+      }
+    }
+    return resultado;
   };
+
 
   // En celulares no usamos el libro 3D, solo mostramos las tarjetas hacia abajo
   const [nodosMobil, setNodosMobil] = useState<string[]>([]);
@@ -61,7 +79,7 @@ export default function PageFlipWrapper({ children }: Props) {
       const nodos = obtenerNodosReales(fuente);
       setNodosMobil(nodos.map(n => n.outerHTML));
       setCargando(false);
-    }, 200);
+    }, 600); // Aumentado: con 10+ artículos el DOM tarda más en hidratarse
     return () => clearTimeout(id);
   }, [esMobil]);
 
@@ -69,7 +87,7 @@ export default function PageFlipWrapper({ children }: Props) {
   useEffect(() => {
     if (esMobil) return; 
     // Le damos un momento a la computadora para que cargue todo el texto
-    const id = setTimeout(() => {
+    const id = setTimeout(() => { // Aumentado: con 10+ artículos el DOM tarda más en hidratarse
       const fuente = fuenteRef.current;
       if (!fuente) return;
       
@@ -211,7 +229,7 @@ export default function PageFlipWrapper({ children }: Props) {
       setPaginas(bloques);
       setTotalPaginas(bloques.length);
       setCargando(false);
-    }, 300); 
+    }, 800); 
 
     return () => clearTimeout(id);
   }, []);

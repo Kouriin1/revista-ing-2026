@@ -18,12 +18,16 @@
 }
 
 .pf-fuente {
-  position: absolute;
-  width: 0;
-  height: 0;
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 612px; /* Ancho carta para que el HTML se renderice con tamaño real */
+  height: auto;
   overflow: hidden;
   opacity: 0;
   pointer-events: none;
+  z-index: -1;
+  visibility: hidden;
 }
 
 .pf-cargando {
@@ -574,6 +578,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ── CRÍTICO: Deshabilitar dropcap en móvil (causa las letras R, C, P, S enormes) ── */
+.pf-mobil-carta .dropcap::first-letter,
+.pf-mobil-carta .prosa::first-letter {
+  float: none !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  margin: 0 !important;
+  color: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* ── Neutralizar estilos .prosa que rompen el layout en mobile ── */
+.pf-mobil-carta .prosa {
+  max-width: 100% !important;
+  font-size: 0.72rem !important;
+  line-height: 1.6 !important;
+}
+.pf-mobil-carta .prosa p + p {
+  text-indent: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* ── Estructura hoja-articulo en móvil ── */
+.pf-mobil-carta .hoja-articulo {
+  padding: 0 !important;
+}
+.pf-mobil-carta .plantilla-a__cuerpo {
+  overflow: hidden !important;
 }
 
 /* Aplicar los mismos estilos de artículo a las tarjetas */
