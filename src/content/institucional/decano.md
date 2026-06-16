@@ -1,25 +1,15 @@
 ---
 tipo: mensaje-decano
-titulo: "[TITULO_MENSAJE_DECANO]"
-autor: "[NOMBRE_DECANO]"
-cargo: "Decano de la Facultad de Ingeniería"
+titulo: "Ingeniería con Propósito: Un Llamado a la Innovación"
+autor: "Decano de la Facultad de Ingeniería y Arquitectura"
+cargo: "Decano de la Facultad de Ingeniería y Arquitectura"
 orden: 0
 ---
 
-[MENSAJE_DECANO_PARRAFO_1] Es un honor presentar esta nueva edición del Boletín Académico
-de la Facultad de Ingeniería. Las páginas que siguen recogen el trabajo de docentes,
-investigadores y estudiantes que con su esfuerzo cotidiano consolidan nuestra comunidad
-universitaria.
+Es un honor presentar esta primera edición digital del Boletín Académico de la Facultad de Ingeniería y Arquitectura de la Universidad Santa María. Las páginas que siguen recogen el trabajo de estudiantes que, con rigor, creatividad y compromiso, han desarrollado soluciones tecnológicas de alto impacto para los problemas más apremiantes de nuestra sociedad.
 
-[MENSAJE_DECANO_PARRAFO_2] Esta publicación constituye un espacio de diálogo entre la
-producción intelectual de nuestra facultad y la sociedad a la que servimos. Cada artículo
-es testimonio del compromiso institucional con la excelencia académica, la innovación y la
-formación integral de profesionales íntegros.
+Los diez proyectos de investigación compilados en esta edición son testimonio vivo de que la ingeniería no es solo ciencia aplicada: es también responsabilidad social, visión de futuro y voluntad de transformación. Desde sistemas de gestión del desempeño organizacional hasta aplicaciones de inteligencia artificial para la clasificación de desechos; desde plataformas de telemedicina hasta soluciones IoT para el control del suministro de agua en residencias; cada proyecto refleja la capacidad de nuestra comunidad para enfrentar desafíos reales con herramientas reales.
 
-[MENSAJE_DECANO_PARRAFO_3] Quiero expresar mi reconocimiento al equipo editorial, a los
-autores y a quienes con su lectura crítica enriquecen estos contenidos. La ingeniería que
-imaginamos y construimos sólo es posible gracias a la suma de muchos.
+Quiero expresar mi reconocimiento al equipo editorial, a los tutores que guiaron estos trabajos con dedicación, y muy especialmente a los autores —jóvenes ingenieros en formación— que eligieron aportar a su campo del conocimiento con honestidad intelectual y excelencia técnica. La ingeniería que imaginamos y construimos juntos sólo es posible gracias a la suma de muchos talentos.
 
-[MENSAJE_DECANO_PARRAFO_4] Les invito a recorrer esta edición con detenimiento. Encontrarán
-investigaciones rigurosas, reportajes ilustrativos y reflexiones que dan cuenta del momento
-fecundo que atraviesa nuestra Facultad.
+Les invito a recorrer esta edición con detenimiento. Encontrarán investigaciones rigurosas, metodologías aplicadas y propuestas que dan cuenta del momento fecundo que atraviesa nuestra Facultad de Ingeniería y Arquitectura.

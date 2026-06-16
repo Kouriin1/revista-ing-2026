@@ -1,15 +1,28 @@
 {
   "numero": "2026-1",
-  "titulo": "[TITULO_EDICION]",
-  "subtitulo": "[SUBTITULO_EDICION]",
+  "titulo": "Innovación Tecnológica e Ingeniería del Futuro",
+  "subtitulo": "Proyectos de grado y avances científicos de la Facultad de Ingeniería y Arquitectura",
   "fechaPublicacion": "2026-06-01",
-  "tema": "[TEMA_CENTRAL_EDICION]",
+  "tema": "Tecnología, Sistemas e Impacto Social",
   "activa": true,
   "consejoEditorial": [
-    { "nombre": "[NOMBRE_DIRECTOR]", "cargo": "Director Editorial" },
-    { "nombre": "[NOMBRE_EDITOR_JEFE]", "cargo": "Editor en Jefe" },
-    { "nombre": "[NOMBRE_DISENADOR]", "cargo": "Diseño Editorial" },
-    { "nombre": "[NOMBRE_CORRECTOR]", "cargo": "Corrección de Estilo" }
+    {
+      "nombre": "Facultad de Ingeniería y Arquitectura",
+      "cargo": "Director Editorial"
+    },
+    {
+      "nombre": "Universidad Santa María",
+      "cargo": "Editor en Jefe"
+    },
+    {
+      "nombre": "Comité Académico USM",
+      "cargo": "Diseño Editorial"
+    },
+    {
+      "nombre": "Consejo de Postgrado",
+      "cargo": "Corrección de Estilo"
+    }
   ],
-  "colofon": "[Esta edición fue compuesta en Source Serif 4 e Inter. Impresa digitalmente en formato web por la Facultad de Ingeniería.]"
+  "colofon": "Esta edición fue compuesta en Source Serif 4 e Inter. Publicada digitalmente por la Facultad de Ingeniería y Arquitectura de la Universidad Santa María. Caracas, Venezuela, 2026.",
+  "portada": "../../assets/imagenes/portada.jpg"
 }
