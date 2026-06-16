@@ -1,0 +1,36 @@
+---
+plantilla: A
+seccion: proyecto
+edicion: "2026-1"
+orden: 9
+titulo: "Sistema SCADA para el Monitoreo Electrico (Subestacion La Florencia)"
+imagenPrincipal: "../../assets/imagenes/art09.jpg"
+resumen: "Diseno de un sistema SCADA de arquitectura abierta para optimizar el monitoreo de variables electricas en los transformadores de la subestacion USM."
+autoresInvitados:
+  - Alejandro J. Torres
+  - Maria F. Gutierrez
+etiquetas: [Electronica, SCADA, Sistemas]
+destacado: false
+---
+
+# Sistema SCADA para el Monitoreo Electrico
+
+**Institucion y Tutor:** Universidad Santa Maria (Ingenieria Electronica / Sistemas); Ing. Nelson Rivas.
+
+## Objetivo Principal
+Diseniar un sistema de Supervision, Control y Adquisicion de Datos (SCADA) de arquitectura abierta para optimizar el monitoreo de variables electricas en los transformadores principales de la subestacion de distribucion electrica interna del complejo universitario USM.
+
+## Metodologia
+Investigacion aplicada, de caracter descriptivo y diseno experimental de campo.
+
+## Variables Monitoreadas
+Corriente (A), Voltaje (V), Factor de Potencia y Temperatura del aceite termico de enfriamiento.
+
+## Instrumentacion
+Analizadores de red con comunicacion serial Modbus-RTU y transductores de temperatura PT100.
+
+## Resultados del Diagnostico
+Se identificaron picos de sobrecarga severos no registrados durante las horas del mediodia que acortaban la vida util de los equipos aislantes. El sistema actual dependia exclusivamente de revisiones analogicas manuales una vez por semana, imposibilitando la accion preventiva.
+
+## Propuesta Tecnologica
+Interfaz de usuario (HMI) desarrollada sobre el software de supervision industrial Ignition SCADA. El enlace de campo se realiza mediante un gateway industrial que convierte los datos Modbus-RTU a MQTT para transmision inalambrica de largo alcance. El sistema emite alertas criticas automatizadas via SMS y correo electronico cuando los parametros sobrepasan los limites seguros establecidos.
