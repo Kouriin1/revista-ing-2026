@@ -3,6 +3,7 @@ import '@styles/global.css';
 import Header from '@components/layout/Header.astro';
 import Footer from '@components/layout/Footer.astro';
 import { ClientRouter } from 'astro:transitions';
+import usmLogoMini from '@assets/imagenes/usmlogomini.png';
 
 interface Props {
   titulo: string;
@@ -28,12 +29,12 @@ const canonica = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 <!doctype html>
-<html lang="es" data-tema="auto" data-modo="auto">
+<html lang="es" data-tema="oscuro" data-modo="auto">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#002147" />
+    <meta name="theme-color" content="#0E1116" />
 
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
@@ -55,8 +56,9 @@ const canonica = new URL(Astro.url.pathname, Astro.site).toString();
     <script is:inline>
       (() => {
         try {
-          const t = localStorage.getItem('rev:tema');
+          const t = localStorage.getItem('rev:tema') || 'oscuro';
           if (t && t !== 'auto') document.documentElement.setAttribute('data-tema', t);
+          else if (t === 'auto') document.documentElement.removeAttribute('data-tema');
           const f = Number(localStorage.getItem('rev:fuente'));
           if (Number.isFinite(f) && f > 0) {
             document.documentElement.style.setProperty('--fs-scale', String(f));
@@ -67,7 +69,7 @@ const canonica = new URL(Astro.url.pathname, Astro.site).toString();
       })();
     </script>
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href={usmLogoMini.src} />
 
     <ClientRouter />
   </head>

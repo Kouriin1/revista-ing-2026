@@ -68,18 +68,20 @@ const fechaFmt = fechaPublicacion
   .cabecera-articulo__seccion {
     display: inline-block;
     margin-bottom: var(--space-4);
+    color: #C5A059 !important; /* Dorado */
   }
   .cabecera-articulo__titulo {
     font-size: calc(var(--fs-3xl) * var(--fs-scale));
     line-height: 1.05;
     margin: 0 0 var(--space-4);
     text-wrap: balance;
+    color: #002147 !important; /* Azul oscuro */
   }
   .cabecera-articulo__subtitulo {
     font-family: var(--font-serif);
     font-style: italic;
     font-size: calc(var(--fs-lg) * var(--fs-scale));
-    color: var(--color-texto-suave);
+    color: #4A4A4A !important;
     line-height: 1.35;
     margin: 0 0 var(--space-6);
     max-width: 60ch;
@@ -87,21 +89,22 @@ const fechaFmt = fechaPublicacion
   .cabecera-articulo__meta {
     font-family: var(--font-sans);
     font-size: var(--fs-sm);
-    color: var(--color-texto-suave);
+    color: #4A4A4A !important;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
     align-items: center;
     padding-top: var(--space-4);
-    border-top: 1px solid var(--color-linea-base);
+    border-top: 1px solid #E2DDD0;
   }
-  .meta-autor strong { color: var(--color-titulo); font-weight: 700; }
+  .meta-autor strong { color: #000 !important; font-weight: 700; }
   .meta-separador { opacity: 0.4; }
 
   .cabecera-articulo__figura { margin: var(--space-10) 0 0; }
   .cabecera-articulo__figura img {
     width: 100%;
-    height: auto;
+    max-height: 45vh;
+    object-fit: cover;
     border-radius: var(--radio);
     box-shadow: var(--sombra-lg);
   }

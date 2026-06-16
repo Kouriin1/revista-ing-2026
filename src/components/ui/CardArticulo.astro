@@ -1,4 +1,8 @@
 ---
+/**
+ * CardArticulo mejorado — estilo revista editorial premium
+ * Con colores por sección, hover efectos ricos y diseño de tarjeta editorial
+ */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Placeholder from './Placeholder.astro';
@@ -10,19 +14,35 @@ interface Props {
 }
 
 const { articulo, variante = 'estandar', autorNombre } = Astro.props;
-const { titulo, subtitulo, resumen, seccion, imagenPrincipal, tiempoLectura } = articulo.data;
+const { titulo, subtitulo, resumen, seccion, imagenPrincipal, tiempoLectura, etiquetas } = articulo.data;
 const href = `/articulo/${articulo.id.replace(/\.(md|mdx)$/, '')}`;
+
+const seccionLabels: Record<string, string> = {
+  investigacion: 'Investigación',
+  proyecto: 'Proyecto',
+  editorial: 'Editorial',
+  entrevista: 'Entrevista',
+  noticia: 'Noticia',
+  evento: 'Evento',
+  galeria: 'Galería',
+  reconocimiento: 'Reconocimiento',
+};
+
+const seccionLabel = seccionLabels[seccion] ?? seccion;
 ---
 
-<article class={`card-articulo card-articulo--${variante} revelar`}>
+<article class={`card-articulo card-articulo--${variante} card-articulo--sec-${seccion} revelar`}>
   <a href={href} class="card-articulo__enlace">
     <div class="card-articulo__media">
       {imagenPrincipal ? (
         <Image src={imagenPrincipal} alt={titulo} loading="lazy" widths={[400, 800, 1200]} sizes="(max-width: 768px) 100vw, 33vw" />
       ) : (
-        <Placeholder etiqueta="IMAGEN_PRINCIPAL" ratio={variante === 'destacado' ? '16/9' : '4/3'} />
+        <Placeholder etiqueta={titulo.slice(0, 24)} ratio={variante === 'destacado' ? '16/9' : '4/3'} variante="oscuro" />
       )}
-      <span class="card-articulo__seccion">{seccion}</span>
+      <div class="card-articulo__badges">
+        <span class="badge-seccion">{seccionLabel}</span>
+      </div>
+      <div class="card-articulo__media-overlay"></div>
     </div>
     <div class="card-articulo__cuerpo">
       {autorNombre && <span class="card-articulo__autor">Por {autorNombre}</span>}
@@ -31,66 +51,116 @@ const href = `/articulo/${articulo.id.replace(/\.(md|mdx)$/, '')}`;
       {variante !== 'compacto' && resumen && (
         <p class="card-articulo__resumen">{resumen}</p>
       )}
+      {etiquetas && etiquetas.length > 0 && (
+        <div class="card-articulo__etiquetas">
+          {etiquetas.slice(0, 3).map((tag) => (
+            <span class="etiqueta">{tag}</span>
+          ))}
+        </div>
+      )}
       <div class="card-articulo__pie">
-        {tiempoLectura && <span>{tiempoLectura} min de lectura</span>}
-        <span class="card-articulo__cta">Leer artículo →</span>
+        {tiempoLectura && <span class="pie-tiempo">⏱ {tiempoLectura} min</span>}
+        <span class="card-articulo__cta">Leer artículo <span class="cta-arrow">→</span></span>
       </div>
     </div>
   </a>
 </article>
 
 <style>
+  /* ── BASE ─────────────────────────────────────────────── */
   .card-articulo {
     background: var(--color-fondo);
     border: 1px solid var(--color-linea-base);
     border-radius: var(--radio-lg);
     overflow: hidden;
-    transition: transform var(--t-media), box-shadow var(--t-media), border-color var(--t-media);
+    transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 350ms ease,
+                border-color 200ms ease;
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative;
+  }
+  .card-articulo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--color-acento) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+    z-index: 0;
   }
   .card-articulo:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sombra-lg);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px -12px rgba(0, 21, 46, 0.22), 0 0 0 1px var(--color-acento);
     border-color: var(--color-acento);
   }
+
+  /* ── ENLACE ──────────────────────────────────────────── */
   .card-articulo__enlace {
     display: flex;
     flex-direction: column;
     text-decoration: none;
     color: inherit;
     height: 100%;
+    position: relative;
+    z-index: 1;
   }
+
+  /* ── MEDIA ───────────────────────────────────────────── */
   .card-articulo__media {
     position: relative;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    background: var(--color-fondo-alt);
+    background: var(--color-azul-oxford);
   }
   .card-articulo__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--t-lenta);
+    transition: transform 600ms ease;
   }
-  .card-articulo:hover .card-articulo__media img { transform: scale(1.05); }
+  .card-articulo:hover .card-articulo__media img {
+    transform: scale(1.06);
+  }
+  .card-articulo__media-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,21,46,0.7) 0%, transparent 60%);
+    pointer-events: none;
+  }
 
-  .card-articulo__seccion {
+  /* ── BADGES ──────────────────────────────────────────── */
+  .card-articulo__badges {
     position: absolute;
     top: var(--space-3);
     left: var(--space-3);
-    background: var(--color-azul-oxford);
+    display: flex;
+    gap: var(--space-1);
+    z-index: 2;
+  }
+  .badge-seccion {
+    background: rgba(0, 21, 46, 0.85);
+    backdrop-filter: blur(8px);
     color: var(--color-dorado-claro);
     font-family: var(--font-sans);
-    font-size: var(--fs-xxs);
-    font-weight: 700;
+    font-size: 0.65rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 4px 10px;
-    border-radius: var(--radio-sm);
+    letter-spacing: 0.14em;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(197, 160, 89, 0.4);
   }
 
+  /* Color de acento por sección */
+  .card-articulo--sec-investigacion .badge-seccion { border-color: rgba(99,179,237,0.5); color: #bee3f8; }
+  .card-articulo--sec-proyecto .badge-seccion      { border-color: rgba(154,230,180,0.5); color: #c6f6d5; }
+  .card-articulo--sec-editorial .badge-seccion     { border-color: rgba(197,160,89,0.5); color: var(--color-dorado-claro); }
+
+  /* ── CUERPO ──────────────────────────────────────────── */
   .card-articulo__cuerpo {
     display: flex;
     flex-direction: column;
@@ -104,11 +174,18 @@ const href = `/articulo/${articulo.id.replace(/\.(md|mdx)$/, '')}`;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--color-acento-fuerte);
+    font-weight: 600;
   }
   .card-articulo__titulo {
+    font-family: var(--font-serif);
     font-size: var(--fs-md);
-    line-height: 1.25;
+    line-height: 1.3;
     margin: 0;
+    color: var(--color-titulo);
+    transition: color 200ms ease;
+  }
+  .card-articulo:hover .card-articulo__titulo {
+    color: var(--color-acento-fuerte);
   }
   .card-articulo__subtitulo {
     font-family: var(--font-serif);
@@ -116,17 +193,41 @@ const href = `/articulo/${articulo.id.replace(/\.(md|mdx)$/, '')}`;
     color: var(--color-texto-suave);
     font-size: var(--fs-sm);
     margin: 0;
+    line-height: 1.45;
   }
   .card-articulo__resumen {
+    font-family: var(--font-sans);
     font-size: var(--fs-sm);
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--color-texto-suave);
-    margin: var(--space-2) 0 0;
+    margin: var(--space-1) 0 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* ── ETIQUETAS ───────────────────────────────────────── */
+  .card-articulo__etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+  }
+  .etiqueta {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 100px;
+    background: var(--color-fondo-alt);
+    color: var(--color-texto-suave);
+    border: 1px solid var(--color-linea-base);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── PIE ─────────────────────────────────────────────── */
   .card-articulo__pie {
     margin-top: auto;
     padding-top: var(--space-4);
@@ -137,38 +238,82 @@ const href = `/articulo/${articulo.id.replace(/\.(md|mdx)$/, '')}`;
     font-size: var(--fs-xs);
     color: var(--color-texto-tenue);
     border-top: 1px solid var(--color-linea-base);
-    margin-top: var(--space-5);
+    margin-top: var(--space-4);
   }
+  .pie-tiempo { opacity: 0.75; }
   .card-articulo__cta {
     color: var(--color-acento-fuerte);
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
+  .cta-arrow {
+    transition: transform 200ms ease;
+    display: inline-block;
+  }
+  .card-articulo:hover .cta-arrow { transform: translateX(4px); }
 
-  /* Destacado: card horizontal grande */
+  /* ── VARIANTE DESTACADO ──────────────────────────────── */
   .card-articulo--destacado {
     grid-column: span 2;
+    border: none;
+    border-radius: var(--radio-xl);
+    background: linear-gradient(135deg, var(--color-azul-oxford-oscuro) 0%, var(--color-azul-oxford) 100%);
+    color: var(--color-papel);
+    box-shadow: var(--sombra-lg);
   }
   .card-articulo--destacado .card-articulo__enlace {
     flex-direction: row;
+    align-items: stretch;
   }
   .card-articulo--destacado .card-articulo__media {
-    flex: 1 1 50%;
+    flex: 1 1 55%;
     aspect-ratio: unset;
-    min-height: 320px;
+    min-height: 360px;
+    border-radius: var(--radio-xl) 0 0 var(--radio-xl);
   }
   .card-articulo--destacado .card-articulo__cuerpo {
-    flex: 1 1 50%;
-    padding: var(--space-8);
+    flex: 1 1 45%;
+    padding: var(--space-10) var(--space-10);
     justify-content: center;
+    background: transparent;
+    gap: var(--space-3);
   }
   .card-articulo--destacado .card-articulo__titulo {
     font-size: var(--fs-xl);
+    color: var(--color-papel);
+    line-height: 1.15;
   }
+  .card-articulo--destacado:hover .card-articulo__titulo { color: var(--color-dorado-claro); }
+  .card-articulo--destacado .card-articulo__autor { color: var(--color-dorado-claro); }
+  .card-articulo--destacado .card-articulo__resumen { color: rgba(255,255,255,0.75); }
+  .card-articulo--destacado .card-articulo__pie {
+    border-top-color: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.5);
+  }
+  .card-articulo--destacado .card-articulo__cta { color: var(--color-dorado-claro); }
+  .card-articulo--destacado .etiqueta {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+  }
+  .card-articulo--destacado:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 32px 64px -16px rgba(0, 21, 46, 0.35);
+  }
+
   @media (max-width: 768px) {
     .card-articulo--destacado { grid-column: span 1; }
     .card-articulo--destacado .card-articulo__enlace { flex-direction: column; }
-    .card-articulo--destacado .card-articulo__media { aspect-ratio: 16 / 10; min-height: 0; }
-    .card-articulo--destacado .card-articulo__cuerpo { padding: var(--space-5) var(--space-6) var(--space-6); }
-    .card-articulo--destacado .card-articulo__titulo { font-size: var(--fs-md); }
+    .card-articulo--destacado .card-articulo__media {
+      aspect-ratio: 16 / 10;
+      min-height: 0;
+      border-radius: var(--radio-xl) var(--radio-xl) 0 0;
+    }
+    .card-articulo--destacado .card-articulo__cuerpo {
+      padding: var(--space-6);
+    }
+    .card-articulo--destacado .card-articulo__titulo { font-size: var(--fs-lg); }
   }
 </style>

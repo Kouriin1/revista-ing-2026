@@ -1,8 +1,7 @@
 ---
 /**
- * PLANTILLA A — Estándar
- * Una columna, ancho de prosa óptimo, imagen principal arriba.
- * Pensada para artículos extensos de lectura cómoda.
+ * PlantillaA MEJORADA — Estilo revista académica real
+ * Una columna editorial con secciones visuales destacadas
  */
 import type { CollectionEntry } from 'astro:content';
 import CabeceraArticulo from './CabeceraArticulo.astro';
@@ -13,19 +12,210 @@ interface Props {
   autoresResueltos: CollectionEntry<'autores'>[];
 }
 const { articulo, autoresResueltos } = Astro.props;
-const { referencias } = articulo.data;
+const { referencias, etiquetas, seccion } = articulo.data;
+
+const seccionLabels: Record<string, string> = {
+  investigacion: 'Investigación',
+  proyecto: 'Proyecto Tecnológico',
+  editorial: 'Editorial',
+  entrevista: 'Entrevista',
+  noticia: 'Noticia',
+  evento: 'Evento',
+  galeria: 'Galería',
+  reconocimiento: 'Reconocimiento',
+};
 ---
 
 <article class="plantilla-a">
   <CabeceraArticulo articulo={articulo} autoresResueltos={autoresResueltos} variante="centrada" />
+
+  <!-- Banda de metadatos editorial -->
+  <div class="banda-meta">
+    <div class="banda-meta__inner">
+      <span class="banda-seccion">{seccionLabels[seccion] ?? seccion}</span>
+      {etiquetas && etiquetas.length > 0 && (
+        <div class="banda-etiquetas">
+          {etiquetas.map((t) => <span class="tag-pill">{t}</span>)}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Cuerpo del artículo con estilos de revista -->
   <div class="plantilla-a__cuerpo prosa dropcap">
     <slot />
   </div>
-  <Referencias items={referencias} />
+
+  {referencias && referencias.length > 0 && (
+    <section class="referencias-seccion">
+      <div class="referencias-header">
+        <span class="referencias-header__line"></span>
+        <h2 class="referencias-header__titulo">Referencias</h2>
+        <span class="referencias-header__line"></span>
+      </div>
+      <Referencias items={referencias} />
+    </section>
+  )}
+
+  <!-- Pie del artículo -->
+  <footer class="articulo-footer">
+    <a href="/indice" class="footer-volver">← Volver al índice</a>
+    <span class="footer-sep">·</span>
+    <a href="/" class="footer-inicio">Portada</a>
+  </footer>
 </article>
 
 <style>
+  .plantilla-a {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* ── BANDA META ─────────────────────────────────────── */
+  .banda-meta {
+    border-top: 1px solid var(--color-linea-base);
+    border-bottom: 1px solid var(--color-linea-base);
+    padding: var(--space-3) 0;
+    margin-bottom: var(--space-10);
+  }
+  .banda-meta__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .banda-seccion {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-azul-oxford);
+    padding: 4px 12px;
+    background: var(--color-papel-suave);
+    border-left: 3px solid var(--color-acento);
+  }
+  .banda-etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+  .tag-pill {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: transparent;
+    color: var(--color-texto-suave);
+    border: 1px solid var(--color-linea-base);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  /* ── CUERPO ─────────────────────────────────────────── */
   .plantilla-a__cuerpo {
     margin: 0 auto;
+  }
+
+  /*
+    Mejoras tipográficas al prosa dentro de artículos:
+    H2 con línea dorada, H3 elegante, stats en negrita
+  */
+  .plantilla-a__cuerpo :global(h2) {
+    position: relative;
+    padding-bottom: var(--space-3);
+    margin-top: var(--space-16) !important;
+  }
+  .plantilla-a__cuerpo :global(h2::after) {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 48px;
+    height: 3px;
+    background: var(--color-acento);
+    border-radius: 2px;
+  }
+  .plantilla-a__cuerpo :global(h3) {
+    color: var(--color-azul-oxford-claro);
+    font-size: var(--fs-lg);
+    margin-top: var(--space-10) !important;
+  }
+
+  /* Listas con estilo editorial */
+  .plantilla-a__cuerpo :global(ul) {
+    list-style: none;
+    padding-left: 0;
+  }
+  .plantilla-a__cuerpo :global(ul li) {
+    padding-left: var(--space-6);
+    position: relative;
+  }
+  .plantilla-a__cuerpo :global(ul li::before) {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-acento);
+    font-size: 0.85em;
+  }
+
+  /* Porcentajes y números en negrita con acento */
+  .plantilla-a__cuerpo :global(strong) {
+    color: var(--color-azul-oxford);
+    font-weight: 700;
+  }
+
+  /* ── REFERENCIAS ────────────────────────────────────── */
+  .referencias-seccion {
+    margin-top: var(--space-20);
+    padding-top: var(--space-10);
+  }
+  .referencias-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+  .referencias-header__line {
+    flex: 1;
+    height: 1px;
+    background: var(--color-linea-base);
+  }
+  .referencias-header__titulo {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-texto-tenue);
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* ── FOOTER DEL ARTÍCULO ────────────────────────────── */
+  .articulo-footer {
+    margin-top: var(--space-20);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-linea-base);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+  }
+  .footer-volver,
+  .footer-inicio {
+    color: var(--color-acento-fuerte);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--t-rapida);
+  }
+  .footer-volver:hover,
+  .footer-inicio:hover {
+    color: var(--color-azul-oxford);
+  }
+  .footer-sep {
+    color: var(--color-texto-tenue);
   }
 </style>
