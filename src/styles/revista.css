@@ -1,5 +1,5 @@
 /* =========================================================================
-   ESTILOS DEL MODO REVISTA (PageFlip)
+   ESTILOS DEL MODO REVISTA (PageFlip) — Rediseño completo
    ========================================================================= */
 
 .pf-contenedor {
@@ -9,9 +9,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: var(--space-6);
-  background: var(--color-fondo-alt);
+  justify-content: center;
+  padding: var(--space-8) var(--space-4);
+  background: #0a0e14;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(197,160,89,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(0,33,71,0.15) 0%, transparent 60%);
 }
 
 .pf-fuente {
@@ -30,17 +33,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
   font-family: var(--font-serif);
   font-style: italic;
-  color: var(--color-texto-suave);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.6);
   z-index: 10;
 }
 .pf-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--color-linea-base);
-  border-top-color: var(--color-acento);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: var(--color-dorado);
   border-radius: 50%;
   animation: pf-spin 800ms linear infinite;
 }
@@ -48,53 +52,140 @@
 
 .pf-libro {
   width: 100%;
-  max-width: 1100px;
-  margin: var(--space-4) auto;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
+/* --- Hojas (Siempre estilo Papel Impreso) --- */
 .pf-hoja {
-  background: var(--color-papel);
-  box-shadow: var(--sombra-pagina);
+  background: #FDFCF7 !important; /* Papel ahuesado */
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02), var(--sombra-pagina);
   overflow: hidden;
+  color: #1A1A1A !important; /* Texto negro mate */
 }
+
+/* Cubiertas duras */
+.pf-hoja--hard {
+  background: #00152e !important; /* Azul oxford para portada/contraportada */
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  color: #FDFCF7 !important;
+}
+
 .pf-hoja__inner {
   width: 100%;
   height: 100%;
-  padding: 40px 36px 56px;
+  padding: 40px 48px;
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
 }
+
+/* Las cubiertas no llevan padding extra */
+.pf-hoja--hard .pf-hoja__inner {
+  padding: 0;
+}
+
 .pf-hoja__contenido {
   flex: 1;
   overflow: hidden;
   font-family: var(--font-serif);
-  line-height: 1.7;
-  color: var(--color-texto);
+  line-height: 1.5;
+  color: #1A1A1A !important;
 }
+
+/* Tipografía dentro de las hojas (Forzando oscuro) */
 .pf-hoja__contenido h1,
 .pf-hoja__contenido h2,
 .pf-hoja__contenido h3 {
   font-family: var(--font-serif);
-  color: var(--color-titulo);
+  color: #002147 !important;
   line-height: 1.2;
-  margin-top: 0.6em;
-  margin-bottom: 0.4em;
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
 }
-.pf-hoja__contenido h1 { font-size: 1.7rem; }
-.pf-hoja__contenido h2 { font-size: 1.35rem; }
-.pf-hoja__contenido h3 { font-size: 1.15rem; }
+.pf-hoja__contenido h1 { font-size: 1.8rem; }
+.pf-hoja__contenido h2 { font-size: 1.4rem; }
+.pf-hoja__contenido h3 { font-size: 1.2rem; }
 .pf-hoja__contenido p {
-  margin: 0 0 0.8em;
+  margin: 0 0 0.55em;
   text-align: justify;
   font-size: 0.95rem;
+  line-height: 1.55;
+}
+.pf-hoja__contenido strong {
+  font-weight: 700;
+  color: #000 !important;
+}
+
+/* ── Escalar sistema tipográfico dentro del libro ── */
+/* Sobreescribir variables CSS en el contexto del libro para que calc() funcione */
+.pf-hoja__contenido {
+  --fs-3xl: 1.3rem;
+  --fs-2xl: 1.1rem;
+  --fs-xl: 1.0rem;
+  --fs-lg: 0.9rem;
+  --fs-base: 0.85rem;
+  --fs-md: 0.8rem;
+  --fs-sm: 0.72rem;
+  --fs-xs: 0.68rem;
+  --fs-scale: 1; /* Resetear el multiplicador */
+  --space-10: 1rem;
+  --space-16: 1.4rem;
+}
+
+/* Título artículo — tamaño de revista real */
+.pf-hoja__contenido h1 {
+  font-size: 1.3rem !important;
+  line-height: 1.2 !important;
+  color: #002147 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.35em !important;
+}
+.pf-hoja__contenido h2 {
+  font-size: 1.05rem !important;
+  color: #002147 !important;
+  margin-top: 0.45em !important;
+  margin-bottom: 0.2em !important;
+}
+.pf-hoja__contenido h3 {
+  font-size: 0.92rem !important;
+  color: #1a3a66 !important;
+  margin-top: 0.35em !important;
+  margin-bottom: 0.15em !important;
+}
+
+/* Imagen del artículo compacta */
+.pf-hoja__contenido .cabecera-articulo__figura img {
+  max-height: 30vh !important;
+  object-fit: cover !important;
+}
+
+/* Número de página en índice */
+.indice-pag {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #002147;
+  font-weight: 700;
+  white-space: nowrap;
+  padding-left: 8px;
+}
+
+/* Item del índice - flex para empujar página a la derecha */
+.indice-item {
+  display: flex !important;
+  align-items: flex-start !important;
 }
 .pf-hoja__contenido img,
 .pf-hoja__contenido figure {
   max-width: 100%;
-  height: auto;
-  margin: 0.8em auto;
+  max-height: 35vh; /* Evita desbordamiento en la página */
+  object-fit: cover;
+  margin: 1.5em auto;
   display: block;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .pf-hoja__contenido figure { margin: 1em 0; }
 .pf-hoja__contenido figcaption {
@@ -104,32 +195,305 @@
   text-align: center;
   margin-top: 0.4em;
 }
+
+/* =========================================================================
+   FOTOGRAFÍAS A PÁGINA COMPLETA (MAGAZINE SPREAD)
+   ========================================================================= */
+.pf-hoja--poster .pf-hoja__inner {
+  position: static !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.pf-hoja--poster .pf-hoja__contenido,
+.pf-hoja--poster .pf-hoja__contenido * {
+  position: static !important;
+  transform: none !important;
+}
+.pf-hoja--poster img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important; /* Fallback */
+  height: 100vh !important; /* Fallback */
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  z-index: 9999 !important;
+}
+
+/* =========================================================================
+   FOTOGRAFÍAS A PÁGINA COMPLETA (MAGAZINE SPREAD) - CSS VAR BACKGROUND
+   ========================================================================= */
+.pf-hoja--poster-bg {
+  background: var(--poster-bg) center/cover no-repeat !important;
+}
+
+/* ── Overrides: CabeceraArticulo dentro del libro (tamaños reducidos) ── */
+.pf-hoja__contenido .cabecera-articulo {
+  margin-bottom: 0.5em;
+}
+.pf-hoja__contenido .cabecera-articulo__titulo,
+.pf-hoja__contenido .cabecera-articulo h1,
+.pf-hoja__contenido h1 {
+  font-size: 1.4rem !important; /* Igual a .indice-titulo */
+  line-height: 1.15 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.2em !important;
+  color: #002147 !important;
+  font-family: var(--font-serif) !important;
+  letter-spacing: -0.01em !important;
+}
+.pf-hoja__contenido .cabecera-articulo__seccion,
+.pf-hoja__contenido .overline {
+  font-size: 0.45rem !important; /* Igual a .indice-categoria */
+  letter-spacing: 0.12em !important;
+  font-weight: 700 !important;
+}
+.pf-hoja__contenido .cabecera-articulo__subtitulo {
+  font-size: 0.75rem !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0.4em !important;
+  font-family: var(--font-serif) !important;
+}
+.pf-hoja__contenido .cabecera-articulo__meta {
+  font-size: 0.6rem !important;
+  gap: 0.2rem !important;
+  padding-top: 0.25rem !important;
+}
+.pf-hoja__contenido .cabecera-articulo__figura {
+  margin-top: 0.5em !important;
+}
+.pf-hoja__contenido .cabecera-articulo__figura img {
+  max-height: 22vh !important;
+  object-fit: cover !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REDISEÑO VISUAL DE ARTÍCULOS — Estilo revista académica premium
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Ocultar H1 del MDX (duplicado: CabeceraArticulo ya lo muestra) ── */
+.pf-hoja__contenido .plantilla-a__cuerpo h1 {
+  display: none !important;
+}
+
+/* ── Deshabilitar dropcap global (aplica mal al H1) ── */
+.pf-hoja__contenido .dropcap::first-letter {
+  float: none !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  margin: 0 !important;
+  color: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* ── Párrafo de introducción (Primer Párrafo) ── */
+.pf-hoja__contenido > p:first-of-type {
+  font-family: var(--font-sans) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: #002147 !important;
+  padding: 0.8em 1em !important;
+  margin-bottom: 1.5em !important;
+  border-left: 3px solid #C5A059 !important;
+  background: linear-gradient(to right, rgba(197, 160, 89, 0.12) 0%, rgba(197, 160, 89, 0.02) 100%) !important;
+  border-radius: 0 4px 4px 0 !important;
+  text-align: left !important;
+}
+
+/* ── H2: Titular de sección estructurado, moderno y elegante ── */
+.pf-hoja__contenido h2 {
+  display: block !important;
+  font-family: var(--font-sans) !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+  color: #002147 !important;
+  margin: 1.8em 0 0.8em !important;
+  padding-bottom: 0.4em !important;
+  border-bottom: 1.5px solid #C5A059 !important;
+  position: relative !important;
+}
+.pf-hoja__contenido h2::after {
+  content: "" !important;
+  position: absolute !important;
+  bottom: -1.5px !important;
+  left: 0 !important;
+  width: 30px !important;
+  height: 1.5px !important;
+  background-color: #002147 !important;
+}
+
+/* ── H3: Subtítulo clásico en itálica dorada ── */
+.pf-hoja__contenido h3 {
+  margin: 1em 0 0.3em !important;
+  font-family: var(--font-serif) !important;
+  font-size: 0.8rem !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  color: #C5A059 !important;
+  line-height: 1.3 !important;
+}
+
+/* ── Párrafos: serif justificado ── */
+.pf-hoja__contenido p {
+  font-size: 0.72rem !important; /* Igual a los párrafos del índice */
+  line-height: 1.62 !important;
+  margin-bottom: 0.6em !important;
+  text-align: justify !important;
+  font-family: var(--font-serif) !important;
+  hyphens: auto !important;
+  color: #1A1A1A !important;
+}
+
+/* ── Listas: justificadas igual que los párrafos ── */
+.pf-hoja__contenido ul,
+.pf-hoja__contenido ol {
+  padding-left: 1.2em !important;
+  margin-bottom: 0.8em !important;
+}
+.pf-hoja__contenido li {
+  font-size: 0.72rem !important;
+  line-height: 1.62 !important;
+  margin-bottom: 0.4em !important;
+  text-align: justify !important;
+  font-family: var(--font-serif) !important;
+  color: #1A1A1A !important;
+}
+.pf-hoja__contenido ul {
+  list-style: none !important;
+}
+.pf-hoja__contenido ul li {
+  position: relative !important;
+}
+.pf-hoja__contenido ul li::before {
+  content: '▸' !important;
+  position: absolute !important;
+  left: -1.2em !important;
+  color: #C5A059 !important;
+  font-size: 0.8rem !important;
+  top: 0.05em !important;
+}
+
+/* Negrita con color azul oxford muy marcado */
+.pf-hoja__contenido strong {
+  font-size: inherit !important;
+  color: #002147 !important;
+  font-weight: 800 !important;
+  background-color: rgba(197, 160, 89, 0.08) !important;
+  padding: 0 0.1em !important;
+}
+
+/* ── Listas con viñeta dorada ── */
+.pf-hoja__contenido .plantilla-a__cuerpo ul {
+  list-style: none !important;
+  padding-left: 0.8em !important;
+}
+.pf-hoja__contenido .plantilla-a__cuerpo ul li {
+  position: relative !important;
+  padding-left: 0.8em !important;
+  font-size: 0.7rem !important;
+  line-height: 1.5 !important;
+  margin-bottom: 0.18em !important;
+  font-family: var(--font-serif) !important;
+  color: #1A1A1A !important;
+}
+.pf-hoja__contenido .plantilla-a__cuerpo ul li::before {
+  content: '▸' !important;
+  position: absolute !important;
+  left: 0 !important;
+  color: #C5A059 !important;
+  font-size: 0.7em !important;
+  top: 0.1em !important;
+}
+.pf-hoja__contenido .plantilla-a__cuerpo ol li {
+  font-size: 0.7rem !important;
+  line-height: 1.5 !important;
+  margin-bottom: 0.18em !important;
+  font-family: var(--font-serif) !important;
+}
+
+/* ── Blockquote como pull-quote editorial ── */
+.pf-hoja__contenido .plantilla-a__cuerpo blockquote,
+.pf-hoja__contenido blockquote {
+  position: relative !important;
+  margin: 0.6em 0 !important;
+  padding: 0.5em 0.7em 0.5em 1.2em !important;
+  border-left: none !important;
+  border-radius: 0 4px 4px 0 !important;
+  background: linear-gradient(to right, rgba(197,160,89,0.12), rgba(197,160,89,0.03)) !important;
+  font-style: italic !important;
+  font-family: var(--font-serif) !important;
+  font-size: 0.72rem !important;
+  color: #002147 !important;
+  line-height: 1.5 !important;
+  border-left: 2.5px solid #C5A059 !important;
+}
+.pf-hoja__contenido .plantilla-a__cuerpo blockquote p {
+  margin: 0 !important;
+  text-align: left !important;
+  font-style: italic !important;
+}
+
+/* ── Referencias: encabezado elegante ── */
+.pf-hoja__contenido .referencias-seccion {
+  margin-top: 0.8em !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+/* ── Ocultar elementos que no tienen sentido en la revista impresa ── */
+.pf-hoja__contenido .articulo-footer,
+.pf-hoja__contenido .banda-meta {
+  display: none !important;
+}
+
+/* ── Banda de etiquetas muy compacta ── */
+.pf-hoja__contenido .banda-etiquetas,
+.pf-hoja__contenido .tag-pill {
+  display: none !important;
+}
+
+
+/* Pie de página */
 .pf-hoja__pie {
   position: absolute;
   bottom: 18px;
-  left: 36px;
-  right: 36px;
+  left: 38px;
+  right: 38px;
   display: flex;
   justify-content: center;
   font-family: var(--font-sans);
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-texto-tenue);
-  border-top: 1px solid var(--color-linea-suave);
+  color: var(--color-texto-tenue, #8A8A8A);
+  border-top: 1px solid var(--color-linea-suave, #EFEBE0);
   padding-top: 8px;
 }
 
+/* --- Controles de navegación --- */
 .pf-controles {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  margin-top: var(--space-6);
-  background: var(--color-fondo);
-  padding: var(--space-2) var(--space-4);
+  margin-top: var(--space-8);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  padding: var(--space-2) var(--space-6);
   border-radius: 999px;
-  box-shadow: var(--sombra);
-  border: 1px solid var(--color-linea-base);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 .pf-nav {
   background: transparent;
@@ -137,29 +501,302 @@
   font-family: var(--font-sans);
   font-size: var(--fs-sm);
   font-weight: 600;
-  color: var(--color-azul-oxford);
+  color: rgba(255,255,255,0.7);
   cursor: pointer;
-  padding: 8px 14px;
+  padding: 10px 18px;
   border-radius: 999px;
-  transition: background var(--t-rapida), color var(--t-rapida);
+  transition: background 200ms, color 200ms;
 }
 .pf-nav:hover {
-  background: var(--color-azul-oxford);
-  color: var(--color-dorado-claro);
+  background: var(--color-dorado);
+  color: var(--color-azul-oxford-oscuro);
 }
 .pf-indicador {
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
-  color: var(--color-texto-suave);
-  min-width: 50px;
+  color: rgba(255,255,255,0.5);
+  min-width: 60px;
   text-align: center;
 }
 
 /* Permitir gestos táctiles en móviles */
 .pf-libro .stf__wrapper { touch-action: pan-y; }
+.pf-libro { touch-action: manipulation; }
 
+/* ==========================================================================
+   VISTA MÓVIL — Tarjetas scrollables (reemplaza el libro 3D en ≤768px)
+   ========================================================================== */
+.pf-contenedor--mobil {
+  padding: 0 !important;
+  background: #0a0e14;
+  min-height: 100dvh;
+  display: block;
+  justify-content: unset;
+}
+
+.pf-mobil-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 12px 40px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Cada sección/artículo como una hoja de papel */
+.pf-mobil-carta {
+  background: #FDFCF7;
+  border-radius: 8px;
+  padding: 24px 20px 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3);
+  color: #1A1A1A;
+  overflow: hidden;
+  /* Estilos de contenido idénticos al libro */
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+/* Portada en móvil: fondo oscuro tipo cubierta */
+.pf-mobil-carta:has(.hoja-portada),
+.pf-mobil-carta .hoja-portada {
+  background: #00152e;
+  min-height: 320px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Contraportada */
+.pf-mobil-carta:has(.hoja-contraportada),
+.pf-mobil-carta .hoja-contraportada {
+  background: #00152e;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Aplicar los mismos estilos de artículo a las tarjetas */
+.pf-mobil-carta h1 {
+  font-family: var(--font-serif) !important;
+  font-size: 1.15rem !important;
+  color: #002147 !important;
+  line-height: 1.2 !important;
+  margin: 0 0 0.3em !important;
+}
+.pf-mobil-carta h2 {
+  font-family: var(--font-sans) !important;
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+  color: #002147 !important;
+  margin: 1.4em 0 0.6em !important;
+  padding-bottom: 0.35em !important;
+  border-bottom: 1.5px solid #C5A059 !important;
+}
+.pf-mobil-carta h3 {
+  font-family: var(--font-serif) !important;
+  font-size: 0.78rem !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  color: #C5A059 !important;
+  margin: 0.8em 0 0.2em !important;
+}
+.pf-mobil-carta p {
+  font-size: 0.72rem !important;
+  line-height: 1.62 !important;
+  margin-bottom: 0.5em !important;
+  text-align: justify !important;
+  font-family: var(--font-serif) !important;
+  color: #1A1A1A !important;
+}
+.pf-mobil-carta strong {
+  color: #002147 !important;
+  font-weight: 800 !important;
+}
+.pf-mobil-carta ul {
+  list-style: none !important;
+  padding-left: 1.1em !important;
+}
+.pf-mobil-carta ul li {
+  font-size: 0.72rem !important;
+  line-height: 1.6 !important;
+  margin-bottom: 0.3em !important;
+  font-family: var(--font-serif) !important;
+  color: #1A1A1A !important;
+  position: relative !important;
+}
+.pf-mobil-carta ul li::before {
+  content: '▸' !important;
+  position: absolute !important;
+  left: -1.1em !important;
+  color: #C5A059 !important;
+}
+.pf-mobil-carta img {
+  max-width: 100% !important;
+  max-height: 200px !important;
+  object-fit: cover !important;
+  border-radius: 6px !important;
+  margin: 0.8em auto !important;
+  display: block !important;
+}
+
+/* ==========================================================================
+   RESPONSIVO — Tablet (≤ 900px) y Móvil (≤ 600px)
+   No modifica los estilos de escritorio.
+   ========================================================================== */
+
+/* ── Tablet: pantallas medianas ── */
+@media (max-width: 900px) {
+  /* Reducir el padding del contenedor exterior */
+  .pf-contenedor {
+    padding: 12px 8px 8px;
+    min-height: 100dvh;
+  }
+
+  /* El libro ocupa casi todo el ancho */
+  .pf-libro {
+    max-width: 100%;
+  }
+
+  /* En modo portrait (1 página), el padding interno puede ser más generoso */
+  .pf-hoja__inner {
+    padding: 32px 36px 52px;
+  }
+
+  /* Controles de navegación: más separados del libro */
+  .pf-controles {
+    margin-top: 12px;
+    gap: 4px;
+    padding: 8px 16px;
+  }
+
+  /* Botones más fáciles de tocar */
+  .pf-nav {
+    padding: 10px 14px;
+    font-size: 0.82rem;
+  }
+}
+
+/* ── Móvil: pantallas pequeñas (≤ 600px) ── */
 @media (max-width: 600px) {
-  .pf-contenedor { padding: var(--space-3); }
-  .pf-hoja__inner { padding: 28px 22px 44px; }
-  .pf-hoja__contenido p { font-size: 0.92rem; }
+  /* Contenedor: sin margen lateral para aprovechar cada píxel */
+  .pf-contenedor {
+    padding: 6px 2px 4px;
+    justify-content: flex-start;
+    padding-top: 10px;
+  }
+
+  /* Hojas: padding interno muy ajustado en móvil */
+  .pf-hoja__inner {
+    padding: 20px 18px 48px;
+  }
+
+  /* Pie de página compacto */
+  .pf-hoja__pie {
+    bottom: 10px;
+    left: 18px;
+    right: 18px;
+    font-size: 0.6rem;
+    padding-top: 5px;
+  }
+
+  /* ── Tipografía del contenido: reducir para que quepa más ── */
+  .pf-hoja__contenido h2 {
+    font-size: 0.68rem !important;
+    margin: 1.2em 0 0.5em !important;
+    letter-spacing: 0.1em !important;
+  }
+  .pf-hoja__contenido h3 {
+    font-size: 0.72rem !important;
+    margin: 0.8em 0 0.2em !important;
+  }
+  .pf-hoja__contenido p,
+  .pf-hoja__contenido li {
+    font-size: 0.68rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 0.5em !important;
+  }
+  .pf-hoja__contenido p:first-of-type {
+    font-size: 0.68rem !important;
+  }
+
+  /* ── Cabecera del artículo en móvil ── */
+  .pf-hoja__contenido .cabecera-articulo__titulo,
+  .pf-hoja__contenido h1 {
+    font-size: 1.05rem !important;
+    line-height: 1.2 !important;
+  }
+  .pf-hoja__contenido .cabecera-articulo__meta {
+    font-size: 0.52rem !important;
+  }
+  .pf-hoja__contenido .cabecera-articulo__figura img {
+    max-height: 18vh !important;
+  }
+
+  /* ── Índice: compacto en móvil ── */
+  .indice-num {
+    font-size: 0.65rem !important;
+    min-width: 16px !important;
+  }
+  .indice-info strong {
+    font-size: 0.52rem !important;
+    line-height: 1.25 !important;
+  }
+  .indice-categoria {
+    font-size: 0.38rem !important;
+  }
+  .indice-pag {
+    font-size: 0.58rem !important;
+    min-width: 28px !important;
+  }
+  .indice-item {
+    gap: 4px !important;
+    padding-bottom: 3px !important;
+  }
+
+  /* ── Controles de navegación grandes y táctiles ── */
+  .pf-controles {
+    margin-top: 8px;
+    gap: 0;
+    padding: 6px 10px;
+    border-radius: 999px;
+  }
+  .pf-nav {
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    min-width: 80px;
+    text-align: center;
+  }
+  .pf-indicador {
+    font-size: 0.65rem;
+    min-width: 48px;
+  }
+
+  /* ── Portada: ajustar textos ── */
+  .portada__titulo {
+    font-size: 1rem !important;
+  }
+  .portada__sub {
+    font-size: 0.65rem !important;
+  }
+  .portada__edicion {
+    font-size: 0.58rem !important;
+  }
+
+  /* ── Imágenes dentro del artículo: no tan altas ── */
+  .pf-hoja__contenido img,
+  .pf-hoja__contenido figure {
+    max-height: 22vh;
+    margin: 0.8em auto;
+  }
+
+  /* ── Franja decorativa de artículo ── */
+  .art-franja__num {
+    font-size: 1.4rem !important;
+  }
+  .art-franja__seccion {
+    font-size: 0.4rem !important;
+  }
 }

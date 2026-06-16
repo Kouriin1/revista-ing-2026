@@ -30,7 +30,7 @@ const leerBool = (k: string, fallback: boolean): boolean => {
   return v === null ? fallback : v === 'true';
 };
 
-export const $tema = atom<Tema>(leer<Tema>(SK.tema, 'auto'));
+export const $tema = atom<Tema>(leer<Tema>(SK.tema, 'oscuro'));
 export const $escalaFuente = atom<number>(leerNum(SK.fuente, 1));
 export const $modoLectura = atom<ModoLectura>(leer<ModoLectura>(SK.modo, 'auto'));
 export const $sonidoActivo = atom<boolean>(leerBool(SK.sonido, true));
