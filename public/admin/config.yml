@@ -1,0 +1,110 @@
+# =============================================================================
+#  Panel de edición — Revista Ingeniería 2026
+#  Solo permite editar el TEXTO editorial. Imágenes y campos estructurales
+#  (plantilla, sección, autores, imagen principal...) quedan BLOQUEADOS:
+#  aparecen como "hidden" para conservar su valor pero NO se pueden editar.
+# =============================================================================
+
+backend:
+  name: github
+  repo: Kouriin1/revista-ing-2026
+  branch: main
+  base_url: https://revista-ing-2026.vercel.app
+  auth_endpoint: api/auth
+
+# Idioma del panel
+locale: es
+
+# Carpeta de medios (no se usa para subir: las imágenes están bloqueadas)
+media_folder: "src/assets/imagenes"
+public_folder: "/img"
+
+# Mensaje de commit en español cuando se guarda
+backend_commit_messages:
+  update: "edit: {{collection}} «{{slug}}» (desde el panel)"
+
+collections:
+  # ---------------------------------------------------------------------------
+  #  ARTÍCULOS
+  # ---------------------------------------------------------------------------
+  - name: articulos
+    label: "Artículos"
+    label_singular: "Artículo"
+    description: "Edita el texto de los artículos. Las imágenes no se pueden cambiar."
+    folder: "src/content/articulos"
+    extension: mdx
+    format: frontmatter
+    create: false        # no se pueden crear artículos nuevos desde aquí
+    delete: false        # no se pueden borrar
+    identifier_field: titulo
+    editor:
+      preview: false
+    fields:
+      # ---------- EDITABLE: texto editorial ----------
+      - { name: titulo, label: "Título", widget: string }
+      - { name: subtitulo, label: "Subtítulo", widget: string, required: false }
+      - { name: resumen, label: "Resumen", widget: text, required: false }
+      - { name: etiquetas, label: "Etiquetas", widget: list, required: false }
+      - { name: palabrasClave, label: "Palabras clave", widget: list, required: false }
+      - name: referencias
+        label: "Referencias"
+        widget: list
+        required: false
+        summary: "{{fields.cita}}"
+        fields:
+          - { name: cita, label: "Cita", widget: string }
+          - { name: url, label: "URL (opcional)", widget: string, required: false }
+      - name: body
+        label: "Contenido del artículo"
+        widget: markdown
+        # Sin botón de imagen: el editor no puede insertar imágenes en el texto
+        buttons:
+          [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+        editor_components: []
+
+      # ---------- BLOQUEADO: se conserva pero no se edita ----------
+      - { name: plantilla, widget: hidden }
+      - { name: seccion, widget: hidden }
+      - { name: edicion, widget: hidden }
+      - { name: orden, widget: hidden }
+      - { name: autores, widget: hidden, required: false }
+      - { name: autoresInvitados, widget: hidden, required: false }
+      - { name: imagenPrincipal, widget: hidden, required: false }
+      - { name: pieImagenPrincipal, widget: hidden, required: false }
+      - { name: destacado, widget: hidden, required: false }
+      - { name: borrador, widget: hidden, required: false }
+      - { name: doi, widget: hidden, required: false }
+      - { name: fechaPublicacion, widget: hidden, required: false }
+      - { name: tiempoLectura, widget: hidden, required: false }
+
+  # ---------------------------------------------------------------------------
+  #  PÁGINAS INSTITUCIONALES (editorial, mensaje del decano, etc.)
+  #  Si NO quieres que se editen, borra todo este bloque "institucional".
+  # ---------------------------------------------------------------------------
+  - name: institucional
+    label: "Páginas institucionales"
+    label_singular: "Página"
+    description: "Editorial, mensaje del decano y similares. Solo texto."
+    folder: "src/content/institucional"
+    extension: md
+    format: frontmatter
+    create: false
+    delete: false
+    identifier_field: titulo
+    editor:
+      preview: false
+    fields:
+      # ---------- EDITABLE ----------
+      - { name: titulo, label: "Título", widget: string }
+      - { name: autor, label: "Autor", widget: string, required: false }
+      - { name: cargo, label: "Cargo", widget: string, required: false }
+      - name: body
+        label: "Contenido"
+        widget: markdown
+        buttons:
+          [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+        editor_components: []
+      # ---------- BLOQUEADO ----------
+      - { name: tipo, widget: hidden }
+      - { name: orden, widget: hidden, required: false }
+      - { name: foto, widget: hidden, required: false }
