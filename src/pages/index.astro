@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { obtenerEdicionActiva } from '@lib/edicion';
 import { getCollection, getEntries, render } from 'astro:content';
 import { Image } from 'astro:assets';
-import portadaImg from '@assets/imagenes/portada.jpeg';
+import portadaImg from '@assets/imagenes/portada_correcta.jpeg';
 import usmLogo from '@assets/imagenes/usmlogo.png';
 import PageFlipWrapper from '@components/islands/PageFlipWrapper.tsx';
 import Placeholder from '@components/ui/Placeholder.astro';
@@ -48,16 +48,16 @@ const renders = await Promise.all(articulos.map(async (art) => {
     
     <!-- 1. Pagina de Portada -->
     <div class="hoja-portada" style={`background-image: url('${portadaImg.src}')`}>
-      <!-- Logo arriba centrado -->
+      {/* --- Elementos sobre la portada ocultos: ahora solo se muestra la imagen ---
       <div class="portada__logo-wrap">
         <Image src={usmLogo} alt="Universidad Santa María" class="portada__logo" />
       </div>
-      <!-- Título abajo centrado -->
       <div class="portada__bottom">
         <h1 class="portada__titulo">{edicion.data.titulo}</h1>
         <p class="portada__sub">{edicion.data.subtitulo}</p>
         <span class="portada__edicion">Edición {edicion.data.numero} · {fechaTexto}</span>
       </div>
+      --- fin elementos ocultos --- */}
     </div>
 
     <!-- 2. Paginas de Indice -->
