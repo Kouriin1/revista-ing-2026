@@ -67,8 +67,10 @@ collections:
       - { name: seccion, widget: hidden }
       - { name: edicion, widget: hidden }
       - { name: orden, widget: hidden }
-      - { name: autores, widget: hidden, required: false }
-      - { name: autoresInvitados, widget: hidden, required: false }
+      # autores/autoresInvitados son LISTAS: con "hidden" se corrompen.
+      # Se declaran como list + readonly para conservarlas intactas sin permitir edición.
+      - { name: autores, label: "Autores (no editable)", widget: list, required: false, readonly: true }
+      - { name: autoresInvitados, label: "Autores invitados (no editable)", widget: list, required: false, readonly: true }
       - { name: imagenPrincipal, widget: hidden, required: false }
       - { name: pieImagenPrincipal, widget: hidden, required: false }
       - { name: destacado, widget: hidden, required: false }
