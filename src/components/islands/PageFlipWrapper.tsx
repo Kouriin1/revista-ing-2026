@@ -117,8 +117,9 @@ export default function PageFlipWrapper({ children }: Props) {
       for (const nodo of nodos) {
         const html = nodo.outerHTML;
         
-        const esEspecial = nodo.classList.contains('hoja-portada') || 
-                           nodo.classList.contains('hoja-contraportada');
+        const esEspecial = nodo.classList.contains('hoja-portada') ||
+                           nodo.classList.contains('hoja-contraportada') ||
+                           nodo.classList.contains('hoja-creditos');
         if (esEspecial) {
           if (actual !== '') {
             bloques.push(actual);

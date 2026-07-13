@@ -60,6 +60,67 @@ const renders = await Promise.all(articulos.map(async (art) => {
       --- fin elementos ocultos --- */}
     </div>
 
+    <!-- 1.5 Pagina de Creditos / Autoridades (HOJA 1: va despues de la portada, antes del indice) -->
+    <div class="hoja-creditos">
+      <div class="creditos-inner">
+        <header class="creditos-header">
+          <h1 class="creditos-titulo">Boletín Académico</h1>
+          <p class="creditos-subtitulo">
+            Centro de Investigaciones de la Facultad de Ingeniería y Arquitectura (CIFIA)
+          </p>
+          <div class="creditos-linea"></div>
+        </header>
+
+        <div class="creditos-grupo">
+          <h2 class="creditos-etiqueta">Autoridades USM</h2>
+          <ul class="creditos-lista">
+            <li><span class="creditos-nombre">Dr. José Ceballos Gamardo</span><span class="creditos-cargo">Rector</span></li>
+            <li><span class="creditos-nombre">Dr. Ramón de Torres</span><span class="creditos-cargo">Vicerrector Académico</span></li>
+            <li><span class="creditos-nombre">Lic. Giselle Petricca</span><span class="creditos-cargo">Vicerrectora Administrativa</span></li>
+            <li><span class="creditos-nombre">Dra. Virginia de Magalhaes</span><span class="creditos-cargo">Secretaria General</span></li>
+          </ul>
+        </div>
+
+        <div class="creditos-grupo">
+          <h2 class="creditos-etiqueta">Centro de Investigaciones CIFIA · Coordinadores</h2>
+          <ul class="creditos-lista">
+            <li><span class="creditos-nombre">Prof. Robert Gomes</span></li>
+            <li><span class="creditos-nombre">Dr. Omar Alviárez</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.6 Pagina de Creditos (HOJA 2: continuacion) -->
+    <div class="hoja-creditos">
+      <div class="creditos-inner">
+        <header class="creditos-header">
+          <p class="creditos-eyebrow">Boletín Académico · CIFIA</p>
+          <div class="creditos-linea creditos-linea--corta"></div>
+        </header>
+
+        <div class="creditos-grupo">
+          <h2 class="creditos-etiqueta">Facultad de Arquitectura e Ingeniería</h2>
+          <ul class="creditos-lista">
+            <li><span class="creditos-nombre">Prof. Ciro Sosa Flores</span><span class="creditos-cargo">Decano</span></li>
+            <li><span class="creditos-nombre">Prof. Susana Mileo de Sierra</span><span class="creditos-cargo">Directora General</span></li>
+            <li><span class="creditos-nombre">Prof. Ángel Silva</span><span class="creditos-cargo">Corrector de estilo</span></li>
+            <li><span class="creditos-nombre">Dra. Maria Dib</span><span class="creditos-cargo">Directora Editorial USM</span></li>
+          </ul>
+        </div>
+
+        <div class="creditos-grupo">
+          <h2 class="creditos-etiqueta">Diagramación</h2>
+          <ul class="creditos-lista">
+            <li><span class="creditos-nombre">Bach. Valeria Acosta</span></li>
+            <li><span class="creditos-nombre">Bach. Fabiana Khawan</span></li>
+            <li><span class="creditos-nombre">Bach. Mariana Oliviero</span></li>
+            <li><span class="creditos-nombre">Bach. Fabiana Pernia</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <!-- 2. Paginas de Indice -->
     {indiceChunks.map((chunk, pageIndex) => {
       // Calculamos el numero inicial para la lista de esta pagina
@@ -206,6 +267,104 @@ const renders = await Promise.all(articulos.map(async (art) => {
     color: #FFFFFF !important;
     text-shadow: 0 1px 4px rgba(0,0,0,0.8);
     margin-top: 4px;
+  }
+
+  /* Créditos / Autoridades */
+  .hoja-creditos {
+    padding: 0 5px;
+    background: transparent;
+  }
+  .creditos-inner {
+    max-width: 100%;
+    text-align: left;
+  }
+  .creditos-header {
+    text-align: center;
+  }
+  .creditos-titulo {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: #002147;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .creditos-subtitulo {
+    font-family: var(--font-serif);
+    font-size: 0.68rem;
+    font-style: italic;
+    color: #4A4A4A;
+    margin: 5px auto 0;
+    line-height: 1.35;
+    max-width: 88%;
+  }
+  .creditos-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #C5A059;
+    font-weight: 700;
+    margin: 0;
+  }
+  .creditos-linea {
+    height: 2px;
+    background: #C5A059;
+    margin: 10px auto 18px;
+    width: 55%;
+  }
+  .creditos-linea--corta {
+    width: 38%;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+  .creditos-grupo {
+    margin-bottom: 18px;
+  }
+  .creditos-grupo:last-child {
+    margin-bottom: 0;
+  }
+  .creditos-etiqueta {
+    font-family: var(--font-sans);
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: #C5A059;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: left;
+    margin: 0 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .creditos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .creditos-lista li {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-align: left;
+  }
+  .creditos-nombre {
+    font-family: var(--font-serif);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #002147;
+    line-height: 1.25;
+    text-align: left;
+  }
+  .creditos-cargo {
+    font-family: var(--font-sans);
+    font-size: 0.58rem;
+    font-style: italic;
+    color: #4A4A4A;
+    line-height: 1.2;
+    text-align: left;
   }
 
   /* Índice */
