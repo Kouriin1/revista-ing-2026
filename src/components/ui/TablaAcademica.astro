@@ -12,9 +12,12 @@ interface Props {
   filas: Array<Record<string, string | number>>;
 }
 const { titulo, numero = 'Tabla', nota, columnas, filas } = Astro.props;
+// Con 5+ columnas la tabla necesita tipografia mas compacta para caber
+// en el ancho de una hoja del modo revista.
+const densa = columnas.length >= 5;
 ---
 
-<figure class="tabla-academica">
+<figure class:list={['tabla-academica', densa && 'tabla-academica--densa']}>
   {(titulo || numero) && (
     <figcaption class="tabla-academica__caption">
       <span class="tabla-academica__num">{numero}</span>

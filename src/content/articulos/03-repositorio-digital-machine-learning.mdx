@@ -1,0 +1,295 @@
+---
+titulo: Repositorio Digital para Proyectos de Grado usando Técnicas de Machine Learning para la Detección de Plagios
+subtitulo: 'Digital Repository for Degree Projects Using Machine Learning Techniques for Plagiarism Detection at the Faculty of Engineering and Architecture of Santa María University'
+resumen: Propuesta de un repositorio digital que incorpora técnicas de machine learning para la detección de plagio en los trabajos de grado de la Facultad de Ingeniería y Arquitectura de la Universidad Santa María, facilitando su organización, acceso y verificación de autenticidad.
+etiquetas:
+  - Sistemas
+  - Machine Learning
+  - Repositorio
+palabrasClave:
+  - Repositorio digital
+  - Machine learning
+  - Detección de plagio
+  - Trabajos de grado
+  - Universidad Santa María
+plantilla: A
+seccion: proyecto
+edicion: 2026-1
+orden: 3
+autoresInvitados:
+  - Handrick Daniel Avila Ortiz
+  - Daiwerth Douglas Leal Villalba
+imagenPrincipal: ../../assets/imagenes/art03.jpg
+destacado: false
+referencias:
+  - cita: 'Polanco-Cortés, J. (2014). <em>Repositorios digitales: Gestión, tecnología y acceso a la información científica</em>. Revista Cubana de Información en Ciencias de la Salud, 25(2), 134–147.'
+  - cita: 'Russell, S. y Norvig, P. (2010). <em>Artificial Intelligence: A Modern Approach</em> (3.ª ed.). Pearson Education.'
+  - cita: 'García, M. (2023, 22 de marzo). <em>Innovación tecnológica: qué es, sus tipos y sus beneficios</em>.'
+    url: https://blog.maestriasydiplomados.tec.mx/innovacion-tecnologica-que-es-sus-tipos-y-sus-beneficios
+  - cita: 'Pérez Porto, J. y Merino, M. (2022, 13 de septiembre). <em>Positivismo: qué es, origen, definición y concepto</em>.'
+    url: https://definicion.de/positivismo/
+  - cita: 'Otlet, P. <em>¿Qué son las bibliotecas?</em> Universitat Oberta de Catalunya. [Consulta: 8 de abril de 2025].'
+    url: https://cv.uoc.edu/moduls/XW00_79052_00217/web/main/m2/v1_1.html
+  - cita: 'Pérez, J. M. (2020). <em>Innovaciones tecnológicas para la mejora de sistemas</em>. Editorial Académica.'
+  - cita: 'Baloian, N. y Mosso, F. (2023). <em>Repositorio Abierto de Académicos del Área de Ciencias de la Computación de Chile</em> [Trabajo Especial de Grado]. Universidad de Chile.'
+  - cita: 'Galindo, L. (2018). <em>Implementación del Repositorio Institucional de la Universidad Alejandro de Humboldt (Saber UAH)</em> [Trabajo Especial de Grado]. Universidad Alejandro de Humboldt, Caracas.'
+  - cita: 'Sabino, C. (1992). <em>El proceso de investigación</em>. Caracas: Editorial Panapo.'
+  - cita: 'Medina, J. L. (2012). <em>Investigación y elaboración de trabajos de grado</em>.'
+---
+
+import TablaAcademica from '@components/ui/TablaAcademica.astro';
+
+# Repositorio Digital para Proyectos de Grado usando Técnicas de *Machine Learning* para la Detección de Plagios en la Facultad de Ingeniería y Arquitectura de la Universidad Santa María
+
+**Autores:** Handrick Daniel Avila Ortiz (Avila29501211@usm.edu.ve · ORCID 0009-0001-8491-113X) y Daiwerth Douglas Leal Villalba (Daiwerth.dl@hotmail.com · ORCID 0009-0006-7122-4361).
+**Institución:** Estudiantes — Universidad Santa María.
+
+## Resumen
+
+El acceso a investigaciones previas es clave para fortalecer la calidad académica y fomentar la producción de contenido original en los trabajos de grado universitarios. Sin embargo, muchas instituciones educativas en Latinoamérica, incluida la Universidad Santa María, enfrentan deficiencias en la organización, almacenamiento y verificación de autenticidad de dichos trabajos. Actualmente, en la Facultad de Ingeniería y Arquitectura, los trabajos se almacenan en formato físico, dificultando su consulta y resguardo a largo plazo.
+
+En respuesta a esta problemática, se desarrolló una propuesta de repositorio digital que incorpora técnicas de *machine learning* para la detección de plagio, facilitando no solo la organización y el acceso a los trabajos de grado, sino también promoviendo la ética académica. Este sistema representa una solución innovadora para optimizar la gestión documental, apoyar la labor de docentes y administrativos, y mejorar la experiencia investigativa de los estudiantes de 10.º semestre, principales beneficiarios del proyecto.
+
+**Palabras clave:** repositorio digital, *machine learning*, detección de plagio, trabajos de grado, Universidad Santa María.
+
+## Abstract
+
+Access to prior research is key to strengthening academic quality and fostering the production of original content in university theses. However, many educational institutions in Latin America, including Santa María University, face deficiencies in the organization, storage, and verification of the authenticity of such works. Currently, in the School of Engineering and Architecture, these works are stored in physical format, making them difficult to consult and maintain long-term.
+
+In response to this problem, a proposal for a digital repository was developed that incorporates machine learning techniques for plagiarism detection, facilitating not only the organization and access to theses, but also promoting academic ethics. This system represents an innovative solution to optimize document management, support the work of faculty and administrators, and improve the research experience of tenth-semester students, the main beneficiaries of the project.
+
+**Keywords:** digital repository, *machine learning*, plagiarism detection, thesis, Santa María University.
+
+## Introducción
+
+El presente artículo científico tiene como propósito abordar el trabajo de investigación titulado *"Repositorio Digital para Proyectos de Grado usando Técnicas de Machine Learning para la Detección de Plagios en la Facultad de Ingeniería y Arquitectura de la Universidad Santa María"*. En este estudio se analiza la problemática relacionada con la falta de acceso, organización y verificación de la originalidad en los trabajos de grado dentro de dicha facultad, lo cual afecta la calidad y transparencia del proceso investigativo.
+
+Asimismo, se exponen el objetivo general de la investigación, las bases teóricas, legales y metodológicas que sustentan el desarrollo de la propuesta, así como los resultados obtenidos tras la aplicación de los instrumentos de recolección de datos. Finalmente, se presentan las conclusiones alcanzadas, junto con una propuesta tecnológica basada en la creación de un repositorio digital que utiliza técnicas de IA para ofrecer recomendaciones temáticas y detectar similitudes, contribuyendo a la integridad académica y al fortalecimiento del conocimiento institucional.
+
+### Contexto y problemática
+
+La gestión académica de los trabajos de grado en las instituciones de educación superior representa un componente clave dentro del proceso formativo, ya que estos documentos constituyen una evidencia concreta de las capacidades investigativas de los estudiantes y del conocimiento que se genera dentro de las universidades. En la Facultad de Ingeniería y Arquitectura de la Universidad Santa María, los trabajos de grado son un requisito indispensable para optar al título de pregrado, pero actualmente su almacenamiento y organización se realiza de forma física, lo que limita el acceso, dificulta la consulta y expone los documentos a riesgos como extravío, deterioro o duplicación de contenido.
+
+A nivel regional, muchas universidades en Latinoamérica enfrentan situaciones similares, careciendo de sistemas eficientes para resguardar, sistematizar y verificar la originalidad de los trabajos académicos. Esta falta de automatización no solo compromete la preservación del conocimiento generado, sino que también genera obstáculos en la formación investigativa de los estudiantes, quienes, al no tener acceso a investigaciones previas realizadas en su misma casa de estudios, deben recurrir a fuentes externas.
+
+Además, la ausencia de mecanismos para detectar plagios crea un entorno vulnerable a prácticas académicas inadecuadas, reduciendo las oportunidades de innovación investigativa. A esto se suma la carga operativa que enfrenta el personal administrativo, quienes deben clasificar, archivar y gestionar los trabajos de forma manual, con todos los desafíos que ello conlleva.
+
+Frente a esta problemática, se identificó la necesidad de desarrollar una solución digital que no solo facilite la consulta y almacenamiento de los trabajos de grado, sino que también promueva la ética investigativa mediante la detección de similitudes y proporcione herramientas de apoyo a los estudiantes en la formulación de sus proyectos. De allí nace la propuesta de un repositorio digital con integración de técnicas de IA, orientado a modernizar el proceso académico-administrativo y contribuir a la excelencia académica dentro de la facultad.
+
+## Antecedentes
+
+### Experiencias internacionales
+
+En Chile, un trabajo realizado por Baloian y Mosso (2023), en su trabajo especial de grado titulado *Repositorio Abierto de Académicos del Área de Ciencias de la Computación de Chile*, presentado ante la Universidad de Chile para optar al título de ingeniero civil en computación, señala que la importancia de contar con un repositorio público de académicos e investigadores, especialmente en instituciones universitarias, radica en la necesidad de formar comités examinadores de tesis y facilitar la colaboración en proyectos. Aunque existen repositorios, muchos no son abiertos o carecen de funciones de búsqueda flexibles, lo que dificulta su uso.
+
+Para abordar este problema, se implementó un repositorio abierto en el área de Ciencias de la Computación, que clasifica a los académicos por áreas temáticas, ofreciendo información homogénea y de fácil acceso para usuarios como coordinadores de programas. El repositorio, accesible a través de una API y un portal web, alimenta información de manera manual y automática desde fuentes externas. Desarrollado principalmente en Django con PostgreSQL, su usabilidad y utilidad fueron evaluadas positivamente por los usuarios finales. Entre las mejoras futuras se contemplan el refinamiento del sistema de búsqueda, la implementación de notificaciones y la optimización de la interfaz para facilitar la adaptación de nuevos usuarios.
+
+### Iniciativas en Venezuela
+
+En Caracas, un estudio realizado por Galindo Levi (2018), en su trabajo especial de grado titulado *Implementación del Repositorio Institucional de la Universidad Alejandro de Humboldt (Saber UAH)*, presentado ante la Universidad Alejandro de Humboldt para optar al título de Ingeniero en Informática, se centra en una investigación de campo no experimental y cuantitativa, dirigida a los profesores activos de la Universidad Alejandro de Humboldt durante el período 2018-I.
+
+Se utilizaron técnicas de observación y encuestas con un muestreo estratificado, aplicando una lista de cotejo y un cuestionario dicotómico para recopilar datos que evidencian la necesidad de implementar el Repositorio Institucional "Saber UAH". Los resultados obtenidos permitieron redactar conclusiones y recomendaciones alineadas con los objetivos específicos de la investigación. Además, se presenta una propuesta para la instalación y configuración del software DSpace como sistema gestor de contenidos digitales, destinado a preservar y difundir la producción académica de la universidad, en sintonía con el movimiento global de Acceso Abierto al conocimiento científico, y fortaleciendo así las actividades de docencia, investigación y extensión en la UAH.
+
+## Objetivo principal de la investigación
+
+Desarrollar un repositorio digital de proyectos de grado usando técnicas de *machine learning* para la detección de plagios en la Facultad de Ingeniería y Arquitectura de la Universidad Santa María.
+
+## Conceptos claves
+
+Un **repositorio digital** es un sistema informático diseñado para almacenar, preservar y difundir contenidos digitales, facilitando su acceso organizado y permanente. Según Polanco Cortés (2014), "un repositorio digital es una plataforma tecnológica que permite almacenar, organizar y facilitar el acceso a documentos digitales, promoviendo la visibilidad y preservación del conocimiento".
+
+Según Russell y Norvig (2010), "la inteligencia artificial es el campo de estudio que busca explicar y emular el comportamiento inteligente en términos de procesos computacionales".
+
+El ***machine learning*** es una rama de la inteligencia artificial que permite a los sistemas aprender y mejorar automáticamente a partir de la experiencia sin ser programados explícitamente.
+
+Una **base de datos** es un conjunto organizado de datos que pueden ser accedidos, gestionados y actualizados eficientemente. Un **sistema** puede definirse como un conjunto de elementos interrelacionados que trabajan en conjunto para lograr un objetivo común.
+
+Según Sabino (1992), una **tesis** es "un trabajo de investigación que busca aportar nuevos conocimientos o enfoques sobre un tema específico, presentando de forma ordenada y sistemática los resultados obtenidos, bajo un esquema metodológico riguroso".
+
+Según Russell y Norvig (2010), los **datos** son hechos y observaciones crudas, sin procesar, que pueden ser utilizados por los sistemas de IA para realizar tareas como el análisis, la predicción o la toma de decisiones. En el contexto de IA, los datos son la base para entrenar modelos y realizar tareas de aprendizaje automático. En el mismo contexto, la **información** se entiende como "datos procesados que tienen significado, generalmente en relación con un contexto y que pueden ser utilizados para tomar decisiones o generar inferencias".
+
+Según Paul Otlet, por **biblioteca** se entiende una colección de obras elegidas según ciertos principios directivos, puestas en orden materialmente, catalogadas según un cierto sistema, fácilmente accesibles a los estudiosos y con seguridades de conservación en el estado que sus autores y editores les han dado.
+
+Según José Luis Medina (2012), en su obra *Investigación y elaboración de trabajos de grado*, el **trabajo de grado** es una investigación formal que los estudiantes deben realizar como requisito para culminar un programa académico. Esta investigación permite aplicar conocimientos adquiridos, demostrando habilidades en la investigación y contribuyendo al conocimiento en un área específica.
+
+## Fundamentos legales
+
+La **Constitución de la República Bolivariana de Venezuela (1999)** establece en su artículo 28 el derecho de toda persona a acceder a la información contenida en registros oficiales, siempre que no se vulnere la privacidad ni los derechos individuales. Este principio sustenta la idea de que los trabajos de grado, como documentos de interés público, deben estar disponibles para consulta, siempre respetando los límites legales. Por su parte, el artículo 98 protege la creación intelectual y garantiza los derechos de los autores, lo cual resulta fundamental en la prevención del plagio y el reconocimiento de la propiedad intelectual. El artículo 110 reconoce la ciencia, la tecnología y la innovación como instrumentos clave para el desarrollo del país, lo que legitima el uso de herramientas como la inteligencia artificial en entornos académicos.
+
+En línea con estos principios constitucionales, la **Ley Orgánica de Ciencia, Tecnología e Innovación (LOCTI)**, en su artículo 42, promueve la creación de sistemas de información de libre acceso como una forma de fortalecer la ciencia y la innovación. Esta disposición respalda la implementación de repositorios digitales en el ámbito universitario, al considerar que la difusión del conocimiento es un factor clave para el desarrollo nacional y la reducción de brechas tecnológicas.
+
+Asimismo, la **Ley Especial contra los Delitos Informáticos (2001)** establece sanciones claras para aquellos que accedan o manipulen de forma indebida los sistemas informáticos, protegiendo así la integridad, confidencialidad y disponibilidad de la información almacenada. Artículos como el 6, 7 y 11 son especialmente relevantes en el contexto del proyecto, ya que abordan el acceso no autorizado, el sabotaje y el espionaje informático. Esto justifica la implementación de mecanismos de seguridad dentro del repositorio digital para proteger los trabajos de grado frente a usos indebidos o manipulaciones maliciosas.
+
+Por otro lado, la **Ley sobre el Derecho de Autor (1993)** resguarda los derechos morales y patrimoniales de los autores, exigiendo que toda obra publicada o divulgada sea debidamente atribuida a su creador (artículo 19). Además, permite el uso de obras con fines científicos y didácticos en instituciones sin fines de lucro, como lo establece el artículo 43, y autoriza la reproducción de obras por parte de bibliotecas, siempre que sea con fines de preservación y acceso institucional (artículo 44). Estos elementos legitiman la posibilidad de incorporar trabajos de grado en un sistema de acceso público como el repositorio, respetando siempre los derechos del autor.
+
+Finalmente, la **Ley de Infogobierno (2013)** promueve el acceso abierto a documentos públicos a través de medios electrónicos, fomentando la transparencia y el libre intercambio de conocimiento. Esta ley refuerza la idea de que los repositorios digitales universitarios deben garantizar que los trabajos académicos estén disponibles para toda la comunidad, respetando el derecho de los autores a ser citados y reconocidos.
+
+En conjunto, estas normativas brindan el marco jurídico que respalda la creación, funcionamiento y objetivos del repositorio digital propuesto en esta investigación, garantizando su legalidad, utilidad académica y sostenibilidad institucional.
+
+## Metodología
+
+El conjunto de métodos e instrumentos aplicados en esta investigación permitió identificar las principales deficiencias en la gestión, organización y acceso a los trabajos de grado dentro de la Facultad de Ingeniería y Arquitectura de la Universidad Santa María. A través de la recolección de datos directamente del personal académico y administrativo, se evidenció la ausencia de un sistema digital eficiente para el almacenamiento y consulta de estos documentos.
+
+Con base en esta realidad, se propuso el desarrollo de un repositorio digital inteligente, que no solo permitiera almacenar los trabajos de grado de manera organizada y segura, sino también incorporar funcionalidades de búsqueda avanzada y detección de plagio mediante técnicas de IA. Esta solución se diseñó como un sistema accesible, funcional y adaptable a las necesidades de estudiantes, docentes y personal administrativo, garantizando una mejora significativa en los procesos académicos relacionados con la investigación y la producción de conocimiento original.
+
+### Paradigma de la investigación
+
+El trabajo especial de grado está relacionado con el **paradigma positivista** porque promueve la organización y acceso a datos objetivos y verificables, tal como lo plantea esta corriente filosófica. El positivismo valora la evidencia empírica y el conocimiento basado en hechos observables, y los repositorios digitales facilitan la recopilación, conservación y difusión de información de manera clara, estructurada y accesible, permitiendo que el conocimiento se base en hechos verificables y al alcance de todos.
+
+### Enfoque de la investigación
+
+El trabajo especial de grado está relacionado con el **enfoque cuantitativo** porque facilita el acceso a grandes cantidades de datos numéricos que los investigadores necesitan para analizar y obtener resultados precisos. Estos repositorios permiten organizar la información de manera ordenada, lo que hace más fácil realizar estudios estadísticos, ya que cualquier persona puede acceder a los datos utilizados en la investigación.
+
+### Tipo y diseño de la investigación
+
+El proyecto se enmarca dentro de un enfoque de **diseño de campo**, ya que se centra en la recolección y organización de datos existentes, como las tesis de pregrado. Además, este estudio adopta un enfoque de investigación **no experimental**, permitiendo observar el desempeño del personal administrativo en el proceso de almacenamiento de los trabajos de grado sin interferir en sus actividades.
+
+### Nivel de la investigación
+
+En esta investigación se emplea el **nivel descriptivo** para observar y detallar la situación actual de la Facultad de Ingeniería y Arquitectura de la Universidad Santa María en relación con el manejo de los trabajos de grado. A través de este enfoque, se busca caracterizar los procesos existentes, identificar sus debilidades y comprender cómo la falta de un sistema digital afecta la organización, el acceso y la calidad de las investigaciones, permitiendo así construir una base clara para proponer soluciones tecnológicas adecuadas.
+
+### Modalidad de la investigación
+
+En esta investigación se adoptó la modalidad de **proyecto factible**, ya que la propuesta de un repositorio digital para la gestión de trabajos de grado, integrado con técnicas de *machine learning* para la detección de plagio, representa una solución viable y aplicable dentro de la Facultad de Ingeniería y Arquitectura. Este sistema permitirá abordar de manera efectiva los problemas identificados en el tiempo y espacio definidos, optimizando el control, almacenamiento y verificación de autenticidad de los trabajos académicos.
+
+### Población y muestra
+
+En la presente investigación, el enfoque se dirige a los estudiantes del 10.º semestre de la Facultad de Ingeniería y Arquitectura de la Universidad Santa María, sede La Florencia. La población está compuesta por un total de **34 estudiantes**, los cuales fueron identificados y están completamente disponibles para participar en el estudio. Por tratarse de un grupo reducido y accesible, se considera una población finita, lo que permite trabajar con todos sus integrantes sin necesidad de aplicar técnicas de muestreo. Esto asegura una recolección de datos más precisa, representativa y alineada con los objetivos planteados.
+
+### Técnicas e instrumentos de recolección de datos
+
+En esta investigación se empleó la técnica de la **encuesta**, lo que permitió a los investigadores recopilar información directamente de los estudiantes del 10.º semestre de la Facultad de Ingeniería y Arquitectura en su contexto académico habitual, sin alterar su rutina. Este método facilita la identificación de necesidades, percepciones y dificultades relacionadas con el acceso y consulta de trabajos de grado, en ausencia de un sistema digital. La información recolectada es clave para sustentar la propuesta de un repositorio digital que responda a sus requerimientos reales.
+
+Además, para la recolección de datos se empleó un instrumento de recolección de datos primarios, específicamente un **cuestionario**. Este método, basado en una encuesta escrita, se implementó en un formato digital, optimizando la comodidad tanto para los investigadores como para los estudiantes. Esta modalidad facilita la recopilación eficiente de información y mejora la accesibilidad al proceso.
+
+Esta estructura metodológica permitió abordar de forma ordenada y objetiva la problemática relacionada con la gestión de los trabajos de grado, enfocándose en la obtención de información real del entorno estudiado. A través del análisis de los datos obtenidos, se generaron resultados que no solo fortalecen el marco conceptual del proyecto, sino que además proponen soluciones concretas y viables, ajustadas a las necesidades específicas de la Facultad. Todo el proceso se desarrolló bajo criterios científicos que garantizan la confiabilidad y pertinencia de los hallazgos.
+
+## Resultados
+
+A continuación, se exponen los resultados obtenidos a partir de la aplicación del instrumento de recolección de datos, destacando las preguntas más significativas del cuestionario.
+
+### Ítem 1. ¿Considera que el método actual utilizado en la biblioteca de la Facultad para almacenar físicamente los trabajos de grado permite identificarlos y acceder a ellos adecuadamente?
+
+<TablaAcademica
+  numero="Cuadro 1"
+  titulo="Percepción sobre el método actual de almacenamiento físico"
+  nota="Elaboración propia. Avila, H. y Leal, D. (2025). n = 34."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones de respuesta' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: '%', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Sí, el método actual es suficiente para mantener los trabajos organizados y accesibles', f: 1, p: '2,9' },
+    { opcion: 'En parte, aunque cumple con su propósito, presenta dificultades para la búsqueda o identificación de trabajos específicos', f: 10, p: '29,4' },
+    { opcion: 'No, el método utilizado es poco eficiente y dificulta localizar o identificar los trabajos de grado cuando se necesitan', f: 23, p: '67,6' },
+  ]}
+/>
+
+Más de dos tercios de los encuestados (**67,6 %**) califican el método físico actual como poco eficiente, y solo una persona lo considera suficiente.
+
+### Ítem 2. ¿Considera que actualmente existe un control adecuado para verificar la originalidad de los trabajos de grado presentados?
+
+<TablaAcademica
+  numero="Cuadro 2"
+  titulo="Percepción sobre el control de originalidad"
+  nota="Elaboración propia. Avila, H. y Leal, D. (2025). n = 34."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones de respuesta' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: '%', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Sí, existen mecanismos efectivos para asegurar que los trabajos son originales', f: 3, p: '8,8' },
+    { opcion: 'En parte, hay ciertos controles, pero no son suficientes para detectar posibles plagios', f: 12, p: '35,3' },
+    { opcion: 'No, no hay medidas claras ni herramientas para verificar la autenticidad de los trabajos de grado', f: 19, p: '55,9' },
+  ]}
+/>
+
+El **91,2 %** de los estudiantes reconoce que los controles de originalidad son insuficientes o inexistentes.
+
+### Ítem 3. ¿Cómo considera que la implementación de una inteligencia artificial para la detección de plagio beneficiaría a la Facultad?
+
+<TablaAcademica
+  numero="Cuadro 3"
+  titulo="Beneficio percibido de una IA para detección de plagio"
+  nota="Elaboración propia. Avila, H. y Leal, D. (2025). n = 34."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones de respuesta' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: '%', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Sería muy beneficiosa, ya que ayudaría a identificar plagio de manera más precisa y eficiente', f: 28, p: '82,4' },
+    { opcion: 'Sería algo útil, pero no cambiaría significativamente el proceso actual', f: 4, p: '11,8' },
+    { opcion: 'No considero que sea beneficiosa, ya que el sistema actual funciona adecuadamente', f: 2, p: '5,9' },
+  ]}
+/>
+
+El respaldo a la incorporación de inteligencia artificial es contundente: **82,4 %** la considera muy beneficiosa.
+
+### Ítem 4. ¿Considera que la estructura actual de la biblioteca está adecuada para organizar, resguardar y facilitar el acceso a los trabajos de grado?
+
+<TablaAcademica
+  numero="Cuadro 4"
+  titulo="Adecuación de la estructura actual de la biblioteca"
+  nota="Elaboración propia. Avila, H. y Leal, D. (2025). n = 34."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones de respuesta' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: '%', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Sí, la estructura es adecuada y permite una gestión eficiente de los trabajos de grado', f: 6, p: '17,6' },
+    { opcion: 'En parte, aunque cumple algunas funciones, presenta deficiencias que afectan su funcionamiento', f: 11, p: '32,4' },
+    { opcion: 'No, la estructura es deficiente y limita la organización y conservación adecuada de los trabajos de grado', f: 17, p: '50,0' },
+  ]}
+/>
+
+### Ítem 5. ¿Considera que la Facultad cuenta con los recursos y apoyo necesarios para gestionar de manera efectiva los trabajos de grado?
+
+<TablaAcademica
+  numero="Cuadro 5"
+  titulo="Recursos y apoyo institucional disponibles"
+  nota="Elaboración propia. Avila, H. y Leal, D. (2025). n = 34."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones de respuesta' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: '%', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Sí, la facultad proporciona todos los recursos y el apoyo necesario', f: 2, p: '5,9' },
+    { opcion: 'En parte, la facultad ofrece recursos, pero estos son insuficientes o necesitan mejoras', f: 20, p: '58,8' },
+    { opcion: 'No, la facultad carece de los recursos y el apoyo necesarios para una gestión efectiva', f: 12, p: '35,3' },
+  ]}
+/>
+
+A partir de los resultados obtenidos en la aplicación del cuestionario, los cuales se expresaron en porcentajes y se representaron gráficamente mediante diagramas de sectores para facilitar su comprensión, se concluye que el personal encuestado reconoce las limitaciones del mecanismo actual de almacenamiento de trabajos de grado. Asimismo, se percibe una actitud positiva hacia la implementación de un sistema digital que facilite el acceso, organización y consulta de los trabajos académicos. Además, existe una receptividad favorable al uso de tecnologías basadas en IA para identificar similitudes entre investigaciones previas, como una forma de orientar a los estudiantes en la generación de nuevas ideas y enfoques más originales.
+
+## Discusión: la propuesta
+
+El desarrollo del sistema de repositorio digital propuesto en la presente investigación surgió como respuesta directa a las limitaciones detectadas en el proceso tradicional de gestión de trabajos de grado dentro de la Facultad de Ingeniería y Arquitectura de la Universidad Santa María. Estas debilidades, principalmente relacionadas con la falta de acceso oportuno, la organización deficiente y el almacenamiento físico, justificaron la necesidad de implementar una solución tecnológica integral.
+
+El sistema fue diseñado para ofrecer una plataforma funcional, con una interfaz intuitiva que se adapta a los perfiles administrativos responsables del registro y control de los trabajos académicos. Se incorporaron funcionalidades clave como el almacenamiento digital de documentos, el registro estructurado por categorías (autor, tutor, año y línea de investigación), así como herramientas de búsqueda avanzada que facilitan la consulta de antecedentes.
+
+Una de las innovaciones más relevantes del sistema radica en la incorporación de técnicas de *machine learning*, que permiten identificar similitudes entre trabajos ya registrados y nuevas propuestas de investigación. Esto no solo contribuye a prevenir la repetición de temas, sino que también orienta a los estudiantes hacia la generación de aportes novedosos, fortaleciendo así la calidad y originalidad de las investigaciones.
+
+Además, el sistema contempla la automatización de procesos de control documental, con opciones para ingresar, editar y clasificar los trabajos de grado, así como un módulo de revisión interna. La arquitectura técnica también incorpora medidas de seguridad para proteger la integridad y autenticidad de los archivos almacenados, como control de acceso por rol, respaldo automatizado y verificación de archivos duplicados.
+
+Desde una perspectiva organizacional, el impacto del sistema se traduce en una mejora sustancial de los procesos administrativos dentro de la facultad. La digitalización del archivo académico no solo ahorra espacio físico y tiempo en la búsqueda de documentos, sino que también facilita la trazabilidad de la producción intelectual de la institución, permitiendo auditorías, evaluaciones internas y planificación de futuras líneas de investigación.
+
+En el plano académico, esta herramienta representa una oportunidad significativa para docentes y estudiantes. Los profesores podrán acceder rápidamente a trabajos anteriores, realizar seguimiento temático y detectar vacíos investigativos, mientras que los estudiantes tendrán la posibilidad de consultar antecedentes reales dentro de su entorno académico, lo cual fortalece la calidad de sus marcos teóricos y metodológicos.
+
+A nivel ético, el sistema refuerza principios fundamentales como la transparencia, el respeto a la propiedad intelectual y la equidad en el acceso al conocimiento. Al permitir una consulta abierta pero controlada de los trabajos de grado, se promueve una cultura académica basada en el respeto, la referencia adecuada de fuentes y la generación de conocimiento original.
+
+Además, la propuesta de este repositorio digital va más allá de resolver un problema puntual. Se proyecta como una solución sostenible, escalable y alineada con las tendencias modernas de gestión del conocimiento académico. Su implementación fortalecerá el prestigio institucional de la Facultad de Ingeniería y Arquitectura, promoverá la innovación investigativa y contribuirá a una mejor formación profesional de sus estudiantes.
+
+## Conclusiones
+
+En resumen, la investigación realizada, junto con la propuesta presentada, permitió alcanzar el objetivo general planteado: desarrollar un repositorio digital para los trabajos de grado, utilizando técnicas de *machine learning* con el fin de mejorar el proceso de almacenamiento, organización y consulta académica dentro de la Facultad de Ingeniería y Arquitectura de la Universidad Santa María.
+
+La propuesta representa un avance significativo para la facultad, ya que ofrece una solución innovadora a problemas detectados como la dispersión de información, la dificultad para acceder a trabajos previos y la repetición de temas sin aportes nuevos. Al integrar funciones automatizadas y análisis inteligente de contenido, el sistema fortalece la calidad investigativa y fomenta la generación de conocimientos más originales y relevantes.
+
+Asimismo, este repositorio constituye un aporte importante para el entorno académico, al promover la transformación digital, garantizar la preservación de los trabajos de grado y facilitar la toma de decisiones tanto para estudiantes como para docentes.
+
+Por último, cabe destacar que esta herramienta no busca sustituir los procesos administrativos tradicionales, sino complementarlos y mejorarlos, sirviendo como un recurso accesible, seguro y eficaz en la gestión documental de las investigaciones universitarias.

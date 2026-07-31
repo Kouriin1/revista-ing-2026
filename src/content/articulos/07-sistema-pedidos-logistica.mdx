@@ -1,0 +1,243 @@
+---
+titulo: Sistema para la Elaboración de Pedidos y Monitoreo de la Logística
+subtitulo: 'Ordering and Logistic Monitoring System'
+resumen: Desarrollo de un sistema para la elaboración de pedidos y monitoreo de la logística en una empresa de ventas de insumos médicos, con el fin de mejorar la eficiencia del proceso de ventas y evitar los errores humanos actualmente presentes.
+etiquetas:
+  - Sistemas
+  - Logistica
+  - Python
+palabrasClave:
+  - Órdenes de pedido
+  - Departamento de Ventas
+  - Sistemas de Información
+  - Python
+  - Dart
+plantilla: A
+seccion: proyecto
+edicion: 2026-1
+orden: 7
+autoresInvitados:
+  - Cristhian David Bastidas Sánchez
+  - Samuel Augusto Salazar González
+imagenPrincipal: ../../assets/imagenes/art07.jpg
+destacado: false
+referencias:
+  - cita: 'Arias, F. (2012). <em>El Proyecto de Investigación. Introducción a la Metodología Científica</em> (6.ª ed.). Caracas: Editorial Episteme.'
+  - cita: 'Gamardo, J., Petrica, G., Torres, R. y otros (2023). <em>Manual para la Elaboración y Presentación de los trabajos de Investigación: Trabajo Especial de Grado, Trabajo de Grado, Trabajo de Maestría y Tesis Doctorales</em>. Caracas, Venezuela.'
+  - cita: 'González, J. (2024). <em>Qué es una Orden de Compra y Cómo Hacerla (con Ejemplos)</em>. HubSpot. [Consultado el 10 de octubre de 2024].'
+    url: https://blog.hubspot.es/sales/ejemplos-orden-de-compra
+  - cita: 'Hernández, R., Fernández, C. y Baptista, P. (2014). <em>Metodología de la Investigación</em> (6.ª ed.). México: McGraw Hill.'
+  - cita: 'Johnston, M. y Marshall, G. (2021). <em>Salesforce Management</em> (13.ª ed.). Nueva York: Routledge.'
+  - cita: 'Laudon, K. y Laudon, J. (2016). <em>Sistemas de Información Gerencial</em> (14.ª ed.). México: Pearson Educación.'
+  - cita: 'Lougheed, P. (2024, mayo). <em>Introducción a Dart</em>. [Consultado el 15 de octubre de 2024].'
+    url: https://dart.dev/overview
+  - cita: 'Lucena, P. (2023, 6 de mayo). <em>¿Qué es el Framework?</em>'
+    url: https://www.cesuma.mx/blog/que-es-el-framework.html
+  - cita: 'Pressman, R. (2010). <em>Ingeniería del Software, un Enfoque Práctico</em> (7.ª ed.). México: McGraw Hill.'
+  - cita: 'Python Software Foundation (2013, octubre). <em>El tutorial de Python</em>. [Consultado el 10 de octubre de 2024].'
+    url: https://docs.python.org/es/3.13/tutorial/index.html
+  - cita: 'Rivas, A. (2021, 30 de septiembre). <em>Consulta de Base de Datos</em>. Muy Tecnológicos. [Consultado el 11 de octubre de 2024].'
+    url: https://www.muytecnologicos.com/diccionario-tecnologico/consulta-de-base-de-datos
+  - cita: 'SAP (s/f). <em>¿Qué es ERP?</em>'
+    url: https://www.sap.com/latinamerica/products/erp/what-is-erp.html
+  - cita: 'Softech Consultores C.A. (2018). <em>Administrativo 2kDoce</em> [Brochure]. [Consultado el 12 de octubre de 2024].'
+    url: https://www.miprofit.com/wp-content/uploads/2019/04/Administrativo-Brochure-2KDoce.pdf
+---
+
+import TablaAcademica from '@components/ui/TablaAcademica.astro';
+
+# Sistema para la Elaboración de Pedidos y Monitoreo de la Logística
+
+**Autores:** Bastidas Sánchez, Cristhian David (C.I. 28.310.112 · bastidas28310112@usm.edu.ve · ORCID 0009-0000-9529-0044) y Salazar González, Samuel Augusto (C.I. 29.741.288 · salazargsa.usm@gmail.com · ORCID 0009-0003-7971-2130).
+**Institución:** Estudiantes — Universidad Santa María.
+
+## Resumen
+
+El presente estudio se realizó con la finalidad de desarrollar un sistema para la elaboración de pedidos y monitoreo de la logística para una empresa de ventas de insumos médicos, esto con la finalidad de mejorar la eficiencia del proceso de ventas y evitar los errores humanos actualmente presentes. La investigación tiene un paradigma positivista, con un enfoque cuantitativo, sigue un diseño no experimental de campo, con un nivel descriptivo, y modalidad de proyecto factible. Para la recolección de datos primarios se utilizó una encuesta, más específicamente un cuestionario con 10 ítems con respuestas cerradas; este cuestionario se aplicó a una muestra de 14 miembros del departamento de ventas de la empresa de ventas de insumos médicos, la misma fue validada por expertos y arrojó una confiabilidad alta (α = 0,81).
+
+La encuesta reveló la percepción de los empleados acerca del proceso de ventas actual de la empresa y resaltó áreas de mejora, como acceso en tiempo real a los datos y la confiabilidad de los mismos. Se consideró el uso de los lenguajes de programación Python y Dart, con las librerías de Django REST Framework y Flutter respectivamente, para el desarrollo del sistema.
+
+**Palabras clave:** Órdenes de pedido, Departamento de Ventas, Sistemas de Información, Python, Dart.
+
+## Abstract
+
+The present study was carried out with the purpose of developing a system for the elaboration of orders and monitoring of logistics for a medical supplies sales company, in order to improve the efficiency of the sales process and avoid the human errors currently present. The research has a positivist paradigm, with a quantitative approach, follows a non-experimental field design, with a descriptive level, and feasible project modality. For the collection of primary data a survey was used, more specifically a questionnaire with 10 items with closed answers, this questionnaire was applied to a sample of 14 members of the sales department of the medical supplies sales company, the same was validated by experts and yielded a high reliability (α = 0.81).
+
+The survey revealed employees' perceptions of the company's current sales process, and highlighted areas for improvement, such as real-time access to data, and data reliability. The use of Python and Dart programming languages, with the Django REST Framework and Flutter libraries respectively, were considered for system development.
+
+**Keywords:** Purchase orders, Sales Department, Information Systems, Python, Dart.
+
+## Introducción
+
+En la actualidad, una fuerza de ventas capaz y efectiva es aquella que, según Johnston y Marshall (2021), tiene los siguientes tres factores: la **innovación**, la **tecnología** y el **liderazgo**.
+
+Los autores establecen que las empresas modernas están creando estrategias multicapa; es decir, se enfocan en la venta de productos con aquellos clientes que demanden menos servicios, y en lo que llaman la venta de relaciones (no solamente vender los productos o servicios, sino también establecer y mejorar las relaciones con los clientes para fomentar más compras) con los mayores y mejores clientes de la empresa. Un claro ejemplo de esta nueva forma de manejar las ventas es Procter & Gamble, también conocida como P&G, que reorganizó su conjunto de clientes para estar más cerca de los principales compradores.
+
+Otro de los grandes hitos que afectó la forma de hacer las ventas es la tecnología. El internet representó un gran cambio para el mundo, y los negocios no fueron la excepción; con su llegada, esta nueva forma de comunicación les permitió estar siempre en contacto con el cliente, ya la distancia no era un impedimento para la comunicación.
+
+A su vez, grandes empresas como Toyota o Apple están usando sistemas de entrega justo a tiempo, esto es, que la producción del producto empieza cuando el cliente lo necesite, ahorrando así espacio en almacenamiento y por ende reduciendo gastos.
+
+Finalmente, en el tercer factor, los autores establecen que se está colocando más énfasis en el liderazgo que cada vendedor tenga y menos en los supervisores de los mismos. Esto incluye una mejor comunicación en vez de controlar a los vendedores, animarlos y apoyarlos en vez de ser su jefe, y alentarlos para que tomen decisiones en vez de dirigirlos.
+
+### Planteamiento del problema
+
+Actualmente, en Caracas, más concretamente en Los Ruices, se encuentra una empresa que se encarga de vender insumos médicos, principalmente en el área de estética. Para su venta cuenta con una fuerza de ventas que se encarga de visitar hospitales y clínicas. El control del proceso de ventas actualmente es manual: los visitadores médicos realizan la orden de pedido a mano, en distintos formatos y con información poco fiable sobre la disponibilidad de los equipos y suministros en el almacén; esta orden de pedido es enviada por correo electrónico a una persona en el departamento de ventas que será la encargada de subir los datos al programa de Planificación de Recursos de la Empresa (ERP, por sus siglas en inglés, *Enterprise Resource Planning*), en este caso Profit K12.
+
+Este proceso hace que la unidad de ventas tenga que validar información, teniendo que descifrar lo que el vendedor está solicitando, haciendo mucho más ineficiente su trabajo. Además, en el caso en que no se encuentre disponible uno o varios de los insumos del pedido, se debe informar al cliente y preguntar si desea seguir con el resto del pedido, lo que puede llevar en algunos casos a la anulación total del pedido, y en todos los casos conlleva a la insatisfacción del cliente, el cual tendrá que buscar esos insumos faltantes directamente con otras fuentes.
+
+Dado que es una empresa pequeña y en crecimiento, actualmente carece de automatización en gran parte de sus procesos, haciéndolos más laboriosos, menos eficientes y sensibles a errores humanos a la hora de gestionar las ventas que realizan los visitadores médicos asociados, el transporte de los insumos y los cambios en el almacenamiento. Estos problemas están afectando fuertemente la cartera de clientes con la que cuentan, siendo una debilidad importante que los coloca en desventaja con respecto a su competencia en el mercado de insumos médicos.
+
+### Objetivos
+
+El **objetivo general** de la presente investigación es desarrollar un sistema para la elaboración de pedidos y monitoreo de la logística para una empresa de ventas de insumos médicos. De este objetivo general se desprenden tres **objetivos específicos**:
+
+- Analizar la información acerca del proceso de ventas en una empresa de ventas de insumos médicos.
+- Determinar los requerimientos del sistema que pueden ayudar a una empresa de ventas de insumos médicos a mejorar el proceso de ventas.
+- Elaborar una propuesta tecnológica que ayude a la empresa a llevar a cabo la automatización de los pasos en el proceso de ventas del departamento de ventas de una empresa de ventas de insumos médicos.
+
+## Conceptos fundamentales
+
+Para la correcta comprensión del presente artículo consideramos importante aclarar los siguientes conceptos, empezando por la **fuerza de ventas**: según Johnston y Marshall (2021), es un conjunto de vendedores con los que cuenta la empresa; es aquello que generalmente enlaza la empresa con los clientes actuales y potenciales.
+
+Estos, a su vez, para vender, hacen uso de las **órdenes de pedido**, las cuales son documentos legales que emite un comprador a un vendedor para informar las especificaciones de una transacción determinada. Detalla los términos de la compra como cantidad, descripción de productos o servicios, precio unitario, plazos, forma de entrega y cualquier otra información relevante (González, 2024).
+
+Esta orden de pedido debe ser procesada, y según Laudon y Laudon (2016), un correcto procesamiento de la orden de pedido debería empezar por el departamento de ventas, quien recibe el pedido. Posteriormente se envía a contabilidad para asegurar que el cliente pueda pagarlo. Una vez hecha la verificación, el departamento de producción extrae el artículo del inventario o lo elabora. Seguido a esto el producto se envía, puede ser con ayuda de empresas de logística. Consecutivamente, el departamento de contabilidad genera un recibo o factura y le envía un aviso al cliente notificando que el pedido se ha enviado. Finalmente, el departamento de ventas recibe la notificación de envío y se prepara para ofrecer soporte al cliente.
+
+### Las seis etapas del proceso de ventas
+
+Según Johnston y Marshall (ob. cit., p. 3), un proceso de ventas consta de seis etapas:
+
+- **Buscar clientes.** En algunos negocios de bienes de consumo, la búsqueda de clientes implica simples recorridos, tocando de puerta en puerta casa por casa. En la mayoría de los casos, sin embargo, el mercado objetivo está mejor definido y el vendedor puede identificar los clientes potenciales en ese segmento.
+- **Iniciar la relación.** Es el primer acercamiento al cliente en perspectiva; el representante de ventas determina quién en la empresa tiene mayor influencia o autonomía, y luego procede a generar suficiente interés dentro de la empresa para obtener la información que necesita.
+- **Calificar al cliente en perspectiva.** Antes de tratar de concertar una cita para una presentación de ventas o de tratar de establecer una relación, primero deben calificar al cliente, con el propósito de determinar si reúne las calificaciones como cliente que valga la pena.
+- **Presentar el mensaje de la venta.** Se considera como la médula del proceso de ventas. Es la transmisión de información hecha por el vendedor acerca del producto o servicio, y trata de convencer al prospecto para que se convierta en su cliente.
+- **Cerrar la venta.** Es obtener el consentimiento final de una compra.
+- **Dar servicio a la cuenta.** Después de realizada la compra, el vendedor debe proporcionar a los clientes diferentes servicios y ayudas para garantizar su satisfacción y para que vuelvan a comprar.
+
+### Tecnologías involucradas
+
+Para facilitar las tareas de los empleados, así como también llevar un mejor control de la empresa, existen los **Sistemas de Planificación de Recursos Empresariales (ERP)**, el cual es un sistema de software que ayuda a operar todo el negocio, dando soporte a la automatización y los procesos en finanzas, recursos humanos, fabricación, cadena de suministro, servicios, *procurement* y más (SAP, s/f).
+
+Uno de estos ERP es **Profit 2KDoce**, el cual es un software que permite manejar múltiples cajas y cuentas bancarias por empresa, llevando en cada una de las cajas tanto el sueldo efectivo como otras formas de pago (Softech Consultores, C.A., 2018). Es importante tener estos conceptos en mente debido a que actualmente la empresa de ventas de insumos médicos usa dicho ERP para sus tareas diarias. Pressman (2010) define el software como el producto que construyen los programadores profesionales y al que después le dan mantenimiento durante un largo tiempo.
+
+Entre los lenguajes de programación tenemos **Python**, el cual es un lenguaje potente y fácil de aprender. Tiene estructuras de datos de alto nivel eficientes y un simple pero efectivo sistema de programación orientado a objetos. La elegante sintaxis de Python y su tipado dinámico, junto a su naturaleza interpretada, lo convierten en un lenguaje ideal para *scripting* y desarrollo rápido de aplicaciones en muchas áreas (Python Software Foundation, 2013).
+
+Y **Dart**, el cual es un lenguaje optimizado para clientes, diseñado para desarrollar aplicaciones rápidas en cualquier plataforma. Su objetivo es ofrecer el lenguaje de programación más productivo para el desarrollo multiplataforma, junto con una plataforma de ejecución flexible para *frameworks* de aplicaciones (Lougheed, 2024).
+
+Otros puntos importantes a aclarar son los marcos de trabajo o *frameworks*, los cuales son un conjunto de reglas y convenciones que se usan para desarrollar software de manera más eficiente y rápida. Estos marcos de trabajo se emplean para ahorrar tiempo y esfuerzo en el desarrollo de aplicaciones, ya que proporcionan una estructura básica que se puede utilizar como punto de partida (Lucena, 2023). De los marcos de trabajo a utilizar en el sistema tenemos a **Flutter**, que es un conjunto de herramientas de interfaz de usuario portátil creado por Google y la comunidad de código abierto (Lougheed, *ibidem*).
+
+Según Laudon y Laudon (ob. cit., p. 3), una **base de datos** es una colección de datos organizados para dar servicio a muchas aplicaciones de manera eficiente, al centralizar los datos y controlar los que son redundantes. A su vez, para acceder a la información almacenada se debe hacer uso de **consultas a la base de datos**, la cual es la manera en la que un usuario puede buscar la información dentro de una o varias tablas de una base de datos (Rivas, 2021).
+
+## Metodología
+
+Siguiendo a Hernández, Fernández y Baptista (2014), el **paradigma positivista** postula una realidad única y objetiva, susceptible de ser descubierta a través de la investigación científica. Inspirado en las ciencias exactas, este enfoque prioriza la medición y la observación de variables, descartando aquello que no pueda ser cuantificado. La objetividad es fundamental, pues los hechos, comprobados y verificables, constituyen la base del conocimiento científico.
+
+El problema relacionado al departamento de ventas de una empresa encargada de vender insumos médicos, ubicada en Los Ruices, trata de la falta de eficacia que presenta en su proceso de ventas por la falta de automatización en sus procesos, como lo es la elaboración de los pedidos, procesamiento de los pedidos, la carga de los datos y la consulta del inventario disponible, y el cierre de los pedidos. Esto acarrea diversos problemas, como que es propenso a errores humanos, pedidos con productos que no se encuentran en el inventario, lentitud, incomodidad, trabajo extra e ineficacia, los cuales son todos problemas reales, objetivos y visibles, propensos a ser medibles y cuantificables.
+
+Según Hernández, Fernández y Baptista (ob. cit., p. 8), el **enfoque cuantitativo** es aquel que usa la recolección de datos para probar hipótesis, con base en la medición numérica y el análisis estadístico, para establecer patrones de comportamiento y probar teorías. Se hizo uso del enfoque cuantitativo dado que el problema presente en el departamento de ventas puede ser medible de forma cuantitativa, cuantificando la velocidad de la elaboración y procesamiento de pedidos, midiendo la frecuencia a disponer de internet por parte de los vendedores, la comodidad actual de los vendedores con el uso de equipos informáticos y analógicos para realizar su trabajo, su acceso a la información del inventario con el que trabajan y su disposición al uso de un sistema de información para llevar a cabo su labor.
+
+La **investigación de campo** es aquella que consiste en la recolección de datos directamente de los sujetos investigados, o de la realidad donde ocurren los hechos (datos primarios), sin manipular o controlar variable alguna; es decir, el investigador obtiene la información pero no altera las condiciones existentes. De allí su carácter de investigación **no experimental** (Arias, 2012, p. 31).
+
+La **investigación descriptiva** consiste en la caracterización de un hecho, fenómeno, individuo o grupo, con el fin de establecer su estructura o comportamiento. Los resultados de este tipo de investigación se ubican en un nivel intermedio en cuanto a la profundidad de los conocimientos se refiere (Arias, *ibidem*, p. 24). Se usó el nivel descriptivo para detallar los problemas presentes en el departamento de ventas, los cuales son: que el proceso de elaboración de pedidos y procesamiento de los mismos se hace de manera manual en su mayoría; la existencia de múltiples formatos para la elaboración de pedidos, lo que lleva a que cada trabajador tenga una forma propia de realizar los pedidos; y la falta de acceso de los vendedores a la información del inventario con el que cuenta la empresa en el momento de realizar los pedidos.
+
+Según Gamardo, Petrica, Torres y otros (2023), un **proyecto factible** consiste en la formulación de una propuesta de un modelo, sistema, plan, entre otros. Esto conlleva a analizar la realidad, fundamentarla teórica y metodológicamente, para a partir de ahí generar la presentación con sus objetivos, justificación, estructura, administración y análisis de factibilidad.
+
+### Población y muestra
+
+En el caso de la presente investigación, la población objetivo fueron todos los miembros del departamento de ventas de una empresa de ventas de insumos médicos, la cual consta de **catorce (14) empleados**. Según Arias (ob. cit., p. 83), si la población, por el número de unidades que la integran, resulta accesible en su totalidad, no será necesario extraer una muestra; en consecuencia, se podrá investigar u obtener datos de toda la población objetivo. Por lo cual se puede decir que es una **población censal** y no es necesario el uso de un muestreo.
+
+### Técnica e instrumento
+
+En esta investigación se usó la técnica de la **encuesta**, ya que es una actividad que pueden realizar los investigadores para evaluar a los empleados del departamento de ventas en su ambiente natural sin afectar directamente la situación actual. Para llevar a cabo la técnica de recolección de datos se hizo uso de un **cuestionario**, el cual es la modalidad de encuesta que se hace en forma escrita, manejado en un formato digital para mayor comodidad y utilizando preguntas cerradas para limitar a los empleados a respuestas consistentes y coherentes.
+
+Una forma de evaluar la confiabilidad de un instrumento de recolección de datos primarios haciendo uso de preguntas cerradas es el **Alfa de Cronbach**, definido como otra medida de coherencia para la estimación de la confiabilidad; la diferencia con el KR20 es que el alfa de Cronbach se usa con ítems politómicos.
+
+El **juicio de experto** es una forma para evaluar el cuestionario de manera más cualitativa, para hacer cumplir las reglas que conlleva la elaboración de las preguntas: que estas no pueden estar condicionadas, deben ser entendibles para la población a la que va dirigido, evitar preguntas que abusen de la memoria del encuestado, etc. También se revisa la ortografía y que tenga validez en cuanto a lo que se espera obtener de las respuestas. Una vez aplicado, las respuestas recibidas se evalúan de forma cuantitativa con métodos como Alfa de Cronbach, la cual es la que se utilizó, al centrar la encuesta en preguntas politómicas.
+
+## Resultados y discusión
+
+### Ítem 3. ¿Al registrar órdenes de pedido, con qué frecuencia enfrenta problemas como datos incompletos, repeticiones o confusiones?
+
+<TablaAcademica
+  numero="Cuadro 7"
+  titulo="Frecuencia de problemas al registrar órdenes de pedido"
+  nota="Elaboración propia. Salazar, S. y Bastidas, C. (2025). n = 14."
+  columnas={[
+    { clave: 'respuesta', etiqueta: 'Respuesta' },
+    { clave: 'fa', etiqueta: 'Frecuencia absoluta', alinear: 'centro' },
+    { clave: 'fr', etiqueta: 'Frecuencia relativa', alinear: 'centro' },
+    { clave: 'fp', etiqueta: 'Frecuencia porcentual', alinear: 'derecha' },
+  ]}
+  filas={[
+    { respuesta: 'Casi nunca', fa: 3, fr: '0,21', fp: '21 %' },
+    { respuesta: 'Ocasionalmente', fa: 5, fr: '0,36', fp: '36 %' },
+    { respuesta: 'Frecuentemente', fa: 6, fr: '0,43', fp: '43 %' },
+  ]}
+/>
+
+**Análisis.** Se pudo observar que solamente el 21 % de la muestra no presenta ningún tipo de problemas a la hora de realizar las órdenes de pedido. Esto refleja que un preocupante **79 %** de la muestra sí presenta problemas de diversos niveles: de ese 79 %, el 36 % presenta problemas de manera ocasional mientras que el otro 43 % los presenta de manera frecuente. La reducción de estos problemas podría tener un impacto positivo a la hora de registrar nuevas órdenes de pedido, aumentando la productividad de los empleados y la satisfacción del cliente.
+
+Al ser la tasa de errores muy marcada, la redacción de las órdenes de pedido se realiza de una forma poco fiable. Esta falta de confiabilidad contradice lo establecido por González (2024) y representa un problema grave, debido a que se pueden establecer especificaciones que la empresa no puede cumplir.
+
+### Ítem 6. ¿Tiene usted acceso a la información en tiempo real de los productos con los que cuenta la empresa al momento de realizar las órdenes de pedido?
+
+<TablaAcademica
+  numero="Cuadro 10"
+  titulo="Acceso a información del inventario en tiempo real"
+  nota="Elaboración propia. Salazar, S. y Bastidas, C. (2025). n = 14."
+  columnas={[
+    { clave: 'respuesta', etiqueta: 'Respuesta' },
+    { clave: 'fa', etiqueta: 'Frecuencia absoluta', alinear: 'centro' },
+    { clave: 'fr', etiqueta: 'Frecuencia relativa', alinear: 'centro' },
+    { clave: 'fp', etiqueta: 'Frecuencia porcentual', alinear: 'derecha' },
+  ]}
+  filas={[
+    { respuesta: 'Siempre', fa: 0, fr: '0', fp: '0 %' },
+    { respuesta: 'Regularmente', fa: 10, fr: '0,71', fp: '71 %' },
+    { respuesta: 'Nunca', fa: 4, fr: '0,29', fp: '29 %' },
+  ]}
+/>
+
+**Análisis.** Se puede observar que ninguna parte de la muestra tiene información actualizada en tiempo real sobre el inventario de productos: el **100 %** de la muestra está teniendo problemas a diferentes niveles en este sentido. Lo que ocasiona retrasos, errores, y limita enormemente la capacidad competitiva de la empresa frente a las otras.
+
+Esta falta de confiabilidad en las consultas a la base de datos contradice lo establecido por Rivas (2021), debido a que impide que los usuarios accedan a la información almacenada en las tablas, lo que dificulta la obtención de datos actualizados. Esta situación genera un problema crítico, ya que los usuarios trabajan con información que podría estar desactualizada o, en el peor de los casos, incorrecta.
+
+### Ítem 9. ¿Qué tan satisfecho está con la rapidez para acceder a la información que necesita durante su trabajo?
+
+<TablaAcademica
+  numero="Cuadro 13"
+  titulo="Satisfacción con la rapidez de acceso a la información"
+  nota="Elaboración propia. Salazar, S. y Bastidas, C. (2025). n = 14."
+  columnas={[
+    { clave: 'respuesta', etiqueta: 'Respuesta' },
+    { clave: 'fa', etiqueta: 'Frecuencia absoluta', alinear: 'centro' },
+    { clave: 'fr', etiqueta: 'Frecuencia relativa', alinear: 'centro' },
+    { clave: 'fp', etiqueta: 'Frecuencia porcentual', alinear: 'derecha' },
+  ]}
+  filas={[
+    { respuesta: 'Satisfecho', fa: 3, fr: '0,22', fp: '22 %' },
+    { respuesta: 'Indiferente', fa: 1, fr: '0,07', fp: '7 %' },
+    { respuesta: 'Insatisfecho', fa: 10, fr: '0,71', fp: '71 %' },
+  ]}
+/>
+
+**Análisis.** Dados los datos obtenidos, se puede observar una clara tendencia hacia la insatisfacción con la rapidez para acceder a la información. Una minoría de la muestra (22 %) se muestra satisfecha, mientras que otro 7 % se muestra indiferente; por otro lado, el **71 %** expresa su descontento. Esto demuestra la necesidad de identificar los puntos en el proceso de acceso a la información que generan lentitud o dificultades.
+
+Según Laudon y Laudon (2016), la función principal de una base de datos es dar servicio a muchas aplicaciones de manera eficiente; sin embargo, y como lo demuestran los resultados obtenidos, la muestra no opina que la eficiencia de la base de datos actual cumpla con ese requerimiento, lo que representa un problema.
+
+### Síntesis
+
+El sistema actual satisface de manera satisfactoria las funciones básicas para la gestión de órdenes de pedidos, aunque también demuestra oportunidades significativas que impactan su efectividad.
+
+Se identificaron múltiples oportunidades de mejora en varios aspectos: por ejemplo, en la fluidez del proceso, en el que los usuarios enfrentan dificultades persistentes. Otra área crítica es el acceso a datos en tiempo real durante la creación de pedidos, así como también una demanda generalizada de mayor agilidad en la recuperación de la información.
+
+Estos factores, junto con una actitud positiva hacia las innovaciones y un mayor interés expresado en enfoques más sofisticados, fortalecen el argumento a favor de una revisión del sistema. Tal desarrollo no sólo abordaría las deficiencias actuales, sino que también mejoraría el procesamiento de ventas de suministros médicos en conjunto con los objetivos estratégicos del negocio.
+
+## Conclusiones
+
+Las conclusiones del presente trabajo se pueden desglosar de la siguiente manera:
+
+- Se pudo constatar que el proceso de ventas actual utilizado por la empresa de ventas de insumos médicos contiene ciertas áreas que pueden ser mejoradas, como por ejemplo el acceso en tiempo real de los datos, el manejo de los datos y el uso de programas que no satisfacen las necesidades del usuario. El análisis demuestra que al abordar estas oportunidades la empresa podría potenciar sus recursos existentes para lograr una mayor competitividad.
+- A la hora de determinar los requerimientos del sistema, se pudieron revelar áreas críticas para la mejora del proceso de ventas, como lo son el acceso en tiempo real de los datos y un mejor manejo de los mismos, así como también la modernización de los programas utilizados actualmente por la empresa. La mejora en estas áreas puede incrementar la eficacia en el proceso de ventas actual.
+- Se pudo demostrar que existe una necesidad de proponer una solución tecnológica que les permita a los usuarios automatizar los pasos en el proceso de ventas.
+- Luego de la investigación realizada se puede concluir que el desarrollo de un sistema para la elaboración de pedidos y monitoreo de la logística para la empresa de ventas de insumos médicos es **viable**, y también necesario para mejorar la eficiencia del proceso de ventas actual de la empresa.

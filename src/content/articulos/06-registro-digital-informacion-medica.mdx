@@ -1,0 +1,243 @@
+---
+titulo: Sistema de Registro Digital para la Gestión de Información Médica dirigido a un Centro de Salud Integral
+subtitulo: 'Digital Registration System for the Management of Medical Information Aimed at an Integral Health Center'
+resumen: Creación de un sistema digital para gestionar la información médica en centros de salud integral, desarrollado con metodología XP, Python y PostgreSQL, que mejora la precisión y disponibilidad de los datos clínicos.
+etiquetas:
+  - Sistemas
+  - Salud
+  - Bases de Datos
+palabrasClave:
+  - Registros médicos
+  - Sistema digital
+  - Información clínica
+  - Salud
+  - Tecnología
+plantilla: A
+seccion: proyecto
+edicion: 2026-1
+orden: 6
+autoresInvitados:
+  - Oduys Jhomar Hernández Viera
+  - Luis Alfonzo Cantillo García
+imagenPrincipal: ../../assets/imagenes/art06.jpg
+destacado: false
+referencias:
+  - cita: 'Alcalá, R., Pérez, J. y Torres, M. (2019). <em>Registros Médicos en la Gestión Hospitalaria</em>. Ediciones Médicas.'
+  - cita: 'Areitio Bertolín, J. (2008). <em>Seguridad Informática y Protección de Datos</em>. Universidad de Deusto.'
+  - cita: 'Bertalanffy, L. V. (1928). <em>Teoría General de Sistemas. Fundamentos de la biología teórica</em>.'
+  - cita: 'Challenger Pérez, A. (2014). <em>Lenguaje Python: Características y Aplicaciones</em>. Universidad de Carabobo.'
+  - cita: 'Elmasri, R. y Navathe, S. B. (2016). <em>Sistemas de Bases de Datos</em>. Pearson Educación.'
+  - cita: 'Fraser, H., Blaya, J. y Mechael, P. (2021). <em>Digital Health Systems and Patient Safety</em>. WHO Global eHealth Report.'
+  - cita: 'González, R. y Pérez, F. (2020). <em>Información Médica: Calidad y Gestión</em>. Editorial Médica Panamericana.'
+  - cita: 'Gudiña, V. (2024). <em>Herramientas Digitales en la Salud</em>. OpenEdTech Journal.'
+  - cita: 'Loyo, J. (2022). <em>Propuesta de Archivo Digital de Historias Clínicas</em>. Universidad Central de Venezuela.'
+  - cita: 'Piñeiro Gómez, R. (2014). <em>Bases de Datos Relacionales</em>. Ediciones Alfaomega.'
+  - cita: 'Raffino, M. (2024). <em>Sistemas de Información</em>. Enciclopedia Etecé.'
+  - cita: 'Rivas, C. (2015). <em>Desarrollo de Software: Teoría y Práctica</em>. Ediciones ULA.'
+  - cita: 'Rodríguez, L. (2022). <em>Sistema de Alerta de Emergencia Clínica</em>. Universidad Santa María.'
+  - cita: 'UNIR FP (2021). <em>Frameworks y Desarrollo Web</em>. Universidad Internacional de La Rioja.'
+  - cita: 'Vilalta, C. (2016). <em>Manejo de Datos en Ciencias de la Salud</em>. Fondo Editorial Universitario.'
+---
+
+import TablaAcademica from '@components/ui/TablaAcademica.astro';
+
+# Sistema de Registro Digital para la Gestión de Información Médica dirigido a un Centro de Salud Integral
+
+**Autores:** Bachiller Hernández Viera, Oduys Jhomar (C.I. V-28.154.788 · oduhernandez03@gmail.com · ORCID 0009-0009-0641-5059) y Bachiller Cantillo García, Luis Alfonzo (C.I. V-29.592.966 · garcia.lui.2002@gmail.com · ORCID 0009-0001-8110-7576).
+**Institución:** Universidad Santa María.
+
+## Resumen
+
+Este estudio aborda la aplicación de soluciones tecnológicas en el sector salud, enfocándose en la creación de un sistema digital para gestionar la información médica en centros de salud integral. Identifica como problema principal la falta de digitalización, que afecta negativamente la eficiencia del servicio. Utilizando una metodología cuantitativa con diseño de campo y validación experta, se desarrolló un prototipo funcional basado en teorías de sistemas de información y normativa legal. Los resultados evidencian mejoras en la precisión y disponibilidad de los datos, optimizando la toma de decisiones clínicas. Se recomienda su implementación en otros centros para fortalecer la atención médica en Venezuela.
+
+**Palabras clave:** Registros médicos, sistema digital, información clínica, salud, tecnología.
+
+## Abstract
+
+This study addresses the application of technological solutions in the healthcare sector, focusing on the creation of a digital system to manage medical information in integral health centers. It identifies the main problem as the lack of digitalization, which negatively impacts service efficiency. Using a quantitative methodology with a field research design and expert validation, a functional prototype was developed based on information systems theories and legal regulations. The results show improvements in the accuracy and availability of data, optimizing clinical decision-making. Its implementation in other centers is recommended to strengthen healthcare in Venezuela.
+
+**Keywords:** Medical records, digital system, clinical information, health, technology.
+
+## Introducción
+
+La atención médica eficiente depende en gran parte de la adecuada gestión de información clínica. A nivel mundial, la transformación digital en el sector salud ha cobrado gran relevancia en los últimos años, impulsada por la necesidad de optimizar los servicios clínicos, mejorar la seguridad del paciente y facilitar la toma de decisiones basada en datos específicos. Organismos como la Organización Mundial de la Salud (OMS) han señalado que los sistemas de información digital son herramientas clave para fortalecer la eficiencia y calidad de la atención médica, especialmente en contextos de alta demanda o emergencia; estas organizaciones han promovido la adopción de tecnologías digitales en los procesos clínicos, argumentando que los sistemas de información médica electrónicos reducen los errores, mejoran la eficiencia operativa y fortalecen la continuidad del cuidado.
+
+Sin embargo, en países en desarrollo como Venezuela, la implementación de estas tecnologías aún enfrenta importantes desafíos. En el contexto nacional, la mayoría de los centros de salud continúan gestionando los registros médicos en formato manual, lo que genera dificultades como pérdida de datos, errores en diagnósticos y retrasos en emergencias. Esta situación se ve agravada por la carencia de políticas públicas enfocadas en la digitalización hospitalaria y por limitaciones presupuestarias, lo que evidencia una brecha tecnológica significativa en el sistema sanitario venezolano.
+
+En respuesta a este escenario, la presente investigación plantea como solución el diseño y desarrollo de un sistema digital de registro médico que permita optimizar la disponibilidad, seguridad y acceso a la información del paciente, generando así un impacto positivo en los procesos clínicos y administrativos.
+
+En este sentido, el presente estudio se alinea con estas recomendaciones, adaptando una propuesta factible al contexto venezolano. Además, la gestión manual de la información médica presenta múltiples desventajas que impactan negativamente la eficiencia y seguridad de los procesos clínicos. Entre los principales inconvenientes se encuentran la alta probabilidad de pérdida o deterioro de documentos físicos, la duplicación de pruebas médicas por falta de acceso oportuno a historiales previos, y la demora en la recuperación de información crítica durante situaciones de emergencia. Este modelo también dificulta el seguimiento continuo de los pacientes, impide el análisis estadístico eficiente y aumenta la carga administrativa del personal de salud.
+
+Asimismo, la ausencia de controles automatizados reduce la precisión de los datos registrados y expone la confidencialidad de la información a mayores riesgos, comprometiendo la calidad de la atención médica y la toma de decisiones informadas.
+
+### Fundamentos teóricos
+
+De este modo, el marco teórico de la investigación se basa en teorías de sistemas, desarrollo de software, bases de datos y eficiencia operativa. Autores como **Bertalanffy (1928)** y **Raffino (2024)** fundamentan los conceptos esenciales del sistema propuesto. Se incluyen también antecedentes recientes de investigaciones similares que evidencian mejoras sustanciales en la eficiencia clínica gracias a la digitalización. La integración de conceptos como usabilidad, escalabilidad, interoperabilidad y seguridad de la información también forman parte de la columna vertebral del modelo desarrollado.
+
+Anudado a esto, otros fundamentos teóricos refuerzan la viabilidad técnica y conceptual del sistema desarrollado. **Elmasri y Navathe (2016)** explican que un sistema de gestión de bases de datos permite almacenar, recuperar y administrar información de manera estructurada y segura, lo cual es fundamental en un entorno médico donde la integridad y disponibilidad de los datos clínicos son críticas para la atención del paciente. Por otro lado, **Piñeiro Gómez (2014)** resalta que las bases de datos relacionales favorecen la normalización y consistencia de los registros, reduciendo redundancias y errores de captura, lo que se relaciona directamente con la necesidad identificada en esta investigación de eliminar registros duplicados y garantizar la confiabilidad de la información médica.
+
+Además, **Rivas (2015)** sostiene que el desarrollo de software basado en metodologías ágiles mejora la adaptabilidad y la calidad del producto final, aspecto esencial en un sistema que debe ajustarse a las dinámicas propias de los centros de salud. Estas teorías, integradas en el diseño del sistema, sustentan tanto su estructura funcional como su capacidad de respuesta ante las exigencias del entorno clínico real.
+
+Asimismo, se contempla el marco legal venezolano relacionado con el derecho a la salud, al acceso a la información y la confidencialidad médica. Todo esto sustenta la pertinencia, necesidad y factibilidad del proyecto en el contexto nacional actual. Además, se consideraron elementos del marco ético y deontológico relacionados con la gestión de datos clínicos, estableciendo lineamientos que aseguren que el sistema respete los principios de autonomía, privacidad y consentimiento informado.
+
+## Métodos
+
+En primer lugar, la metodología aplicada en esta investigación responde al **enfoque cuantitativo**, caracterizado por el análisis objetivo y medible de fenómenos observables. Este paradigma fue seleccionado por su idoneidad para recolectar, procesar y evaluar datos de forma estructurada, permitiendo establecer patrones claros respecto a las deficiencias en la gestión manual de información clínica.
+
+Se adoptó un **diseño de campo**, ya que la investigación se llevó a cabo directamente en el entorno donde se presenta la problemática, es decir, un centro de salud integral ubicado en el Distrito Capital, lo cual facilitó observar de primera mano las condiciones operativas, técnicas y humanas que inciden en la administración de datos médicos.
+
+Asimismo, el **nivel de estudio fue descriptivo**, ya que el propósito fue identificar, caracterizar y documentar las principales debilidades del sistema actual de manejo de información, así como proponer una solución tecnológica adecuada. Este tipo de estudio permitió detallar las condiciones reales del centro médico, así como las percepciones, necesidades y expectativas del personal ante la posible implementación de un sistema de registro digital.
+
+### Fases de la investigación
+
+De este modo, la investigación se desarrolló en **tres fases principales: diagnóstico, desarrollo del sistema y validación**.
+
+En la **fase diagnóstica** se procedió a la recolección de datos, para lo cual se diseñó y aplicó un instrumento tipo cuestionario estructurado, compuesto por preguntas cerradas en escala de Likert, orientadas a evaluar aspectos como precisión de los registros, accesibilidad a la información, tiempos de respuesta y percepción de seguridad en el manejo de datos clínicos. Este instrumento fue sometido a un proceso de **validación por juicio de expertos**, conformado por profesionales con experiencia, garantizando así la validez de contenido del cuestionario.
+
+En cuanto a la población objeto de estudio, esta estuvo conformada por el personal del centro de salud, incluyendo médicos especialistas, personal administrativo y pacientes, quienes diariamente interactúan con los procesos de registro y consulta de información clínica. Se empleó un **muestreo intencional**, seleccionando a aquellos participantes con experiencia directa en el manejo de historiales médicos físicos, lo que permitió obtener información relevante y contextualizada.
+
+Por otra parte, de forma complementaria, se realizaron **entrevistas semiestructuradas** a miembros clave del equipo médico y administrativo, para profundizar en aspectos no capturados en los cuestionarios. Las entrevistas permitieron identificar problemáticas recurrentes como la duplicidad de documentos, extravío de historiales, retrasos en atención por falta de información oportuna, y resistencia del personal a procesos manuales tediosos.
+
+Posteriormente, una vez procesada la información del diagnóstico, se dio inicio a la **fase de desarrollo del sistema**, la cual se basó en la metodología **XP (Extreme Programming)**, una de las principales estrategias de la programación ágil, ideal para proyectos que requieren flexibilidad, interacción continua con los usuarios y entregas funcionales en corto tiempo. Esta metodología permitió implementar un ciclo de desarrollo iterativo e incremental, adaptándose progresivamente a los requerimientos funcionales identificados durante el trabajo de campo.
+
+### Desarrollo técnico
+
+En relación al desarrollo técnico, para la codificación del sistema se utilizó el lenguaje **Python**, seleccionado por su versatilidad, amplia comunidad de soporte y compatibilidad con *frameworks* para desarrollo de interfaces gráficas y aplicaciones web. Asimismo, se empleó **PostgreSQL** como sistema gestor de bases de datos, por su robustez, escalabilidad, capacidad de manejo de transacciones seguras y compatibilidad con sistemas clínicos de mediana y gran escala. La arquitectura del sistema fue diseñada para soportar múltiples perfiles de usuario (médico, administrador, enfermería), respetando los niveles de acceso y asegurando la protección de los datos sensibles.
+
+Luego, durante la **fase de validación** se aplicaron diversas pruebas funcionales, verificando la consistencia de la interfaz, la integridad de los registros ingresados y la capacidad de recuperación de datos en distintos escenarios clínicos. Asimismo, se efectuó un análisis heurístico de la interfaz de usuario, con base en principios de usabilidad, para garantizar que la herramienta fuera intuitiva, accesible y coherente con los flujos operativos del centro de salud. Los escenarios de prueba fueron simulaciones de casos reales, tales como atención a pacientes en emergencia, actualización de historiales médicos y generación de reportes clínicos.
+
+Finalmente, se realizó un **estudio de factibilidad** en tres dimensiones: técnica, económica y operativa. La factibilidad técnica evidenció que los recursos disponibles en el centro de salud son suficientes para implementar el sistema. La factibilidad económica demostró que el costo de desarrollo e implementación es significativamente menor en comparación con las pérdidas generadas por errores o ineficiencia en el modelo manual actual. La factibilidad operativa, por su parte, confirmó que el personal está dispuesto a utilizar herramientas digitales, siempre que sean funcionales, capacitantes y no aumenten la carga de trabajo.
+
+## Resultados
+
+Los resultados obtenidos a lo largo de la investigación se estructuraron en dos grandes dimensiones: el **diagnóstico de la situación actual** en el centro de salud integral donde se aplicó el estudio, y la **validación del sistema digital propuesto**, diseñado específicamente en respuesta a las deficiencias detectadas.
+
+A continuación se muestran los ítems más relevantes del instrumento aplicado, los cuales reflejan de forma clara las principales debilidades del sistema tradicional y justifican, desde una perspectiva empírica, la implementación del sistema de registro digital desarrollado en esta investigación.
+
+### Ítem 1. ¿Qué tan de acuerdo está con que la disponibilidad en tiempo real de los registros médicos en todas las áreas del centro de salud facilita el trabajo de los profesionales autorizados?
+
+<TablaAcademica
+  numero="Cuadro 1"
+  titulo="Disponibilidad en tiempo real de los registros médicos"
+  nota="Elaboración propia. Hernández, O. y Cantillo, L. (2025). n = 24."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones (escala)' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: 'Porcentaje', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Muy de acuerdo', f: 14, p: '58,33 %' },
+    { opcion: 'De acuerdo', f: 5, p: '20,83 %' },
+    { opcion: 'Neutral', f: 5, p: '20,83 %' },
+    { opcion: 'En desacuerdo', f: 0, p: '0,00 %' },
+    { opcion: 'Muy en desacuerdo', f: 0, p: '0,00 %' },
+    { opcion: 'Total', f: 24, p: '100,00 %' },
+  ]}
+/>
+
+En la primera encuesta se muestra que el **79,16 %** de los encuestados estaba de acuerdo o muy de acuerdo en que la disponibilidad en tiempo real de los registros médicos ayudaría al personal médico a realizar su trabajo, y nadie expresó ninguna objeción.
+
+### Ítem 2. ¿Ha notado que a menudo ocurren errores o inconsistencias en los registros médicos, lo que podría afectar la atención del paciente?
+
+<TablaAcademica
+  numero="Cuadro 2"
+  titulo="Frecuencia de errores o inconsistencias en los registros médicos"
+  nota="Elaboración propia. Hernández, O. y Cantillo, L. (2025). n = 24."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones (escala)' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: 'Porcentaje', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Muy a menudo', f: 4, p: '16,67 %' },
+    { opcion: 'A menudo', f: 11, p: '45,83 %' },
+    { opcion: 'Ocasionalmente', f: 7, p: '29,17 %' },
+    { opcion: 'Rara vez', f: 2, p: '8,33 %' },
+    { opcion: 'Nunca', f: 0, p: '0,00 %' },
+    { opcion: 'Total', f: 24, p: '100,00 %' },
+  ]}
+/>
+
+Los resultados de la segunda pregunta revelan que el **75 %** de los encuestados percibe que los errores o inconsistencias en los registros médicos ocurren con frecuencia y pueden afectar negativamente la atención al paciente. Solo un 8,33 % estuvo en desacuerdo, lo que indica que la mayoría reconoce este problema como una preocupación real dentro del entorno clínico.
+
+### Ítem 4. ¿Ha observado que la información médica no está bien organizada o que la búsqueda de datos médicos puede ser lenta o confusa?
+
+<TablaAcademica
+  numero="Cuadro 3"
+  titulo="Organización de la información y velocidad de búsqueda"
+  nota="Elaboración propia. Hernández, O. y Cantillo, L. (2025). n = 24."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones (escala)' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: 'Porcentaje', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Muy frecuentemente', f: 6, p: '25,00 %' },
+    { opcion: 'Frecuentemente', f: 10, p: '41,67 %' },
+    { opcion: 'Ocasionalmente', f: 7, p: '29,17 %' },
+    { opcion: 'Rara vez', f: 1, p: '4,17 %' },
+    { opcion: 'Nunca', f: 0, p: '0,00 %' },
+    { opcion: 'Total', f: 24, p: '100,00 %' },
+  ]}
+/>
+
+En la cuarta pregunta, el **66,67 %** de los encuestados indicó que con frecuencia o mucha frecuencia ha percibido que la información médica no está bien organizada o que la búsqueda de datos puede resultar lenta o confusa. Un 29,17 % respondió que esto ocurre ocasionalmente, mientras que solo un 4,17 % señaló que rara vez sucede. Estos resultados reflejan deficiencias en la gestión y estructuración de los datos médicos dentro de los sistemas utilizados.
+
+### Ítem 6. ¿Cree que la falta de un sistema centralizado limita el acceso a los registros médicos de los pacientes?
+
+<TablaAcademica
+  numero="Cuadro 4"
+  titulo="Impacto de la ausencia de un sistema centralizado"
+  nota="Elaboración propia. Hernández, O. y Cantillo, L. (2025). n = 24."
+  columnas={[
+    { clave: 'opcion', etiqueta: 'Opciones (escala)' },
+    { clave: 'f', etiqueta: 'Frecuencia', alinear: 'centro' },
+    { clave: 'p', etiqueta: 'Porcentaje', alinear: 'derecha' },
+  ]}
+  filas={[
+    { opcion: 'Muy de acuerdo', f: 6, p: '25,00 %' },
+    { opcion: 'De acuerdo', f: 9, p: '37,50 %' },
+    { opcion: 'Neutral', f: 8, p: '33,33 %' },
+    { opcion: 'En desacuerdo', f: 1, p: '4,17 %' },
+    { opcion: 'Muy en desacuerdo', f: 0, p: '0,00 %' },
+    { opcion: 'Total', f: 24, p: '100,00 %' },
+  ]}
+/>
+
+En la sexta pregunta, el **62,5 %** de los encuestados está de acuerdo o totalmente de acuerdo en que la falta de un sistema centralizado limita el acceso a los registros médicos, mientras que un 33,33 % se mantuvo neutral y solo un 4,17 % estuvo en desacuerdo.
+
+En consecuencia, se identificaron problemáticas específicas y recurrentes, tales como la duplicidad de información en los historiales físicos debido a la ausencia de una base de datos centralizada, la pérdida frecuente o deterioro de documentos, y la falta de mecanismos de resguardo y confidencialidad que exponen información sensible de los pacientes. Otro hallazgo relevante fue que el tiempo prolongado en la localización de antecedentes clínicos es crítico, dificultando la continuidad del tratamiento y el seguimiento efectivo de patologías crónicas.
+
+Ante este panorama, se procedió al desarrollo de un sistema digital diseñado específicamente para responder a las debilidades detectadas. El sistema permite registrar, almacenar, consultar y actualizar historiales médicos en tiempo real, utilizando una plataforma digital adaptada a las condiciones del centro de salud. En definitiva, los resultados obtenidos no solo confirman la viabilidad técnica del sistema, sino que también evidencian su potencial para transformar positivamente los procesos de gestión clínica dentro del centro de salud.
+
+## Discusión
+
+El sistema de registro digital desarrollado en la presente investigación fue concebido como una solución integral para responder a las debilidades detectadas en la gestión manual de la información médica. La herramienta está compuesta por una interfaz amigable, intuitiva y adaptable a distintos perfiles de usuario, lo cual garantiza una experiencia de uso fluida en todos los niveles operativos del centro de salud.
+
+Asimismo, entre los módulos más relevantes del sistema destacan el de **ingreso y edición de pacientes, historial médico, reportes clínicos, módulo de emergencias y módulo de respaldo de información**. Cada uno de estos fue diseñado considerando flujos de trabajo reales y cotidianos del personal médico, con el propósito de optimizar el tiempo, reducir errores de transcripción y facilitar la recuperación de datos en tiempo real.
+
+Por otra parte, el sistema cuenta con funcionalidades clave como la validación automática de campos, filtros avanzados de búsqueda, control de accesos por niveles de usuario y mecanismos de respaldo periódico. Estos elementos refuerzan la seguridad, confiabilidad y consistencia de la información clínica registrada, aspectos fundamentales para garantizar un entorno digital robusto y sostenible.
+
+En consecuencia, la importancia del desarrollo de este sistema radica en su capacidad para transformar un entorno caracterizado por la dispersión y fragilidad de los documentos físicos en un entorno digital estructurado, seguro y accesible, donde la información del paciente esté disponible en segundos y desde cualquier módulo autorizado del centro asistencial. Del mismo modo, el principal aporte de esta herramienta tecnológica es la optimización de los procesos administrativos y clínicos, al permitir una gestión más eficiente, ordenada y transparente de los historiales médicos, al tiempo que contribuye a la toma de decisiones más acertadas por parte del personal sanitario.
+
+### Impacto organizacional
+
+Desde el punto de vista organizacional, el sistema permite optimizar los flujos de trabajo internos, reducir la carga administrativa del personal, minimizar la duplicación de esfuerzos y establecer un orden documental que facilita auditorías, evaluaciones internas y toma de decisiones basada en datos reales. Asimismo, esta mejora en la eficiencia institucional también permite una mejor asignación de recursos y una reducción de costos operativos, ya que se eliminan procesos manuales innecesarios y se evita el uso excesivo de papel, archivos físicos y almacenamiento tradicional.
+
+### Impacto ético
+
+En el plano ético, el sistema refuerza el principio de confidencialidad médica, al incorporar mecanismos de autenticación de usuarios, control de accesos por perfil y almacenamiento seguro de la información clínica. Esto garantiza que los datos de los pacientes solo sean consultados por el personal autorizado, protegiendo así su derecho a la privacidad y al manejo responsable de su información personal. Además, promueve una atención más transparente y justa, ya que permite al médico tener una visión completa del historial clínico del paciente, sin depender de la memoria o del acceso limitado a documentos físicos.
+
+### Impacto social
+
+Desde una perspectiva social, el impacto se traduce en una mejora sustancial de la experiencia del paciente, al recibir una atención más rápida, oportuna y personalizada. La disponibilidad inmediata de antecedentes médicos, diagnósticos previos, tratamientos aplicados y resultados de exámenes facilita una intervención clínica más precisa, disminuyendo los tiempos de espera y aumentando la satisfacción del usuario. Este aspecto cobra especial relevancia en comunidades con alta demanda asistencial y recursos limitados, como muchas zonas del sistema de salud público venezolano.
+
+Además, el sistema constituye un paso importante hacia la modernización del sistema de salud venezolano, alineándose con las tendencias globales en salud digital promovidas por organismos internacionales. Su diseño modular y adaptable facilita su escalabilidad a otros centros de salud, tanto públicos como privados, e incluso podría integrarse a plataformas nacionales de historia clínica electrónica, fomentando la interoperabilidad entre instituciones. Esto lo convierte en una solución con alto potencial de expansión, capaz de generar un efecto multiplicador positivo en otras regiones del país.
+
+## Conclusiones
+
+En definitiva, se trata de una propuesta tecnológica que no solo resuelve un problema operativo puntual, sino que aporta valor real, pertinente y sostenible al proceso de digitalización del sistema sanitario venezolano, sentando las bases para una atención médica más eficiente.
+
+El diagnóstico realizado confirmó empíricamente que la gestión manual de historiales genera errores frecuentes (75 % de percepción), desorganización en la búsqueda de datos (66,67 %) y limitaciones de acceso derivadas de la ausencia de un sistema centralizado (62,5 %). Frente a ello, el prototipo desarrollado con Python y PostgreSQL, bajo metodología XP, demostró ser técnica, económica y operativamente factible, y fue validado mediante pruebas funcionales y análisis heurístico de usabilidad sobre escenarios clínicos reales.
+
+Se recomienda su implementación progresiva en otros centros de salud, así como la evaluación de su integración con plataformas nacionales de historia clínica electrónica.

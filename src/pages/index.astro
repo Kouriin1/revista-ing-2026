@@ -18,9 +18,11 @@ const articulos = await getCollection('articulos', ({ data }) => data.edicion ==
 articulos.sort((a, b) => a.data.orden - b.data.orden);
 
 // Preparamos como se va a dividir el indice si hay muchos articulos
-const ITEMS_PRIMERA = 5;
-const ITEMS_RESTO = 5;
-const indiceChunks = [];
+// Los titulos completos de los papers ocupan 3-4 lineas cada uno, asi que
+// caben menos items por hoja sin que el indice se corte.
+const ITEMS_PRIMERA = 4;
+const ITEMS_RESTO = 4;
+const indiceChunks: (typeof articulos)[] = [];
 let currentIndex = 0;
 
 while (currentIndex < articulos.length) {
@@ -512,7 +514,9 @@ const renders = await Promise.all(articulos.map(async (art) => {
   .hoja-contraportada {
     width: 100%;
     height: 100%;
-    min-height: 800px;
+    /* Antes 800px fijos: desbordaba la caja de contenido de la hoja (684px)
+       y descentraba el logo. */
+    min-height: 100%;
     background: var(--color-azul-oxford-oscuro);
     color: #FFFFFF !important;
     text-shadow: 0 1px 3px rgba(0,0,0,0.8);
