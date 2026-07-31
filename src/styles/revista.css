@@ -98,6 +98,19 @@
   font-family: var(--font-serif);
   line-height: 1.5;
   color: #1A1A1A !important;
+  /* Columna flex tanto aqui como en el medidor: asi los margenes NO colapsan
+     en un sitio y si en otro, y lo medido coincide con lo pintado. */
+  display: flex;
+  flex-direction: column;
+}
+.pf-hoja__contenido > * {
+  flex-shrink: 0; /* que el texto nunca se comprima para caber */
+}
+/* Justificado vertical: reparte el sobrante entre los bloques para que el
+   texto termine a la misma altura en todas las hojas llenas. Solo se aplica
+   a las que el paginador marca (bastante llenas y con varios bloques). */
+.pf-hoja__contenido--ajustada {
+  justify-content: space-between;
 }
 
 /* Tipografía dentro de las hojas (Forzando oscuro) */
@@ -297,7 +310,11 @@
    ═══════════════════════════════════════════════════════════════ */
 
 /* ── Ocultar H1 del MDX (duplicado: CabeceraArticulo ya lo muestra) ── */
-.pf-hoja__contenido .plantilla-a__cuerpo h1 {
+/* El cuerpo MDX repite el titulo como H1 y la cabecera ya lo muestra.
+   Al paginar se aplana el envoltorio .plantilla-a__cuerpo, asi que el H1 queda
+   suelto: se oculta tambien en esa posicion (el de la cabecera lleva clase). */
+.pf-hoja__contenido .plantilla-a__cuerpo h1,
+.pf-hoja__contenido > h1:not([class]) {
   display: none !important;
 }
 
@@ -311,19 +328,9 @@
   font-weight: inherit !important;
 }
 
-/* ── Párrafo de introducción (Primer Párrafo) ── */
-.pf-hoja__contenido > p:first-of-type {
-  font-family: var(--font-sans) !important;
-  font-size: 0.72rem !important;
-  font-weight: 600 !important;
-  color: #002147 !important;
-  padding: 0.8em 1em !important;
-  margin-bottom: 1.5em !important;
-  border-left: 3px solid #C5A059 !important;
-  background: linear-gradient(to right, rgba(197, 160, 89, 0.12) 0%, rgba(197, 160, 89, 0.02) 100%) !important;
-  border-radius: 0 4px 4px 0 !important;
-  text-align: left !important;
-}
+/* El primer parrafo de cada hoja se trata como texto corrido normal.
+   Antes llevaba recuadro dorado: tenia sentido como entradilla del articulo,
+   pero al paginar caia en mitad de cualquier seccion. */
 
 /* ── H2: Titular de sección estructurado, moderno y elegante ── */
 .pf-hoja__contenido h2 {
@@ -360,15 +367,36 @@
   line-height: 1.3 !important;
 }
 
-/* ── Párrafos: serif justificado ── */
+/* ── Párrafos: serif justificado a ambos márgenes ── */
 .pf-hoja__contenido p {
   font-size: 0.72rem !important; /* Igual a los párrafos del índice */
   line-height: 1.62 !important;
   margin-bottom: 0.6em !important;
   text-align: justify !important;
+  text-justify: inter-word !important;
   font-family: var(--font-serif) !important;
   hyphens: auto !important;
   color: #1A1A1A !important;
+  text-indent: 1.5em !important; /* sangria de primera linea */
+}
+
+/* Sin sangria donde no corresponde: primer parrafo tras un titulo y
+   continuacion de un parrafo que venia partido de la hoja anterior. */
+.pf-hoja__contenido h1 + p,
+.pf-hoja__contenido h2 + p,
+.pf-hoja__contenido h3 + p,
+.pf-hoja__contenido h4 + p,
+.pf-hoja__contenido figure + p,
+.pf-hoja__contenido .pf-continua,
+.pf-hoja__contenido blockquote p,
+.pf-hoja__contenido li p {
+  text-indent: 0 !important;
+}
+/* Las referencias llevan sangria francesa: justificarlas tambien. */
+.pf-hoja__contenido .referencias__lista li {
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  hyphens: auto !important;
 }
 
 /* ── Listas: justificadas igual que los párrafos ── */
@@ -456,8 +484,16 @@
 }
 .pf-hoja__contenido .plantilla-a__cuerpo blockquote p {
   margin: 0 !important;
-  text-align: left !important;
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  hyphens: auto !important;
   font-style: italic !important;
+}
+
+/* La franja .refs-encabezado ya rotula "Referencias": el H3 del componente
+   lo repetia justo debajo. */
+.pf-hoja__contenido .referencias__titulo {
+  display: none !important;
 }
 
 /* ── Referencias: encabezado elegante ── */

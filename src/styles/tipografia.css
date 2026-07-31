@@ -68,6 +68,15 @@ h6, .h6 { font-size: calc(var(--fs-base)* var(--fs-scale)); line-height: 1.35; f
 .prosa p {
   text-align: justify;
   text-justify: inter-word;
+  hyphens: auto;
+}
+
+/* Listas y referencias justificadas igual que los parrafos */
+.prosa li,
+.referencias__lista li {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
 }
 
 /* Sangría primera línea estilo APA (excepto el primer párrafo tras un título) */

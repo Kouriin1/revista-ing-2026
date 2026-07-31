@@ -17,20 +17,9 @@ const fechaTexto = new Intl.DateTimeFormat('es', { month: 'long', year: 'numeric
 const articulos = await getCollection('articulos', ({ data }) => data.edicion === edicion.data.numero);
 articulos.sort((a, b) => a.data.orden - b.data.orden);
 
-// Preparamos como se va a dividir el indice si hay muchos articulos
-// Los titulos completos de los papers ocupan 3-4 lineas cada uno, asi que
-// caben menos items por hoja sin que el indice se corte.
-const ITEMS_PRIMERA = 4;
-const ITEMS_RESTO = 4;
-const indiceChunks: (typeof articulos)[] = [];
-let currentIndex = 0;
-
-while (currentIndex < articulos.length) {
-  const isFirstPage = indiceChunks.length === 0;
-  const itemsToTake = isFirstPage ? ITEMS_PRIMERA : ITEMS_RESTO;
-  indiceChunks.push(articulos.slice(currentIndex, currentIndex + itemsToTake));
-  currentIndex += itemsToTake;
-}
+// El indice va como un unico bloque: el paginador del modo revista lo reparte
+// llenando cada hoja hasta abajo y continuando en la siguiente si hace falta.
+// Antes se troceaba aqui en grupos fijos y quedaban hojas medio vacias.
 
 const renders = await Promise.all(articulos.map(async (art) => {
   const { Content } = await render(art);
@@ -121,37 +110,24 @@ const renders = await Promise.all(articulos.map(async (art) => {
     </div>
 
     <!-- 2. Paginas de Indice -->
-    {indiceChunks.map((chunk, pageIndex) => {
-      // Calculamos el numero inicial para la lista de esta pagina
-      const startIndex = pageIndex === 0 ? 0 : ITEMS_PRIMERA + (pageIndex - 1) * ITEMS_RESTO;
-      return (
-        <div class="hoja-indice">
-          <div class="indice-inner">
-            {pageIndex === 0 && (
-              <>
-                <h2 class="indice-titulo">Índice</h2>
-                <div class="indice-linea"></div>
-              </>
-            )}
-            <ul class="indice-lista" style={pageIndex > 0 ? "margin-top: 0px;" : ""}>
-              {chunk.map((a, i) => {
-                const globalIndex = startIndex + i;
-                return (
-                  <li class="indice-item" data-articulo-idx={globalIndex}>
-                    <span class="indice-num">{(globalIndex + 1).toString().padStart(2, '0')}</span>
-                    <div class="indice-info">
-                      <span class="indice-categoria">{a.data.seccion.toUpperCase()}</span>
-                      <strong>{a.data.titulo}</strong>
-                    </div>
-                    <span class="indice-pag">—</span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      );
-    })}
+    <div class="hoja-indice">
+      <div class="indice-inner">
+        <h2 class="indice-titulo">Índice</h2>
+        <div class="indice-linea"></div>
+        <ul class="indice-lista">
+          {articulos.map((a, i) => (
+            <li class="indice-item" data-articulo-idx={i}>
+              <span class="indice-num">{(i + 1).toString().padStart(2, '0')}</span>
+              <div class="indice-info">
+                <span class="indice-categoria">{a.data.seccion.toUpperCase()}</span>
+                <strong>{a.data.titulo}</strong>
+              </div>
+              <span class="indice-pag">—</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
 
     <!-- 3. Paginas de los Articulos -->
     {renders.map(({ art, Content, autoresResueltos }, i) => (
