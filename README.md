@@ -24,8 +24,35 @@ Para probar el proyecto en tu computadora:
 ```bash
 npm install      # Instala las herramientas necesarias
 npm run dev      # Enciende la revista en http://localhost:4321
-npm run build    # Prepara el proyecto final para subirlo a internet
+npm run publicar # Prepara el proyecto final para subirlo a internet
 ```
+
+### Importante al cambiar el contenido
+
+Usa **`npm run publicar`** (no `npm run build`) cada vez que edites artículos.
+
+Repartir el texto en hojas es un cálculo caro: si lo hiciera el navegador de
+cada lector, la revista tardaría ~2 segundos en aparecer. Por eso `npm run
+publicar` construye el sitio y además deja ese reparto ya resuelto en
+`public/paginacion/`. **Esos archivos hay que subirlos al repositorio**, porque
+Vercel no puede generarlos.
+
+Si se te olvida regenerarlos no se rompe nada: la revista detecta que el
+contenido cambió y vuelve a repartir las hojas en el navegador, como antes.
+Solo se pierde la ganancia de velocidad.
+
+### Si cambias la foto de la portada
+
+La hoja tiene proporción de tamaño carta y la foto normalmente no, así que hay
+un paso que la recompone para que llene la hoja sin dejar franjas:
+
+```bash
+npm run portada    # lee volumenII.jpeg y genera portada-volumenII.jpg
+```
+
+Solo hay que ejecutarlo cuando cambie la foto original. Si la foto nueva tiene
+el texto en otro sitio, hay que ajustar las coordenadas anotadas en
+`scripts/portada.mjs` (están medidas sobre la imagen actual).
 
 ## Cómo subir a Vercel (Publicar en internet)
 

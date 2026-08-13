@@ -17,6 +17,9 @@ const todosLosNombres = [
   ...autoresResueltos.map((a) => a.data.nombre),
   ...autoresInvitados,
 ];
+/* La figura del articulo se pinta dentro de una hoja del libro, cuyo ancho util
+   no pasa de ~680px. Por eso los `widths` se quedan en 1000px: pedir 1800px
+   solo hacia descargar de mas (art07 bajaba 304 kB para verse a 470px). */
 const fechaFmt = fechaPublicacion
   ? new Intl.DateTimeFormat('es', { day: 'numeric', month: 'long', year: 'numeric' }).format(fechaPublicacion)
   : null;
@@ -52,7 +55,7 @@ const fechaFmt = fechaPublicacion
   {variante !== 'sobreimagen' && (imagenPrincipal || true) && (
     <figure class="cabecera-articulo__figura">
       {imagenPrincipal ? (
-        <Image src={imagenPrincipal} alt={titulo} loading="eager" widths={[800, 1200, 1800]} sizes="(max-width: 768px) 100vw, 80vw" />
+        <Image src={imagenPrincipal} alt={titulo} loading="eager" widths={[400, 680, 1000]} sizes="(max-width: 768px) 90vw, 680px" />
       ) : (
         <Placeholder etiqueta="IMAGEN_PRINCIPAL" ratio="16/9" />
       )}

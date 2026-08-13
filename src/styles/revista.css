@@ -75,12 +75,24 @@
   color: #FDFCF7 !important;
 }
 
+/* La hoja se maqueta SIEMPRE a 742x960 (su tamano logico) y luego se encoge
+   con transform para caber en la ventana. Asi el texto se reparte igual en
+   cualquier pantalla y redimensionar no obliga a volver a paginar.
+   El transform va aqui dentro y no en .pf-libro a proposito: page-flip calcula
+   la posicion del raton restando el rect del contenedor sin dividir por la
+   escala, y escalar el libro entero le descuadraria el arrastre. */
 .pf-hoja__inner {
-  width: 100%;
-  height: 100%;
+  /* Debe coincidir con HOJA en PageFlipWrapper.tsx */
+  --pf-hoja-alto: 818px;
+  width: 632px;
+  height: var(--pf-hoja-alto);
+  transform: scale(var(--pf-escala, 1));
+  transform-origin: top left;
   /* El padding inferior reserva el espacio del pie de pagina (que va absolute),
-     para que el texto nunca quede debajo del folio ni cortado a media linea. */
-  padding: 40px 48px 58px;
+     para que el texto nunca quede debajo del folio ni cortado a media linea.
+     Va en la misma proporcion que la hoja: si no, al encogerla los margenes
+     se comerian el texto en vez de agrandarlo. */
+  padding: 34px 41px 49px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -183,9 +195,11 @@
   margin-bottom: 0.2em !important;
 }
 
-/* Imagen del artículo compacta */
+/* Imagen del artículo compacta.
+   En fraccion de la hoja, no en vh: con vh la altura de la imagen cambiaba con
+   el alto de la ventana y la revista se repaginaba distinto en cada equipo. */
 .pf-hoja__contenido .cabecera-articulo__figura img {
-  max-height: 30vh !important;
+  max-height: calc(var(--pf-hoja-alto) * 0.34) !important;
   object-fit: cover !important;
 }
 
@@ -208,7 +222,7 @@
 .pf-hoja__contenido img,
 .pf-hoja__contenido figure {
   max-width: 100%;
-  max-height: 35vh; /* Evita desbordamiento en la página */
+  max-height: calc(var(--pf-hoja-alto) * 0.39); /* Evita desbordamiento en la página */
   object-fit: cover;
   margin: 1.5em auto;
   display: block;
@@ -301,7 +315,7 @@
   margin-top: 0.5em !important;
 }
 .pf-hoja__contenido .cabecera-articulo__figura img {
-  max-height: 22vh !important;
+  max-height: calc(var(--pf-hoja-alto) * 0.25) !important;
   object-fit: cover !important;
 }
 
@@ -624,9 +638,9 @@
 /* Pie de página */
 .pf-hoja__pie {
   position: absolute;
-  bottom: 18px;
-  left: 38px;
-  right: 38px;
+  bottom: 15px;
+  left: 32px;
+  right: 32px;
   display: flex;
   justify-content: center;
   font-family: var(--font-sans);
@@ -846,10 +860,10 @@
     max-width: 100%;
   }
 
-  /* En modo portrait (1 página), el padding interno puede ser más generoso */
-  .pf-hoja__inner {
-    padding: 32px 36px 52px;
-  }
+  /* Nota: el padding de .pf-hoja__inner ya NO se toca por breakpoint. La hoja
+     tiene medidas logicas fijas y cambiar aqui el padding haria que el texto
+     se repartiera distinto segun el ancho de la ventana, que es justo lo que
+     obligaba a repaginar al redimensionar. */
 
   /* Controles de navegación: más separados del libro */
   .pf-controles {

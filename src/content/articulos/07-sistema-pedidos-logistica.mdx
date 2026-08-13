@@ -48,8 +48,8 @@ import TablaAcademica from '@components/ui/TablaAcademica.astro';
 
 # Sistema para la Elaboración de Pedidos y Monitoreo de la Logística
 
-**Autores:** Bastidas Sánchez, Cristhian David (C.I. 28.310.112 · bastidas28310112@usm.edu.ve · ORCID 0009-0000-9529-0044) y Salazar González, Samuel Augusto (C.I. 29.741.288 · salazargsa.usm@gmail.com · ORCID 0009-0003-7971-2130).
-**Institución:** Estudiantes — Universidad Santa María.
+**Autores:** Bastidas Sanchez Cristhian David (ORCID: 0009-0000-9529-0044) y Salazar Gonzalez Samuel Augusto (ORCID: 0009-0003-7971-2130).
+**Universidad Santa María.**
 
 ## Resumen
 
@@ -95,7 +95,7 @@ El **objetivo general** de la presente investigación es desarrollar un sistema 
 - Determinar los requerimientos del sistema que pueden ayudar a una empresa de ventas de insumos médicos a mejorar el proceso de ventas.
 - Elaborar una propuesta tecnológica que ayude a la empresa a llevar a cabo la automatización de los pasos en el proceso de ventas del departamento de ventas de una empresa de ventas de insumos médicos.
 
-## Conceptos fundamentales
+## Revisión literaria
 
 Para la correcta comprensión del presente artículo consideramos importante aclarar los siguientes conceptos, empezando por la **fuerza de ventas**: según Johnston y Marshall (2021), es un conjunto de vendedores con los que cuenta la empresa; es aquello que generalmente enlaza la empresa con los clientes actuales y potenciales.
 
@@ -108,23 +108,25 @@ Esta orden de pedido debe ser procesada, y según Laudon y Laudon (2016), un cor
 Según Johnston y Marshall (ob. cit., p. 3), un proceso de ventas consta de seis etapas:
 
 - **Buscar clientes.** En algunos negocios de bienes de consumo, la búsqueda de clientes implica simples recorridos, tocando de puerta en puerta casa por casa. En la mayoría de los casos, sin embargo, el mercado objetivo está mejor definido y el vendedor puede identificar los clientes potenciales en ese segmento.
-- **Iniciar la relación.** Es el primer acercamiento al cliente en perspectiva; el representante de ventas determina quién en la empresa tiene mayor influencia o autonomía, y luego procede a generar suficiente interés dentro de la empresa para obtener la información que necesita.
+- **Iniciar la relación.** Es el primer acercamiento al cliente en perspectiva; el representante de ventas determina quién en la empresa tiene mayor influencia o autonomía, y luego procede a generar suficiente interés dentro de la empresa para obtener información que necesita para determinar si el cliente en perspectiva vale la pena.
 - **Calificar al cliente en perspectiva.** Antes de tratar de concertar una cita para una presentación de ventas o de tratar de establecer una relación, primero deben calificar al cliente, con el propósito de determinar si reúne las calificaciones como cliente que valga la pena.
 - **Presentar el mensaje de la venta.** Se considera como la médula del proceso de ventas. Es la transmisión de información hecha por el vendedor acerca del producto o servicio, y trata de convencer al prospecto para que se convierta en su cliente.
 - **Cerrar la venta.** Es obtener el consentimiento final de una compra.
 - **Dar servicio a la cuenta.** Después de realizada la compra, el vendedor debe proporcionar a los clientes diferentes servicios y ayudas para garantizar su satisfacción y para que vuelvan a comprar.
 
-### Tecnologías involucradas
+Debido a que la investigación tiene como objetivo el desarrollo de un sistema para la elaboración de pedidos médicos y monitoreo de la logística para una empresa de ventas de insumos médicos, estos conceptos son relevantes para saber el funcionamiento ideal de una fuerza de ventas, así como del proceso de ventas en general de una empresa.
 
 Para facilitar las tareas de los empleados, así como también llevar un mejor control de la empresa, existen los **Sistemas de Planificación de Recursos Empresariales (ERP)**, el cual es un sistema de software que ayuda a operar todo el negocio, dando soporte a la automatización y los procesos en finanzas, recursos humanos, fabricación, cadena de suministro, servicios, *procurement* y más (SAP, s/f).
 
-Uno de estos ERP es **Profit 2KDoce**, el cual es un software que permite manejar múltiples cajas y cuentas bancarias por empresa, llevando en cada una de las cajas tanto el sueldo efectivo como otras formas de pago (Softech Consultores, C.A., 2018). Es importante tener estos conceptos en mente debido a que actualmente la empresa de ventas de insumos médicos usa dicho ERP para sus tareas diarias. Pressman (2010) define el software como el producto que construyen los programadores profesionales y al que después le dan mantenimiento durante un largo tiempo.
+Uno de estos ERP es **Profit 2KDoce**, el cual es un software que permite manejar múltiples cajas y cuentas bancarias por empresa, llevando en cada una de las cajas tanto el sueldo efectivo como otras formas de pago (Softech Consultores, C.A., 2018). Es importante tener estos conceptos en mente debido a que actualmente la empresa de ventas de insumos médicos usa dicho ERP para sus tareas diarias. Pressman (2010) define el software como el producto que construyen los programadores profesionales y al que después le dan mantenimiento durante un largo tiempo. Los conceptos de hardware y software fueron importantes para esta investigación debido a que conforman las bases de los sistemas que se tiene planeado investigar, y a su vez, ya que se desarrolló un programa que se instalará y será usado mediante un equipo físico.
 
 Entre los lenguajes de programación tenemos **Python**, el cual es un lenguaje potente y fácil de aprender. Tiene estructuras de datos de alto nivel eficientes y un simple pero efectivo sistema de programación orientado a objetos. La elegante sintaxis de Python y su tipado dinámico, junto a su naturaleza interpretada, lo convierten en un lenguaje ideal para *scripting* y desarrollo rápido de aplicaciones en muchas áreas (Python Software Foundation, 2013).
 
 Y **Dart**, el cual es un lenguaje optimizado para clientes, diseñado para desarrollar aplicaciones rápidas en cualquier plataforma. Su objetivo es ofrecer el lenguaje de programación más productivo para el desarrollo multiplataforma, junto con una plataforma de ejecución flexible para *frameworks* de aplicaciones (Lougheed, 2024).
 
-Otros puntos importantes a aclarar son los marcos de trabajo o *frameworks*, los cuales son un conjunto de reglas y convenciones que se usan para desarrollar software de manera más eficiente y rápida. Estos marcos de trabajo se emplean para ahorrar tiempo y esfuerzo en el desarrollo de aplicaciones, ya que proporcionan una estructura básica que se puede utilizar como punto de partida (Lucena, 2023). De los marcos de trabajo a utilizar en el sistema tenemos a **Flutter**, que es un conjunto de herramientas de interfaz de usuario portátil creado por Google y la comunidad de código abierto (Lougheed, *ibidem*).
+Es necesario tener en claridad los conceptos de lenguaje de programación, ya que con esto se elabora la comunicación entre el individuo y la máquina al momento de crear un programa. Y también definir los lenguajes de programación utilizados durante el desarrollo del objetivo general en la presente investigación.
+
+Otros puntos importantes a aclarar, además de los lenguajes de programación a utilizar en el sistema, son los marcos de trabajo o *frameworks*, los cuales son un conjunto de reglas y convenciones que se usan para desarrollar software de manera más eficiente y rápida. Estos marcos de trabajo se emplean para ahorrar tiempo y esfuerzo en el desarrollo de aplicaciones, ya que proporcionan una estructura básica que se puede utilizar como punto de partida (Lucena, 2023). De los marcos de trabajo a utilizar en el sistema tenemos a **Flutter**, que es un conjunto de herramientas de interfaz de usuario portátil creado por Google y la comunidad de código abierto (Lougheed, *ibidem*). Es importante definir qué es un marco de trabajo, ya que estos son herramientas y reglas que se pueden usar para poder desarrollar un sistema de forma más rápida y eficiente, además de aclarar los tipos de *frameworks* que se usaron durante la elaboración del sistema propuesto como objetivo general en la investigación.
 
 Según Laudon y Laudon (ob. cit., p. 3), una **base de datos** es una colección de datos organizados para dar servicio a muchas aplicaciones de manera eficiente, al centralizar los datos y controlar los que son redundantes. A su vez, para acceder a la información almacenada se debe hacer uso de **consultas a la base de datos**, la cual es la manera en la que un usuario puede buscar la información dentro de una o varias tablas de una base de datos (Rivas, 2021).
 
@@ -138,30 +140,42 @@ Según Hernández, Fernández y Baptista (ob. cit., p. 8), el **enfoque cuantita
 
 La **investigación de campo** es aquella que consiste en la recolección de datos directamente de los sujetos investigados, o de la realidad donde ocurren los hechos (datos primarios), sin manipular o controlar variable alguna; es decir, el investigador obtiene la información pero no altera las condiciones existentes. De allí su carácter de investigación **no experimental** (Arias, 2012, p. 31).
 
-La **investigación descriptiva** consiste en la caracterización de un hecho, fenómeno, individuo o grupo, con el fin de establecer su estructura o comportamiento. Los resultados de este tipo de investigación se ubican en un nivel intermedio en cuanto a la profundidad de los conocimientos se refiere (Arias, *ibidem*, p. 24). Se usó el nivel descriptivo para detallar los problemas presentes en el departamento de ventas, los cuales son: que el proceso de elaboración de pedidos y procesamiento de los mismos se hace de manera manual en su mayoría; la existencia de múltiples formatos para la elaboración de pedidos, lo que lleva a que cada trabajador tenga una forma propia de realizar los pedidos; y la falta de acceso de los vendedores a la información del inventario con el que cuenta la empresa en el momento de realizar los pedidos.
+Dado el acceso que tuvieron los investigadores a los sujetos de investigación, en este caso a los integrantes del departamento de ventas de una empresa encargada de la venta de insumos médicos, la mejor opción como diseño de investigación fue el diseño de campo, ya que se pudo extraer la información directamente de los trabajadores en su entorno natural, que es el departamento de ventas, sin alterar su situación actual. Según Hernández, Fernández y Baptista (ob. cit., p. 7), la investigación no experimental es la investigación que se realiza sin manipular deliberadamente variables. Es decir, se trata de estudios donde no hacemos variar en forma intencional las variables independientes para ver su efecto sobre otras variables. Se hizo uso de la investigación no experimental ya que la situación actual presente en el departamento de ventas no se verá modificada por los investigadores durante el proceso de investigación.
 
-Según Gamardo, Petrica, Torres y otros (2023), un **proyecto factible** consiste en la formulación de una propuesta de un modelo, sistema, plan, entre otros. Esto conlleva a analizar la realidad, fundamentarla teórica y metodológicamente, para a partir de ahí generar la presentación con sus objetivos, justificación, estructura, administración y análisis de factibilidad.
+La **investigación descriptiva** consiste en la caracterización de un hecho, fenómeno, individuo o grupo, con el fin de establecer su estructura o comportamiento. Los resultados de este tipo de investigación se ubican en un nivel intermedio en cuanto a la profundidad de los conocimientos se refiere (Arias, *ibidem*, p. 24).
 
-### Población y muestra
+Se usó el nivel descriptivo para detallar los problemas presentes en el departamento de ventas, los cuales son: que el proceso de elaboración de pedidos y procesamiento de los mismos se hace de manera manual en su mayoría. Este problema se puede caracterizar por su poca eficiencia, sensible a errores humanos y con mayor carga de trabajo; otro de los problemas es la existencia de múltiples formatos para la elaboración de pedidos. Esto lleva a que cada trabajador tenga una forma propia de realizar los pedidos, lo que dificulta el descifrar el contenido del pedido y su posterior transcripción para subirlo a la base de datos.
 
-En el caso de la presente investigación, la población objetivo fueron todos los miembros del departamento de ventas de una empresa de ventas de insumos médicos, la cual consta de **catorce (14) empleados**. Según Arias (ob. cit., p. 83), si la población, por el número de unidades que la integran, resulta accesible en su totalidad, no será necesario extraer una muestra; en consecuencia, se podrá investigar u obtener datos de toda la población objetivo. Por lo cual se puede decir que es una **población censal** y no es necesario el uso de un muestreo.
+Y por último está la falta de acceso de los vendedores a la información del inventario con el que cuenta la empresa en el momento de realizar los pedidos. Esto lleva a la realización de pedidos con insumos no disponibles en el momento, lo cual puede causar inseguridad e insatisfacción en los clientes, la anulación de pedidos y afecta negativamente la competitividad de la empresa en el mercado.
 
-### Técnica e instrumento
+Según Gamardo, Petrica, Torres y otros (2023), un **proyecto factible** consiste en la formulación de una propuesta de un modelo, sistema, plan, entre otros. Esto conlleva a analizar la realidad, fundamentarla teórica y metodológicamente, para a partir de ahí, generar la presentación con sus objetivos, justificación, estructura, administración y análisis de factibilidad. Se eligió la modalidad de proyecto factible, ya que la propuesta de un sistema para la elaboración de pedidos y monitoreo de la logística dirigida a una empresa encargada de las ventas de insumos médicos como solución a los problemas presentes en el departamento de ventas es realizable en el tiempo y espacio establecidos.
 
-En esta investigación se usó la técnica de la **encuesta**, ya que es una actividad que pueden realizar los investigadores para evaluar a los empleados del departamento de ventas en su ambiente natural sin afectar directamente la situación actual. Para llevar a cabo la técnica de recolección de datos se hizo uso de un **cuestionario**, el cual es la modalidad de encuesta que se hace en forma escrita, manejado en un formato digital para mayor comodidad y utilizando preguntas cerradas para limitar a los empleados a respuestas consistentes y coherentes.
+La población, o en términos más precisos población objetivo, es un conjunto finito o infinito de elementos con características comunes para los cuales serán extensivas las conclusiones de la investigación. Ésta queda delimitada por el problema y por los objetivos del estudio (Arias, ob. cit., p. 81). Agrupación en la que se conoce la cantidad de unidades que la integran. Además, existe un registro documental de dichas unidades; ejemplos: pacientes hospitalizados en una clínica; huéspedes alojados en un hotel; los cursantes de una asignatura (Arias, ob. cit., p. 82).
 
-Una forma de evaluar la confiabilidad de un instrumento de recolección de datos primarios haciendo uso de preguntas cerradas es el **Alfa de Cronbach**, definido como otra medida de coherencia para la estimación de la confiabilidad; la diferencia con el KR20 es que el alfa de Cronbach se usa con ítems politómicos.
+Según Arias (ob. cit., p. 83), si la población, por el número de unidades que la integran, resulta accesible en su totalidad, no será necesario extraer una muestra. En consecuencia, se podrá investigar u obtener datos de toda la población objetivo, sin que se trate estrictamente de un censo.
 
-El **juicio de experto** es una forma para evaluar el cuestionario de manera más cualitativa, para hacer cumplir las reglas que conlleva la elaboración de las preguntas: que estas no pueden estar condicionadas, deben ser entendibles para la población a la que va dirigido, evitar preguntas que abusen de la memoria del encuestado, etc. También se revisa la ortografía y que tenga validez en cuanto a lo que se espera obtener de las respuestas. Una vez aplicado, las respuestas recibidas se evalúan de forma cuantitativa con métodos como Alfa de Cronbach, la cual es la que se utilizó, al centrar la encuesta en preguntas politómicas.
+En el caso de la presente investigación, la población objetivo fueron todos los miembros del departamento de ventas de una empresa de ventas de insumos médicos, la cual consta de **catorce (14) empleados**.
 
-## Resultados y discusión
+Cuando por diversas razones resulta imposible abarcar la totalidad de los elementos que conforman la población accesible, se recurre a la selección de una muestra. La muestra es un subconjunto representativo y finito que se extrae de la población accesible (Arias, ob. cit., p. 82).
+
+Dada la delimitación de espacio hecha para el proyecto, centrado en el departamento de ventas de una empresa que vende insumos médicos ubicada en Los Ruices, la cantidad de población que esta contiene es conocida y accesible en su totalidad, contando el departamento de ventas con un total de catorce (14) empleados en total, por lo cual se puede decir que es una **población censal** y a su vez no es necesario el uso de un muestreo, ya que se puede investigar u obtener los datos de toda la población objetivo.
+
+En esta investigación se usó la técnica de la **encuesta**, ya que es una actividad que pueden realizar los investigadores para evaluar a los empleados del departamento de ventas en su ambiente natural sin afectar directamente la situación actual, haciendo uso de la técnica para obtener la información de la situación en el departamento de ventas, la problemática que presentan por la falta de automatización en su proceso de ventas y la disposición de los trabajadores al uso de un sistema de información como solución a dicha problemática.
+
+Para llevar a cabo la técnica de recolección de datos, se hizo uso de un instrumento de recolección de datos primarios. En el caso del presente proyecto, se realizó un **cuestionario**, el cual es la modalidad de encuesta que se hace en forma escrita, manejado en un formato digital para mayor comodidad tanto para los investigadores como para los trabajadores del departamento de ventas y utilizando preguntas cerradas para limitar a los empleados a respuestas consistentes y coherentes a lo que se pretende investigar, en este caso, la situación actual en el departamento de ventas, los problemas que presentan por el uso de un proceso de elaboración de pedidos manual y su disposición a aceptar una solución tecnológica.
+
+Una forma de evaluar la confiabilidad de un instrumento de recolección de datos primarios haciendo uso de preguntas cerradas es el **Alfa de Cronbach**, el cual los mismos autores definen como otra medida de coherencia para la estimación de la confiabilidad; la diferencia con el KR20 es que el alfa de Cronbach se usa con ítems politómicos. Fue desarrollada por J. L. Cronbach.
+
+El **juicio de experto** es una forma para evaluar el cuestionario de forma más cualitativa para hacer cumplir las reglas que conlleva la elaboración de las preguntas, como que estas no pueden estar condicionadas, deben ser entendibles para la población a la que va dirigido, evitar preguntas que abusen de la memoria del encuestado, etc. También se revisa la ortografía y de que tenga validez en cuanto a lo que se espera obtener de las respuestas; sin embargo, una vez aplicado, las respuestas recibidas se evalúan de forma cuantitativa con métodos como Alfa de Cronbach, la cual es la que se utilizó, al centrar la encuesta en preguntas politómicas, ya que dio mayor amplitud a las respuestas que se puedan obtener y al evaluarse cuantitativamente suele tener un mejor rendimiento.
+
+## Discusión
 
 ### Ítem 3. ¿Al registrar órdenes de pedido, con qué frecuencia enfrenta problemas como datos incompletos, repeticiones o confusiones?
 
 <TablaAcademica
-  numero="Cuadro 7"
-  titulo="Frecuencia de problemas al registrar órdenes de pedido"
-  nota="Elaboración propia. Salazar, S. y Bastidas, C. (2025). n = 14."
+  numero="Cuadro 1 de resultado"
+  titulo="Tabla de frecuencias pregunta n.º 3"
+  nota="elaboración propia (2025). Según el Manual de la Universidad Santa María (2023)."
   columnas={[
     { clave: 'respuesta', etiqueta: 'Respuesta' },
     { clave: 'fa', etiqueta: 'Frecuencia absoluta', alinear: 'centro' },
@@ -177,14 +191,14 @@ El **juicio de experto** es una forma para evaluar el cuestionario de manera má
 
 **Análisis.** Se pudo observar que solamente el 21 % de la muestra no presenta ningún tipo de problemas a la hora de realizar las órdenes de pedido. Esto refleja que un preocupante **79 %** de la muestra sí presenta problemas de diversos niveles: de ese 79 %, el 36 % presenta problemas de manera ocasional mientras que el otro 43 % los presenta de manera frecuente. La reducción de estos problemas podría tener un impacto positivo a la hora de registrar nuevas órdenes de pedido, aumentando la productividad de los empleados y la satisfacción del cliente.
 
-Al ser la tasa de errores muy marcada, la redacción de las órdenes de pedido se realiza de una forma poco fiable. Esta falta de confiabilidad contradice lo establecido por González (2024) y representa un problema grave, debido a que se pueden establecer especificaciones que la empresa no puede cumplir.
+Al ser la tasa de errores muy marcada (un 36 % presenta problemas ocasionalmente y otro 43 % los presenta frecuentemente), la redacción de las órdenes de pedido se realiza de una forma poco fiable. Esta falta de confiabilidad contradice lo establecido por González (2024) y representa un problema grave, debido a que se pueden establecer especificaciones que la empresa no puede cumplir.
 
 ### Ítem 6. ¿Tiene usted acceso a la información en tiempo real de los productos con los que cuenta la empresa al momento de realizar las órdenes de pedido?
 
 <TablaAcademica
-  numero="Cuadro 10"
-  titulo="Acceso a información del inventario en tiempo real"
-  nota="Elaboración propia. Salazar, S. y Bastidas, C. (2025). n = 14."
+  numero="Cuadro 2 de resultado"
+  titulo="Tabla de frecuencias pregunta n.º 6"
+  nota="elaboración propia (2025). Según el Manual de la Universidad Santa María (2023)."
   columnas={[
     { clave: 'respuesta', etiqueta: 'Respuesta' },
     { clave: 'fa', etiqueta: 'Frecuencia absoluta', alinear: 'centro' },
@@ -205,9 +219,9 @@ Esta falta de confiabilidad en las consultas a la base de datos contradice lo es
 ### Ítem 9. ¿Qué tan satisfecho está con la rapidez para acceder a la información que necesita durante su trabajo?
 
 <TablaAcademica
-  numero="Cuadro 13"
-  titulo="Satisfacción con la rapidez de acceso a la información"
-  nota="Elaboración propia. Salazar, S. y Bastidas, C. (2025). n = 14."
+  numero="Cuadro 3 de resultado"
+  titulo="Tabla de frecuencias pregunta n.º 9"
+  nota="elaboración propia (2025). Según el Manual de la Universidad Santa María (2023)."
   columnas={[
     { clave: 'respuesta', etiqueta: 'Respuesta' },
     { clave: 'fa', etiqueta: 'Frecuencia absoluta', alinear: 'centro' },
@@ -224,8 +238,6 @@ Esta falta de confiabilidad en las consultas a la base de datos contradice lo es
 **Análisis.** Dados los datos obtenidos, se puede observar una clara tendencia hacia la insatisfacción con la rapidez para acceder a la información. Una minoría de la muestra (22 %) se muestra satisfecha, mientras que otro 7 % se muestra indiferente; por otro lado, el **71 %** expresa su descontento. Esto demuestra la necesidad de identificar los puntos en el proceso de acceso a la información que generan lentitud o dificultades.
 
 Según Laudon y Laudon (2016), la función principal de una base de datos es dar servicio a muchas aplicaciones de manera eficiente; sin embargo, y como lo demuestran los resultados obtenidos, la muestra no opina que la eficiencia de la base de datos actual cumpla con ese requerimiento, lo que representa un problema.
-
-### Síntesis
 
 El sistema actual satisface de manera satisfactoria las funciones básicas para la gestión de órdenes de pedidos, aunque también demuestra oportunidades significativas que impactan su efectividad.
 

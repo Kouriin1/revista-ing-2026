@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useStore } from '@nanostores/react';
 import { $sonidoActivo } from '@lib/store';
 import { reproducirPaginaPasada } from '@lib/audio';
@@ -29,6 +29,10 @@ export default function PageFlipWrapper({ children }: Props) {
   /* Hojas que se justifican verticalmente (el texto termina abajo del todo). */
   const [ajustadas, setAjustadas] = useState<boolean[]>([]);
   const [paginaActual, setPaginaActual] = useState(0);
+  /* Se guarda aparte porque al redimensionar hay que reconstruir el libro y no
+     queremos devolver al lector a la portada. */
+  const paginaActualRef = useRef(0);
+  const [escala, setEscala] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [cargando, setCargando] = useState(true);
   // Detectar móvil: si el viewport es ≤ 768px usamos vista scrollable
@@ -38,14 +42,28 @@ export default function PageFlipWrapper({ children }: Props) {
      de pagina depende del viewport y una paginacion vieja se corta. */
   const [claveTamano, setClaveTamano] = useState(0);
 
+  /* El slot con la revista entera solo hace falta para leerla una vez. Se
+     guarda su HTML y se desmonta: asi el navegador deja de mantener en vida un
+     duplicado completo del contenido (con 7 articulos era la mitad del DOM). */
+  const fuenteHtmlRef = useRef<string | null>(null);
+  const [fuenteMontada, setFuenteMontada] = useState(true);
+
   useEffect(() => {
-    const check = () => setEsMobil(window.innerWidth <= 768);
-    check();
+    const aplicar = () => {
+      setEsMobil(window.innerWidth <= 768);
+      setEscala(calcularEscala());
+    };
+    aplicar();
     let temporizador: ReturnType<typeof setTimeout>;
     const alRedimensionar = () => {
-      check();
+      /* Redimensionar ya no repagina (la hoja tiene medidas fijas), solo hay
+         que recalcular la escala y rehacer el libro, asi que la espera puede
+         ser corta. */
       clearTimeout(temporizador);
-      temporizador = setTimeout(() => setClaveTamano((k) => k + 1), 400);
+      temporizador = setTimeout(() => {
+        aplicar();
+        setClaveTamano((k) => k + 1);
+      }, 200);
     };
     window.addEventListener('resize', alRedimensionar);
     return () => {
@@ -90,20 +108,54 @@ export default function PageFlipWrapper({ children }: Props) {
         : [n],
     );
 
+  /**
+   * Nodos de la revista. La primera vez se leen del slot en cuanto Astro
+   * termina de hidratarlo (se comprueba por frame, en lugar de esperar un
+   * tiempo fijo); despues se reconstruyen del HTML ya guardado, en un
+   * contenedor suelto que no pesa en el documento.
+   */
+  const obtenerFuente = (): Promise<HTMLElement[]> => {
+    if (fuenteHtmlRef.current !== null) {
+      const caja = document.createElement('div');
+      caja.innerHTML = fuenteHtmlRef.current;
+      return Promise.resolve(Array.from(caja.children) as HTMLElement[]);
+    }
+    return new Promise((resolver) => {
+      const limite = performance.now() + 5000;
+      /* Se exige que el numero de nodos se repita dos fotogramas seguidos: asi
+         no se captura el slot a medio poblar (era el motivo de la espera fija
+         de 600 ms, que penalizaba a todo el mundo por un caso raro). */
+      let anterior = -1;
+      const mirar = () => {
+        const fuente = fuenteRef.current;
+        if (fuente) {
+          const nodos = desenvolver(obtenerNodosReales(fuente));
+          if (nodos.length > 0 && nodos.length === anterior) {
+            fuenteHtmlRef.current = nodos.map((n) => n.outerHTML).join('');
+            return resolver(nodos);
+          }
+          anterior = nodos.length;
+        }
+        if (performance.now() > limite) return resolver([]);
+        requestAnimationFrame(mirar);
+      };
+      mirar();
+    });
+  };
 
   // En celulares no usamos el libro 3D, solo mostramos las tarjetas hacia abajo
   const [nodosMobil, setNodosMobil] = useState<string[]>([]);
 
   useEffect(() => {
     if (!esMobil) return;
-    const id = setTimeout(() => {
-      const fuente = fuenteRef.current;
-      if (!fuente) { setCargando(false); return; }
-      const nodos = desenvolver(obtenerNodosReales(fuente));
-      setNodosMobil(nodos.map(n => n.outerHTML));
+    let cancelado = false;
+    obtenerFuente().then((nodos) => {
+      if (cancelado) return;
+      setNodosMobil(nodos.map((n) => n.outerHTML));
       setCargando(false);
-    }, 600); // Aumentado: con 10+ artículos el DOM tarda más en hidratarse
-    return () => clearTimeout(id);
+      setFuenteMontada(false);
+    });
+    return () => { cancelado = true; };
   }, [esMobil]);
 
   // Si estamos en computadora, preparamos las paginas para el libro 3D
@@ -115,19 +167,22 @@ export default function PageFlipWrapper({ children }: Props) {
        fuente de reserva, el texto crece al aplicarse la definitiva y algunas
        hojas terminan desbordadas. */
     const paginar = async () => {
+      const nodos = await obtenerFuente();
       if (cancelado) return;
-      const fuente = fuenteRef.current;
-      if (!fuente) return;
-      
-      const nodos = desenvolver(obtenerNodosReales(fuente));
-      console.log(`[PageFlip] Encontrados ${nodos.length} nodos fuente`);
+      const T0 = performance.now();
 
       if (nodos.length === 0) {
         setCargando(false);
         return;
       }
 
-      const { alto: ALTO_PAGINA, ancho: ANCHO_PAGINA } = obtenerDimensionesCarta();
+      /* Se pide ya, sin esperar: así el archivo viaja mientras se preparan el
+         medidor y las tipografías, y no suma tiempo al final. */
+      const promesaGuardada = cargarPaginacionGuardada(fuenteHtmlRef.current ?? '');
+
+      /* Se mide contra el tamaño LÓGICO de la hoja, no contra el que se ve en
+         pantalla: por eso el resultado ya no depende del viewport. */
+      const { alto: ALTO_PAGINA, ancho: ANCHO_PAGINA } = HOJA;
 
       /* Medidor REAL: replica exacta de una hoja (.pf-hoja > .pf-hoja__inner >
          .pf-hoja__contenido) para que el CSS del libro se aplique tal cual.
@@ -140,6 +195,8 @@ export default function PageFlipWrapper({ children }: Props) {
         position: absolute; left: -99999px; top: 0;
         width: ${ANCHO_PAGINA}px; height: ${ALTO_PAGINA}px;
         visibility: hidden; pointer-events: none; z-index: -1;
+        contain: layout style paint;
+        --pf-escala: 1;
       `;
       const medidorInner = document.createElement('div');
       medidorInner.className = 'pf-hoja__inner';
@@ -170,11 +227,48 @@ export default function PageFlipWrapper({ children }: Props) {
          espacio reservado para el folio). */
       const ALTO_UTIL = medidor.clientHeight || ALTO_PAGINA - 100;
 
-      /** ¿Este HTML cabe entero en una hoja? */
+      /** ¿Este HTML cabe entero en una hoja?
+       *  Cada medida cuesta un reflujo completo del medidor, y el paginador
+       *  repite muchisimas combinaciones (busquedas binarias, prefijos que
+       *  vuelven a probarse, y la validacion final que remide hoja por hoja).
+       *  Con la cache el numero de reflujos reales baja drasticamente. */
+      const memoCabe = new Map<string, boolean>();
       const cabe = (html: string): boolean => {
+        const guardado = memoCabe.get(html);
+        if (guardado !== undefined) return guardado;
         medidor.innerHTML = html;
-        return medidor.scrollHeight <= ALTO_UTIL;
+        const entra = medidor.scrollHeight <= ALTO_UTIL;
+        memoCabe.set(html, entra);
+        return entra;
       };
+
+      /* ── Atajo: paginación ya calculada ──────────────────────────────────
+         `npm run paginar` deja el reparto de hojas hecho en public/paginacion/.
+         Si el archivo existe para este contenido y todas sus hojas siguen
+         cabiendo aquí, nos ahorramos las ~2000 medidas.
+         Se vuelve a comprobar hoja por hoja a propósito: el archivo se generó
+         en otro equipo y, si las tipografías rasterizan distinto, alguna hoja
+         podría desbordarse. Ante la duda, se pagina como siempre. */
+      const guardada = await promesaGuardada;
+      if (cancelado) {
+        medidorHoja.remove();
+        return;
+      }
+      if (guardada && guardada.bloques.every((b) => cabe(b))) {
+        medidorHoja.remove();
+        if (import.meta.env.DEV) {
+          console.log(`[PageFlip] ${guardada.bloques.length} páginas desde paginación guardada`);
+        }
+        setAjustadas(guardada.ajustadas);
+        setPaginas(guardada.bloques);
+        setTotalPaginas(guardada.bloques.length);
+        setCargando(false);
+        setFuenteMontada(false);
+        return;
+      }
+      if (guardada && import.meta.env.DEV) {
+        console.warn('[PageFlip] la paginación guardada no encaja aquí; se recalcula');
+      }
 
 
       const escaparTexto = (t: string) =>
@@ -264,6 +358,11 @@ export default function PageFlipWrapper({ children }: Props) {
            siguiente. */
         const entero = (): string[] =>
           prefijo !== '' && !cabe(prefijo + el.outerHTML) ? ['', el.outerHTML] : [el.outerHTML];
+
+        /* Bloques que no tiene sentido cortar por la mitad (una firma, un pie
+           de tabla…). Si no caben en lo que queda de hoja, pasan enteros a la
+           siguiente en vez de repartirse. */
+        if (el.classList.contains('pf-no-partir')) return entero();
 
         const tabla = el.matches('figure.tabla-academica')
           ? el.querySelector('table')
@@ -485,6 +584,7 @@ export default function PageFlipWrapper({ children }: Props) {
         const esEspecial = nodo.classList.contains('hoja-portada') ||
                            nodo.classList.contains('hoja-contraportada') ||
                            nodo.classList.contains('hoja-creditos') ||
+                           nodo.classList.contains('hoja-editorial') ||
                            nodo.classList.contains('hoja-indice');
         if (esEspecial) {
           if (actual !== '') {
@@ -666,21 +766,41 @@ export default function PageFlipWrapper({ children }: Props) {
         }
       });
 
-      console.log(`[PageFlip] Generadas ${bloques.length} páginas`, articuloPageMap);
+      if (import.meta.env.DEV) {
+        console.log(
+          `[PageFlip] ${bloques.length} páginas · ${memoCabe.size} medidas reales · ` +
+            `${Math.round(performance.now() - T0)} ms`,
+          articuloPageMap,
+        );
+      }
+      /* Salida para el script que precalcula la paginación (scripts/paginar.mjs).
+         En producción no se ejecuta: el flag lo inyecta solo ese script. */
+      if ((window as any).__PF_VOLCAR__) {
+        (window as any).__PF_RESULTADO__ = {
+          huella: huella(`${fuenteHtmlRef.current ?? ''}||${firmaEstilos()}`),
+          hoja: HOJA,
+          bloques,
+          ajustadas: marcas,
+        };
+      }
+
       setAjustadas(marcas);
       setPaginas(bloques);
       setTotalPaginas(bloques.length);
       setCargando(false);
+      /* Ya tenemos el HTML guardado: el slot original puede irse del DOM. */
+      setFuenteMontada(false);
     };
 
-    /* Margen para que Astro termine de hidratar el contenido del slot. */
-    const id = setTimeout(paginar, 600);
+    paginar();
 
     return () => {
       cancelado = true;
-      clearTimeout(id);
     };
-  }, [claveTamano, esMobil]);
+    /* Ojo: ya NO depende de claveTamano. Antes cada redimensionado disparaba
+       una repaginación completa (~3 s); ahora la hoja mide siempre lo mismo y
+       basta con repintar el libro a otra escala. */
+  }, [esMobil]);
 
   // Creacion de la animacion de libro 3D
   useEffect(() => {
@@ -695,6 +815,10 @@ export default function PageFlipWrapper({ children }: Props) {
       const { ancho, alto } = obtenerDimensionesCarta();
 
       const pf = new PageFlip(libroRef.current, {
+        /* page-flip trabaja en píxeles reales: no se le puede aplicar un
+           transform al libro porque su detección del ratón (getMousePos) resta
+           el rect sin dividir por la escala y el arrastre quedaría descuadrado.
+           Por eso la escala se aplica dentro de cada hoja, no aquí. */
         width: ancho,
         height: alto,
         size: 'fixed' as any,
@@ -711,7 +835,9 @@ export default function PageFlipWrapper({ children }: Props) {
         showPageCorners: true,
         disableFlipByClick: false,
         autoSize: true,
-        startPage: 0,
+        /* Al rehacer el libro tras un redimensionado, se vuelve a la hoja que
+           estaba leyendo, no a la portada. */
+        startPage: paginaActualRef.current,
         startZIndex: 0,
         swipeDistance: 30,
         clickEventForward: true,
@@ -719,6 +845,7 @@ export default function PageFlipWrapper({ children }: Props) {
 
       pf.loadFromHTML(libroRef.current.querySelectorAll('.pf-hoja'));
       pf.on('flip', (e: any) => {
+        paginaActualRef.current = e.data as number;
         setPaginaActual(e.data as number);
         reproducirPaginaPasada(sonidoRef.current);
       });
@@ -733,19 +860,39 @@ export default function PageFlipWrapper({ children }: Props) {
       } catch {}
       instanciaRef.current = null;
     };
-  }, [paginas]);
+  }, [paginas, claveTamano]);
 
   const anterior = () => instanciaRef.current?.flipPrev?.();
   const siguiente = () => instanciaRef.current?.flipNext?.();
+
+  /* Que hojas son solo imagen (van a sangre). Se resolvia dentro del map de
+     render, lo que reparseaba el HTML de TODAS las paginas en cada render
+     (y hay uno por cada pase de hoja). Ahora se calcula una sola vez. */
+  const posters = useMemo(() => {
+    if (typeof document === 'undefined') return [] as string[];
+    const temp = document.createElement('div');
+    return paginas.map((html, i) => {
+      if (i === 0 || i === paginas.length - 1) return '';
+      temp.innerHTML = html;
+      const texto = (temp.textContent || '').trim();
+      const imgs = temp.querySelectorAll('img');
+      if (texto.length === 0 && imgs.length === 1) {
+        return imgs[0].src || imgs[0].getAttribute('src') || '';
+      }
+      return '';
+    });
+  }, [paginas]);
 
   // Vista para telefonos: tarjetas hacia abajo
   if (esMobil) {
     return (
       <div className="pf-contenedor pf-contenedor--mobil">
         {/* Usamos esto para leer el texto en el fondo sin que se vea */}
-        <div ref={fuenteRef} className="pf-fuente" aria-hidden="true">
-          {children}
-        </div>
+        {fuenteMontada && (
+          <div ref={fuenteRef} className="pf-fuente" aria-hidden="true">
+            {children}
+          </div>
+        )}
 
         {cargando ? (
           <div className="pf-cargando" role="status">
@@ -771,9 +918,11 @@ export default function PageFlipWrapper({ children }: Props) {
   return (
     <div className="pf-contenedor">
       {/* Usamos esto para leer el texto en el fondo sin que se vea */}
-      <div ref={fuenteRef} className="pf-fuente" aria-hidden="true">
-        {children}
-      </div>
+      {fuenteMontada && (
+        <div ref={fuenteRef} className="pf-fuente" aria-hidden="true">
+          {children}
+        </div>
+      )}
 
       {cargando && (
         <div className="pf-cargando" role="status">
@@ -782,23 +931,20 @@ export default function PageFlipWrapper({ children }: Props) {
         </div>
       )}
 
-      <div ref={libroRef} className="pf-libro" aria-label="Revista con páginas">
+      {/* La clave fuerza a React a rehacer las hojas tras un redimensionado:
+          page-flip envuelve los nodos al montarse, asi que necesita DOM limpio
+          para reconstruirse. Ojo: esto NO vuelve a paginar. */}
+      <div
+        ref={libroRef}
+        key={claveTamano}
+        className="pf-libro"
+        aria-label="Revista con páginas"
+        style={{ ['--pf-escala' as string]: String(escala) } as React.CSSProperties}
+      >
         {paginas.map((html, i) => {
           const isCover = i === 0 || i === paginas.length - 1;
-          
-          // Detectar si la página es solo una imagen (sin texto)
-          let esPoster = false;
-          let posterSrc = '';
-          if (!isCover && typeof document !== 'undefined') {
-            const temp = document.createElement('div');
-            temp.innerHTML = html;
-            const texto = (temp.textContent || '').trim();
-            const imgs = temp.querySelectorAll('img');
-            if (texto.length === 0 && imgs.length === 1) {
-              esPoster = true;
-              posterSrc = imgs[0].src || imgs[0].getAttribute('src') || '';
-            }
-          }
+          const posterSrc = posters[i] || '';
+          const esPoster = posterSrc !== '';
 
           return (
             <div
@@ -864,28 +1010,103 @@ export default function PageFlipWrapper({ children }: Props) {
   );
 }
 
-const obtenerDimensionesCarta = () => {
-  if (typeof window === 'undefined') return { ancho: 612, alto: 792 };
-  
+/**
+ * Huella del contenido. Sirve para saber si una paginación guardada sigue
+ * correspondiendo al texto actual: si alguien edita un artículo y no vuelve a
+ * generarla, la huella deja de cuadrar y se pagina en el navegador como
+ * siempre. Nunca se queda una revista mal cortada por un JSON viejo.
+ * FNV-1a en dos mitades para que 8 caracteres no den colisiones tontas.
+ */
+/**
+ * Los nombres de los archivos CSS que genera Astro llevan un hash de su
+ * contenido, así que sirven de firma de los estilos. Entran en la huella
+ * porque la paginación depende tanto del texto como de la tipografía: si solo
+ * se mirara el HTML, un cambio de interlineado reutilizaría un reparto viejo.
+ */
+const firmaEstilos = (): string =>
+  Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+    .map((l) => l.getAttribute('href') || '')
+    .sort()
+    .join('|');
+
+const huella = (s: string): string => {
+  let a = 0x811c9dc5;
+  let b = 0x01000193;
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    a = Math.imul(a ^ c, 0x01000193);
+    b = Math.imul(b + c, 0x85ebca6b) ^ (b >>> 13);
+  }
+  return ((a >>> 0).toString(16) + (b >>> 0).toString(16)).padStart(16, '0');
+};
+
+/* ── Geometría de la hoja ─────────────────────────────────────────────────
+   La hoja tiene un tamaño LÓGICO fijo: el texto siempre se maqueta contra
+   estas medidas, pase lo que pase con la ventana. Eso hace que la paginación
+   sea siempre la misma (misma revista en todos los equipos) y, sobre todo,
+   que redimensionar ya no obligue a volver a paginar: solo cambia la escala
+   con la que se pinta.
+   Encoger la hoja equivale a agrandar la letra: como luego se escala para
+   llenar el mismo hueco, todo (texto, imágenes y márgenes) se ve un 10% mayor
+   sin tocar ni una sola de las ~35 reglas de tipografía. A cambio entra algo
+   menos de texto por hoja.
+   Proporción de tamaño carta: 8.5/11. Si cambias esto, ajusta también
+   .pf-hoja__inner en revista.css y vuelve a ejecutar `npm run paginar`. */
+const HOJA = { ancho: 632, alto: 818 };
+
+/** Cuánto hay que encoger (o estirar) la hoja para que quepa en la ventana. */
+const calcularEscala = () => {
+  if (typeof window === 'undefined') return 1;
   const w = window.innerWidth;
   const h = window.innerHeight;
-  
-  // Espacio máximo disponible
-  const maxHeight = Math.min(h - 120, 1000); 
-  // En pantallas anchas se ven 2 páginas, en móviles 1
-  const maxWidth = w < 900 ? w - 40 : (w / 2) - 80; 
-  
-  // Proporción exacta de Tamaño Carta (8.5 / 11)
-  const RATIO = 8.5 / 11;
-  
-  let alto = maxHeight;
-  let ancho = alto * RATIO;
-  
-  // Si el ancho calculado supera el espacio disponible, reescalamos por el ancho
-  if (ancho > maxWidth) {
-    ancho = maxWidth;
-    alto = ancho / RATIO;
+  // En pantallas anchas se ven 2 páginas a la vez; en estrechas, 1
+  const hojasALaVez = w < 900 ? 1 : 2;
+  const dispAlto = h - 120;
+  const dispAncho = w < 900 ? w - 40 : w - 160;
+
+  const escala = Math.min(dispAlto / HOJA.alto, dispAncho / (HOJA.ancho * hojasALaVez));
+  /* El texto es vectorial y no se pixela al ampliarlo, así que el techo solo
+     está para que la hoja no crezca sin sentido en monitores enormes. */
+  return Math.max(0.45, Math.min(escala, 1.35));
+};
+
+/**
+ * Busca la paginación precalculada que corresponde a este contenido.
+ * Devuelve null ante cualquier duda (no existe, no cuadra la huella, se generó
+ * con otra medida de hoja, tarda demasiado…) y entonces se pagina al vuelo.
+ */
+const cargarPaginacionGuardada = async (
+  fuenteHtml: string,
+): Promise<{ bloques: string[]; ajustadas: boolean[] } | null> => {
+  if (!fuenteHtml) return null;
+  /* El script que genera estos archivos necesita que se pagine de verdad; si
+     no, leería su propia salida anterior y nunca se actualizaría. */
+  if ((window as any).__PF_VOLCAR__) return null;
+  try {
+    const base = import.meta.env.BASE_URL || '/';
+    const url = `${base}${base.endsWith('/') ? '' : '/'}paginacion/${huella(`${fuenteHtml}||${firmaEstilos()}`)}.json`;
+    /* Si tarda más de esto, sale más a cuenta paginar aquí mismo. */
+    const corte = new AbortController();
+    const reloj = setTimeout(() => corte.abort(), 2500);
+    const res = await fetch(url, { signal: corte.signal });
+    clearTimeout(reloj);
+    if (!res.ok) return null;
+
+    const datos = await res.json();
+    if (datos?.hoja?.ancho !== HOJA.ancho || datos?.hoja?.alto !== HOJA.alto) return null;
+    if (!Array.isArray(datos.bloques) || datos.bloques.length === 0) return null;
+
+    return {
+      bloques: datos.bloques as string[],
+      ajustadas: Array.isArray(datos.ajustadas) ? (datos.ajustadas as boolean[]) : [],
+    };
+  } catch {
+    return null;
   }
-  
-  return { ancho, alto };
+};
+
+/** Medidas en píxeles reales con las que se pinta cada hoja. */
+const obtenerDimensionesCarta = () => {
+  const escala = calcularEscala();
+  return { ancho: HOJA.ancho * escala, alto: HOJA.alto * escala, escala };
 };
