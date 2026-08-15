@@ -82,9 +82,13 @@
    la posicion del raton restando el rect del contenedor sin dividir por la
    escala, y escalar el libro entero le descuadraria el arrastre. */
 .pf-hoja__inner {
-  /* Debe coincidir con HOJA en PageFlipWrapper.tsx */
-  --pf-hoja-alto: 818px;
-  width: 632px;
+  /* Debe coincidir con HOJA en PageFlipWrapper.tsx.
+     760px representan las 11 pulgadas de alto de una hoja carta, o sea
+     760/792 = 0.9596 px por punto tipografico. Por eso el cuerpo de texto
+     (0.72rem = 11.52px) sale exactamente a 12 pt, como en Word. Si se cambia
+     este alto hay que rehacer esa cuenta o el texto deja de ser 12 pt. */
+  --pf-hoja-alto: 760px;
+  width: 587px;
   height: var(--pf-hoja-alto);
   transform: scale(var(--pf-escala, 1));
   transform-origin: top left;
@@ -92,7 +96,7 @@
      para que el texto nunca quede debajo del folio ni cortado a media linea.
      Va en la misma proporcion que la hoja: si no, al encogerla los margenes
      se comerian el texto en vez de agrandarlo. */
-  padding: 34px 41px 49px;
+  padding: 32px 38px 46px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -638,9 +642,9 @@
 /* Pie de página */
 .pf-hoja__pie {
   position: absolute;
-  bottom: 15px;
-  left: 32px;
-  right: 32px;
+  bottom: 14px;
+  left: 30px;
+  right: 30px;
   display: flex;
   justify-content: center;
   font-family: var(--font-sans);

@@ -1052,7 +1052,7 @@ const huella = (s: string): string => {
    menos de texto por hoja.
    Proporción de tamaño carta: 8.5/11. Si cambias esto, ajusta también
    .pf-hoja__inner en revista.css y vuelve a ejecutar `npm run paginar`. */
-const HOJA = { ancho: 632, alto: 818 };
+const HOJA = { ancho: 587, alto: 760 };
 
 /** Cuánto hay que encoger (o estirar) la hoja para que quepa en la ventana. */
 const calcularEscala = () => {
