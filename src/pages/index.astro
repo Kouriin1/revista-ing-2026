@@ -32,6 +32,8 @@ const Editorial = editorial ? (await render(editorial)).Content : null;
 // la edición para que no haya que tocarlo a mano el año que viene.
 const mesFirma = new Intl.DateTimeFormat('es', { month: 'long', timeZone: 'UTC' }).format(edicion.data.fechaPublicacion);
 const fechaFirma = `${mesFirma.charAt(0).toUpperCase()}${mesFirma.slice(1)}, ${edicion.data.fechaPublicacion.getUTCFullYear()}.`;
+// Cintillo del pie de la contraportada: "Junio 2026"
+const fechaPie = `${mesFirma.charAt(0).toUpperCase()}${mesFirma.slice(1)} ${edicion.data.fechaPublicacion.getUTCFullYear()}`;
 
 const renders = await Promise.all(articulos.map(async (art) => {
   const { Content } = await render(art);
@@ -185,6 +187,11 @@ const renders = await Promise.all(articulos.map(async (art) => {
     <div class="hoja-contraportada">
       <div class="contraportada-content">
         <Image src={usmLogo} alt="Logo USM" class="contraportada__logo" />
+      </div>
+      <div class="contraportada-pie">
+        <div class="contraportada-pie__linea"></div>
+        <span class="contraportada-pie__titulo">Boletín Académico</span>
+        <span class="contraportada-pie__fecha">{fechaPie}</span>
       </div>
     </div>
 
@@ -387,8 +394,8 @@ const renders = await Promise.all(articulos.map(async (art) => {
     font-family: var(--font-serif);
     text-align: justify;
     hyphens: auto;
-    line-height: 1.38 !important;
-    margin: 0 0 0.3em !important;
+    line-height: 1.30 !important;
+    margin: 0 0 0.24em !important;
   }
   /* El cuerpo no lleva estilos propios a proposito: hereda la tipografia de la
      hoja (revista.css). Asi se ve igual aunque el paginador tenga que repartir
@@ -398,8 +405,8 @@ const renders = await Promise.all(articulos.map(async (art) => {
     flex-direction: column;
     align-items: flex-end;
     text-align: right;
-    margin-top: 8px;
-    padding-top: 5px;
+    margin-top: 3px;
+    padding-top: 3px;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
     line-height: 1.2;
   }
@@ -578,11 +585,45 @@ const renders = await Promise.all(articulos.map(async (art) => {
     color: #FFFFFF !important;
     text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     display: flex;
+    position: relative;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family: var(--font-sans);
     font-size: 0.85rem;
+  }
+  /* Cintillo al pie: mismo titulo de la revista y la fecha de la edicion. */
+  .contraportada-pie {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: #FFFFFF;
+    text-shadow: none;
+  }
+  .contraportada-pie__linea {
+    width: 90px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.55);
+    margin-bottom: 7px;
+  }
+  .contraportada-pie__titulo {
+    font-family: var(--font-sans);
+    font-size: 0.5rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .contraportada-pie__fecha {
+    font-family: var(--font-sans);
+    font-size: 0.44rem;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.75);
   }
   .contraportada-content {
     display: flex;

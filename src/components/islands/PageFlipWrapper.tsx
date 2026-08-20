@@ -227,11 +227,33 @@ export default function PageFlipWrapper({ children }: Props) {
          espacio reservado para el folio). */
       const ALTO_UTIL = medidor.clientHeight || ALTO_PAGINA - 100;
 
+      /* Minimo que debe quedar libre debajo de un titulo para dejarlo al pie
+         de la hoja: unas tres lineas de texto. Con menos, el titulo se ve
+         colgado y se pasa entero a la hoja siguiente. */
+      const MINIMO_TRAS_TITULO = 56;
+
       /** ¿Este HTML cabe entero en una hoja?
        *  Cada medida cuesta un reflujo completo del medidor, y el paginador
        *  repite muchisimas combinaciones (busquedas binarias, prefijos que
        *  vuelven a probarse, y la validacion final que remide hoja por hoja).
        *  Con la cache el numero de reflujos reales baja drasticamente. */
+      const memoAlto = new Map<string, number>();
+      /** Altura REAL que ocupa este HTML dentro de una hoja.
+       *  No sirve scrollHeight: en un contenedor flex nunca devuelve menos que
+       *  la altura de la caja, asi que siempre daba 'hoja llena' y no permitia
+       *  saber cuanto quedaba libre. Hay que mirar donde acaba el ultimo hijo. */
+      const alto = (html: string): number => {
+        const guardado = memoAlto.get(html);
+        if (guardado !== undefined) return guardado;
+        medidor.innerHTML = html;
+        const arriba = medidor.getBoundingClientRect().top;
+        let usado = 0;
+        for (const hijo of Array.from(medidor.children)) {
+          usado = Math.max(usado, (hijo as HTMLElement).getBoundingClientRect().bottom - arriba);
+        }
+        memoAlto.set(html, usado);
+        return usado;
+      };
       const memoCabe = new Map<string, boolean>();
       const cabe = (html: string): boolean => {
         const guardado = memoCabe.get(html);
@@ -654,11 +676,18 @@ export default function PageFlipWrapper({ children }: Props) {
               continue;
             }
 
-            /* Un titulo nunca debe quedar solo al pie de una hoja: si el
-               elemento que le sigue no entra, lo pasamos junto con el. */
+            /* Un titulo no debe quedar solo al pie de una hoja. Pero si debajo
+               todavia caben unas cuantas lineas, se deja aqui y el parrafo se
+               parte: antes se llevaba titulo y parrafo enteros a la hoja
+               siguiente y quedaba medio folio en blanco. */
             if (esHeading && fi + 1 < flatNodos.length && subActual !== '') {
               const nextHtml = flatNodos[fi + 1].outerHTML;
-              if (!cabe(subActual + innerHtml + nextHtml) && cabe(innerHtml + nextHtml)) {
+              const sitioDebajo = ALTO_UTIL - alto(subActual + innerHtml);
+              if (
+                sitioDebajo < MINIMO_TRAS_TITULO &&
+                !cabe(subActual + innerHtml + nextHtml) &&
+                cabe(innerHtml + nextHtml)
+              ) {
                 bloques.push(subActual);
                 subActual = innerHtml;
                 continue;
