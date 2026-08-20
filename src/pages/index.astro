@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { obtenerEdicionActiva } from '@lib/edicion';
-import { getCollection, getEntries, render } from 'astro:content';
+import { getCollection, getEntries, getEntry, render } from 'astro:content';
 import { Image } from 'astro:assets';
-import portadaImg from '@assets/imagenes/portada_correcta.jpeg';
+// Portada ya compuesta a la proporción de la hoja por `npm run portada`
+import portadaImg from '@assets/imagenes/portada-volumenII.jpg';
 import usmLogo from '@assets/imagenes/usmlogo.png';
 import PageFlipWrapper from '@components/islands/PageFlipWrapper.tsx';
 import Placeholder from '@components/ui/Placeholder.astro';
@@ -11,7 +12,10 @@ import CabeceraArticulo from '@components/plantillas/CabeceraArticulo.astro';
 import Referencias from '@components/ui/Referencias.astro';
 
 const edicion = await obtenerEdicionActiva();
-const fechaTexto = new Intl.DateTimeFormat('es', { month: 'long', year: 'numeric' }).format(edicion.data.fechaPublicacion);
+/* timeZone UTC a proposito: la fecha del JSON ("2026-06-01") se guarda como
+   medianoche UTC, y al formatearla en la hora local del equipo que compila se
+   iba al dia anterior (salia "mayo" en vez de "junio"). */
+const fechaTexto = new Intl.DateTimeFormat('es', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(edicion.data.fechaPublicacion);
 
 // Buscamos todos los articulos que pertenezcan a la edicion actual
 const articulos = await getCollection('articulos', ({ data }) => data.edicion === edicion.data.numero);
@@ -20,6 +24,16 @@ articulos.sort((a, b) => a.data.orden - b.data.orden);
 // El indice va como un unico bloque: el paginador del modo revista lo reparte
 // llenando cada hoja hasta abajo y continuando en la siguiente si hace falta.
 // Antes se troceaba aqui en grupos fijos y quedaban hojas medio vacias.
+
+// Presentación / editorial: va en su propia hoja, justo detrás del índice
+const editorial = await getEntry('institucional', 'editorial');
+const Editorial = editorial ? (await render(editorial)).Content : null;
+// Firma con el formato del original ("Junio, 2026."), pero tomando el dato de
+// la edición para que no haya que tocarlo a mano el año que viene.
+const mesFirma = new Intl.DateTimeFormat('es', { month: 'long', timeZone: 'UTC' }).format(edicion.data.fechaPublicacion);
+const fechaFirma = `${mesFirma.charAt(0).toUpperCase()}${mesFirma.slice(1)}, ${edicion.data.fechaPublicacion.getUTCFullYear()}.`;
+// Cintillo del pie de la contraportada: "Junio 2026"
+const fechaPie = `${mesFirma.charAt(0).toUpperCase()}${mesFirma.slice(1)} ${edicion.data.fechaPublicacion.getUTCFullYear()}`;
 
 const renders = await Promise.all(articulos.map(async (art) => {
   const { Content } = await render(art);
@@ -38,7 +52,7 @@ const renders = await Promise.all(articulos.map(async (art) => {
   <PageFlipWrapper client:only="react">
     
     <!-- 1. Pagina de Portada -->
-    <div class="hoja-portada" style={`background-image: url('${portadaImg.src}')`}>
+    <div class="hoja-portada" style={`--portada-img: url('${portadaImg.src}')`}>
       {/* --- Elementos sobre la portada ocultos: ahora solo se muestra la imagen ---
       <div class="portada__logo-wrap">
         <Image src={usmLogo} alt="Universidad Santa María" class="portada__logo" />
@@ -51,13 +65,13 @@ const renders = await Promise.all(articulos.map(async (art) => {
       --- fin elementos ocultos --- */}
     </div>
 
-    <!-- 1.5 Pagina de Creditos / Autoridades (HOJA 1: va despues de la portada, antes del indice) -->
+    <!-- 1.5 Pagina de Creditos / Autoridades (va despues de la portada, antes del indice) -->
     <div class="hoja-creditos">
       <div class="creditos-inner">
         <header class="creditos-header">
           <h1 class="creditos-titulo">Boletín Académico</h1>
           <p class="creditos-subtitulo">
-            Centro de Investigaciones de la Facultad de Ingeniería y Arquitectura (CEFIA)
+            Centro de Investigaciones de la Facultad de Ingeniería y Arquitectura (FIA)
           </p>
           <div class="creditos-linea"></div>
         </header>
@@ -67,33 +81,23 @@ const renders = await Promise.all(articulos.map(async (art) => {
           <ul class="creditos-lista">
             <li><span class="creditos-nombre">Dr. Ciro Nicolas Sosa Flores</span><span class="creditos-cargo">Rector</span></li>
             <li><span class="creditos-nombre">Dra. Antonina D'Amico</span><span class="creditos-cargo">Vicerrectora Académica</span></li>
+            <li><span class="creditos-nombre">Dra. Virginia de Magalhaes</span><span class="creditos-cargo">Secretaria General</span></li>
           </ul>
         </div>
 
         <div class="creditos-grupo">
-          <h2 class="creditos-etiqueta">Centro de Investigaciones CEFIA · Coordinadores</h2>
+          <h2 class="creditos-etiqueta">Centro de Investigaciones FIA · Coordinadores</h2>
           <ul class="creditos-lista">
-            <li><span class="creditos-nombre">Prof. Acosta Heybart</span></li>
+            <li><span class="creditos-nombre">Ing. Acosta Heybart</span></li>
             <li><span class="creditos-nombre">Dr. Omar Alviárez</span></li>
           </ul>
         </div>
-      </div>
-    </div>
-
-    <!-- 1.6 Pagina de Creditos (HOJA 2: continuacion) -->
-    <div class="hoja-creditos">
-      <div class="creditos-inner">
-        <header class="creditos-header">
-          <p class="creditos-eyebrow">Boletín Académico · CEFIA</p>
-          <div class="creditos-linea creditos-linea--corta"></div>
-        </header>
 
         <div class="creditos-grupo">
-          <h2 class="creditos-etiqueta">Facultad de Arquitectura e Ingeniería</h2>
+          <h2 class="creditos-etiqueta">Facultad de Ingeniería y Arquitectura</h2>
           <ul class="creditos-lista">
-            <li><span class="creditos-nombre">Arq. Susana Milco</span><span class="creditos-cargo">Decana</span></li>
+            <li><span class="creditos-nombre">Arq. Susana Mileo de Sierra</span><span class="creditos-cargo">Decana</span></li>
             <li><span class="creditos-nombre">Arq. Ricardo Rodriguez</span><span class="creditos-cargo">Director</span></li>
-            <li><span class="creditos-nombre">Dra. Maria Dib</span><span class="creditos-cargo">Directora Editorial USM</span></li>
           </ul>
         </div>
 
@@ -129,6 +133,27 @@ const renders = await Promise.all(articulos.map(async (art) => {
       </div>
     </div>
 
+    <!-- 2.5 Presentacion / Editorial (va detras del indice) -->
+    {Editorial && (
+      <div class="hoja-editorial">
+        <div class="editorial-inner">
+          <h2 class="editorial-titulo">{editorial!.data.titulo}</h2>
+          <div class="editorial-linea"></div>
+          <div class="editorial-cuerpo">
+            <Editorial />
+          </div>
+          <div class="editorial-firma pf-no-partir">
+            <span class="editorial-firma__nombre">{editorial!.data.autor}</span>
+            {editorial!.data.cargo && (
+              <span class="editorial-firma__cargo">{editorial!.data.cargo}</span>
+            )}
+            <span class="editorial-firma__inst">Universidad Santa María</span>
+            <span class="editorial-firma__fecha">{fechaFirma}</span>
+          </div>
+        </div>
+      </div>
+    )}
+
     <!-- 3. Paginas de los Articulos -->
     {renders.map(({ art, Content, autoresResueltos }, i) => (
       <div class="hoja-articulo" data-articulo-idx={i}>
@@ -163,6 +188,11 @@ const renders = await Promise.all(articulos.map(async (art) => {
       <div class="contraportada-content">
         <Image src={usmLogo} alt="Logo USM" class="contraportada__logo" />
       </div>
+      <div class="contraportada-pie">
+        <div class="contraportada-pie__linea"></div>
+        <span class="contraportada-pie__titulo">Boletín Académico</span>
+        <span class="contraportada-pie__fecha">{fechaPie}</span>
+      </div>
     </div>
 
   </PageFlipWrapper>
@@ -175,6 +205,12 @@ const renders = await Promise.all(articulos.map(async (art) => {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    /* Color de la propia portada: es lo que se ve mientras carga la imagen. */
+    background-color: #12224d;
+    /* La imagen ya viene compuesta con la proporción exacta de la hoja (la
+       genera scripts/portada.mjs), así que `cover` la encaja sin recortar
+       nada y sin dejar franjas. */
+    background-image: var(--portada-img);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -273,28 +309,16 @@ const renders = await Promise.all(articulos.map(async (art) => {
     line-height: 1.3;
     max-width: 88%;
   }
-  .creditos-eyebrow {
-    font-family: var(--font-sans);
-    font-size: 0.48rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #C5A059;
-    font-weight: 700;
-    margin: 0;
-  }
   .creditos-linea {
     height: 2px;
     background: #C5A059;
     margin: 6px auto 10px;
     width: 55%;
   }
-  .creditos-linea--corta {
-    width: 38%;
-    margin-top: 5px;
-    margin-bottom: 8px;
-  }
+  /* Los cuatro grupos caben de sobra en una hoja, asi que se reparten con aire
+     en lugar de apretarse arriba. */
   .creditos-grupo {
-    margin-bottom: 7px;
+    margin-bottom: 14px;
   }
   .creditos-grupo:last-child {
     margin-bottom: 0;
@@ -340,6 +364,70 @@ const renders = await Promise.all(articulos.map(async (art) => {
     color: #4A4A4A;
     line-height: 1.15;
     text-align: left;
+  }
+
+  /* Presentación / Editorial */
+  .hoja-editorial {
+    padding: 0 5px;
+    background: transparent;
+  }
+  .editorial-titulo {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    color: #002147;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .editorial-linea {
+    height: 2px;
+    background: #C5A059;
+    margin: 3px 0 6px;
+    width: 100%;
+  }
+  /* La presentacion es una sola pagina en el original, y el texto justo la
+     llena: se compone algo mas apretada que los articulos para que quepa
+     entera y la firma no acabe sola en la hoja siguiente. */
+  /* Los !important son necesarios: revista.css fija line-height/margin de los
+     parrafos del libro tambien con !important. */
+  .editorial-cuerpo :global(p) {
+    font-family: var(--font-serif);
+    text-align: justify;
+    hyphens: auto;
+    line-height: 1.30 !important;
+    margin: 0 0 0.24em !important;
+  }
+  /* El cuerpo no lleva estilos propios a proposito: hereda la tipografia de la
+     hoja (revista.css). Asi se ve igual aunque el paginador tenga que repartir
+     la presentacion en dos hojas y los parrafos salgan del envoltorio. */
+  .editorial-firma {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    margin-top: 3px;
+    padding-top: 3px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    line-height: 1.2;
+  }
+  .editorial-firma__nombre {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: #002147;
+  }
+  .editorial-firma__cargo {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: #4A4A4A;
+  }
+  .editorial-firma__inst {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    color: #002147;
+  }
+  .editorial-firma__fecha {
+    font-family: var(--font-serif);
+    color: #4A4A4A;
   }
 
   /* Índice */
@@ -497,11 +585,45 @@ const renders = await Promise.all(articulos.map(async (art) => {
     color: #FFFFFF !important;
     text-shadow: 0 1px 3px rgba(0,0,0,0.8);
     display: flex;
+    position: relative;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family: var(--font-sans);
     font-size: 0.85rem;
+  }
+  /* Cintillo al pie: mismo titulo de la revista y la fecha de la edicion. */
+  .contraportada-pie {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    color: #FFFFFF;
+    text-shadow: none;
+  }
+  .contraportada-pie__linea {
+    width: 90px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.55);
+    margin-bottom: 7px;
+  }
+  .contraportada-pie__titulo {
+    font-family: var(--font-sans);
+    font-size: 0.5rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .contraportada-pie__fecha {
+    font-family: var(--font-sans);
+    font-size: 0.44rem;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.75);
   }
   .contraportada-content {
     display: flex;

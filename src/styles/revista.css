@@ -75,12 +75,28 @@
   color: #FDFCF7 !important;
 }
 
+/* La hoja se maqueta SIEMPRE a 742x960 (su tamano logico) y luego se encoge
+   con transform para caber en la ventana. Asi el texto se reparte igual en
+   cualquier pantalla y redimensionar no obliga a volver a paginar.
+   El transform va aqui dentro y no en .pf-libro a proposito: page-flip calcula
+   la posicion del raton restando el rect del contenedor sin dividir por la
+   escala, y escalar el libro entero le descuadraria el arrastre. */
 .pf-hoja__inner {
-  width: 100%;
-  height: 100%;
+  /* Debe coincidir con HOJA en PageFlipWrapper.tsx.
+     760px representan las 11 pulgadas de alto de una hoja carta, o sea
+     760/792 = 0.9596 px por punto tipografico. Por eso el cuerpo de texto
+     (0.72rem = 11.52px) sale exactamente a 12 pt, como en Word. Si se cambia
+     este alto hay que rehacer esa cuenta o el texto deja de ser 12 pt. */
+  --pf-hoja-alto: 760px;
+  width: 587px;
+  height: var(--pf-hoja-alto);
+  transform: scale(var(--pf-escala, 1));
+  transform-origin: top left;
   /* El padding inferior reserva el espacio del pie de pagina (que va absolute),
-     para que el texto nunca quede debajo del folio ni cortado a media linea. */
-  padding: 40px 48px 58px;
+     para que el texto nunca quede debajo del folio ni cortado a media linea.
+     Va en la misma proporcion que la hoja: si no, al encogerla los margenes
+     se comerian el texto en vez de agrandarlo. */
+  padding: 32px 38px 46px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -106,11 +122,11 @@
 .pf-hoja__contenido > * {
   flex-shrink: 0; /* que el texto nunca se comprima para caber */
 }
-/* Justificado vertical: reparte el sobrante entre los bloques para que el
-   texto termine a la misma altura en todas las hojas llenas. Solo se aplica
-   a las que el paginador marca (bastante llenas y con varios bloques). */
+/* El justificado vertical (repartir el sobrante entre los bloques) abria
+   huecos enormes entre parrafos. El texto va seguido y el sobrante se queda
+   al final de la hoja, que es donde debe estar. */
 .pf-hoja__contenido--ajustada {
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 /* Tipografía dentro de las hojas (Forzando oscuro) */
@@ -174,18 +190,22 @@
   margin-bottom: 0.15em !important;
 }
 .pf-hoja__contenido h4 {
-  font-family: var(--font-sans);
+  text-align: justify !important;
+  hyphens: auto !important;
+  font-family: var(--font-serif);
   font-size: 0.78rem !important;
-  font-weight: 700;
-  color: #1a3a66 !important;
+  font-weight: 400;
+  color: #1A1A1A !important;
   line-height: 1.25 !important;
   margin-top: 0.5em !important;
   margin-bottom: 0.2em !important;
 }
 
-/* Imagen del artículo compacta */
+/* Imagen del artículo compacta.
+   En fraccion de la hoja, no en vh: con vh la altura de la imagen cambiaba con
+   el alto de la ventana y la revista se repaginaba distinto en cada equipo. */
 .pf-hoja__contenido .cabecera-articulo__figura img {
-  max-height: 30vh !important;
+  max-height: calc(var(--pf-hoja-alto) * 0.34) !important;
   object-fit: cover !important;
 }
 
@@ -208,7 +228,7 @@
 .pf-hoja__contenido img,
 .pf-hoja__contenido figure {
   max-width: 100%;
-  max-height: 35vh; /* Evita desbordamiento en la página */
+  max-height: calc(var(--pf-hoja-alto) * 0.39); /* Evita desbordamiento en la página */
   object-fit: cover;
   margin: 1.5em auto;
   display: block;
@@ -301,7 +321,7 @@
   margin-top: 0.5em !important;
 }
 .pf-hoja__contenido .cabecera-articulo__figura img {
-  max-height: 22vh !important;
+  max-height: calc(var(--pf-hoja-alto) * 0.25) !important;
   object-fit: cover !important;
 }
 
@@ -356,15 +376,20 @@
   background-color: #002147 !important;
 }
 
-/* ── H3: Subtítulo clásico en itálica dorada ── */
+/* ── H3: subtitulo simple, sin dorado ni negrita ── */
 .pf-hoja__contenido h3 {
   margin: 1em 0 0.3em !important;
   font-family: var(--font-serif) !important;
   font-size: 0.8rem !important;
-  font-style: italic !important;
-  font-weight: 600 !important;
-  color: #C5A059 !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  color: #1A1A1A !important;
   line-height: 1.3 !important;
+  /* Justificado como los parrafos: al ser subtitulos largos (las preguntas de
+     los cuestionarios ocupan varias lineas) en bandera se veian desalineados
+     respecto al texto de alrededor. */
+  text-align: justify !important;
+  hyphens: auto !important;
 }
 
 /* ── Párrafos: serif justificado a ambos márgenes ── */
@@ -429,12 +454,15 @@
 }
 
 /* Negrita con color azul oxford muy marcado */
+/* Las etiquetas que quedan en negrita (Autores, Palabras clave, Keywords)
+   van en negrita normal y sin fondo: el resaltado dorado era lo que hacia que
+   la revista pareciera llena de palabras remarcadas. */
 .pf-hoja__contenido strong {
   font-size: inherit !important;
-  color: #002147 !important;
-  font-weight: 800 !important;
-  background-color: rgba(197, 160, 89, 0.08) !important;
-  padding: 0 0.1em !important;
+  color: #1A1A1A !important;
+  font-weight: 700 !important;
+  background: none !important;
+  padding: 0 !important;
 }
 
 /* ── Listas con viñeta dorada ── */
@@ -605,9 +633,6 @@
 .pf-hoja__contenido .referencias__lista li {
   color: #3A3A3A !important;
 }
-.pf-hoja__contenido .referencias__lista li::before {
-  color: #C5A059 !important;
-}
 .pf-hoja__contenido .referencias__lista a {
   color: #1a3a66 !important;
 }
@@ -624,9 +649,9 @@
 /* Pie de página */
 .pf-hoja__pie {
   position: absolute;
-  bottom: 18px;
-  left: 38px;
-  right: 38px;
+  bottom: 14px;
+  left: 30px;
+  right: 30px;
   display: flex;
   justify-content: center;
   font-family: var(--font-sans);
@@ -675,6 +700,49 @@
   text-align: center;
 }
 
+/* ── Salto directo a una página (input dentro de la píldora de controles) ── */
+.pf-salto {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: rgba(255,255,255,0.5);
+}
+.pf-salto__input {
+  width: 46px;
+  padding: 5px 2px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  transition: border-color 200ms, background 200ms;
+}
+.pf-salto__input::placeholder {
+  color: rgba(255,255,255,0.55);
+}
+.pf-salto__input:focus {
+  outline: none;
+  border-color: var(--color-dorado);
+  background: rgba(255,255,255,0.12);
+}
+/* Sin flechitas de spinner: el campo es para teclear y dar Enter */
+.pf-salto__input::-webkit-outer-spin-button,
+.pf-salto__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.pf-salto__input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.pf-salto__total {
+  white-space: nowrap;
+}
+
 /* Permitir gestos táctiles en móviles */
 .pf-libro .stf__wrapper { touch-action: pan-y; }
 .pf-libro { touch-action: manipulation; }
@@ -711,6 +779,22 @@
   font-family: var(--font-serif);
   font-size: 0.72rem;
   line-height: 1.6;
+  /* La tarjeta es papel crema FIJO, pero el sitio alrededor puede estar en
+     modo oscuro: las variables de tema resolvían a texto crema (invisible
+     sobre el papel) y fondos oscuros (los cuadros negros de las tablas).
+     Aquí se fuerzan a sus valores de impresión, igual que en el libro. */
+  --color-fondo: #FDFCF7;
+  --color-fondo-alt: #F5F3EB;
+  --color-texto: #1A1A1A;
+  --color-texto-suave: #4A4A4A;
+  --color-texto-tenue: #8A8A8A;
+  --color-titulo: #002147;
+  --color-acento: #C5A059;
+  --color-acento-fuerte: #8e7239;
+  --color-linea-base: #E2DDD0;
+  --color-linea-suave: #EFEBE0;
+  --color-enlace: #1a3a66;
+  --color-enlace-hover: #8e7239;
 }
 
 /* Portada en móvil: fondo oscuro tipo cubierta */
@@ -720,6 +804,16 @@
   min-height: 320px;
   position: relative;
   overflow: hidden;
+}
+/* La portada va a sangre y con la proporcion real de la hoja (587x760):
+   con el padding de la tarjeta y una altura fija, la imagen se recortaba
+   y quedaba enmarcada en azul. */
+.pf-mobil-carta:has(.hoja-portada) {
+  padding: 0;
+}
+.pf-mobil-carta .hoja-portada {
+  width: 100%;
+  aspect-ratio: 587 / 760;
 }
 
 /* Contraportada */
@@ -781,13 +875,16 @@
   padding-bottom: 0.35em !important;
   border-bottom: 1.5px solid #C5A059 !important;
 }
+/* H3 igual que en el libro: subtitulo sereno, sin dorado ni cursiva */
 .pf-mobil-carta h3 {
   font-family: var(--font-serif) !important;
   font-size: 0.78rem !important;
-  font-style: italic !important;
-  font-weight: 600 !important;
-  color: #C5A059 !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  color: #1A1A1A !important;
   margin: 0.8em 0 0.2em !important;
+  text-align: justify !important;
+  hyphens: auto !important;
 }
 .pf-mobil-carta p {
   font-size: 0.72rem !important;
@@ -797,9 +894,14 @@
   font-family: var(--font-serif) !important;
   color: #1A1A1A !important;
 }
+/* Negrita igual que en el libro: solo peso tipografico, sin color llamativo
+   ni fondo resaltado (las negrillas de enfasis van discretas; los subtitulos
+   ya tienen su propio estilo). */
 .pf-mobil-carta strong {
-  color: #002147 !important;
-  font-weight: 800 !important;
+  color: #1A1A1A !important;
+  font-weight: 700 !important;
+  background: none !important;
+  padding: 0 !important;
 }
 .pf-mobil-carta ul {
   list-style: none !important;
@@ -828,6 +930,81 @@
   display: block !important;
 }
 
+/* ── Tablas académicas en móvil: mismos colores de impresión que el libro ──
+   Sin esto, las celdas heredaban colores del tema oscuro y las filas pares
+   salían como cuadros negros con el resto del texto invisible. */
+.pf-mobil-carta .tabla-academica {
+  margin: 0.8em 0 !important;
+}
+.pf-mobil-carta .tabla-academica table,
+.pf-mobil-carta table {
+  width: 100% !important;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.62rem !important;
+  line-height: 1.35 !important;
+}
+.pf-mobil-carta .tabla-academica th,
+.pf-mobil-carta .tabla-academica td,
+.pf-mobil-carta th,
+.pf-mobil-carta td {
+  padding: 4px 6px !important;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+.pf-mobil-carta .tabla-academica__scroll {
+  border-top: 1.5px solid #002147 !important;
+  border-bottom: 1.5px solid #002147 !important;
+}
+.pf-mobil-carta .tabla-academica thead tr,
+.pf-mobil-carta thead tr {
+  border-bottom: 1px solid #002147 !important;
+}
+.pf-mobil-carta th {
+  font-weight: 700 !important;
+  color: #002147 !important;
+  background: none !important;
+}
+.pf-mobil-carta td {
+  color: #1A1A1A !important;
+  background: none !important;
+}
+.pf-mobil-carta .tabla-academica tbody tr:nth-child(even),
+.pf-mobil-carta tbody tr:nth-child(even) {
+  background: rgba(0, 33, 71, 0.05) !important;
+}
+.pf-mobil-carta td strong {
+  color: #002147 !important;
+}
+.pf-mobil-carta .tabla-academica__caption {
+  font-size: 0.68rem !important;
+  margin-bottom: 0.3em !important;
+}
+.pf-mobil-carta .tabla-academica__num {
+  color: #002147 !important;
+}
+.pf-mobil-carta .tabla-academica__titulo {
+  color: #4A4A4A !important;
+}
+.pf-mobil-carta .tabla-academica__nota {
+  font-size: 0.58rem !important;
+  color: #6B6B6B !important;
+  margin-top: 0.3em !important;
+  line-height: 1.35 !important;
+}
+
+/* ── Referencias y pies de figura: colores de impresión ── */
+.pf-mobil-carta .referencias__lista li {
+  color: #3A3A3A !important;
+}
+.pf-mobil-carta .referencias__lista a {
+  color: #1a3a66 !important;
+}
+.pf-mobil-carta figcaption {
+  color: #6B6B6B !important;
+}
+
 /* ==========================================================================
    RESPONSIVO — Tablet (≤ 900px) y Móvil (≤ 600px)
    No modifica los estilos de escritorio.
@@ -846,10 +1023,10 @@
     max-width: 100%;
   }
 
-  /* En modo portrait (1 página), el padding interno puede ser más generoso */
-  .pf-hoja__inner {
-    padding: 32px 36px 52px;
-  }
+  /* Nota: el padding de .pf-hoja__inner ya NO se toca por breakpoint. La hoja
+     tiene medidas logicas fijas y cambiar aqui el padding haria que el texto
+     se repartiera distinto segun el ancho de la ventana, que es justo lo que
+     obligaba a repaginar al redimensionar. */
 
   /* Controles de navegación: más separados del libro */
   .pf-controles {

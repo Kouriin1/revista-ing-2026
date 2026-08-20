@@ -7,6 +7,9 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "paginar": "node scripts/paginar.mjs",
+    "portada": "node scripts/portada.mjs",
+    "publicar": "astro build && node scripts/paginar.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check"

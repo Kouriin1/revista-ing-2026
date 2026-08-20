@@ -36,7 +36,6 @@ const { items, titulo = 'Referencias' } = Astro.props;
   }
   .referencias__lista {
     list-style: none;
-    counter-reset: refs;
     padding: 0;
     margin: 0;
     font-family: var(--font-serif);
@@ -44,18 +43,10 @@ const { items, titulo = 'Referencias' } = Astro.props;
     line-height: 1.6;
   }
   .referencias__lista li {
-    counter-increment: refs;
-    padding-left: 2em;
-    text-indent: -2em;
+    padding-left: 1.4em;
+    text-indent: -1.4em;
     margin-bottom: var(--space-3);
     color: var(--color-texto-suave);
-  }
-  .referencias__lista li::before {
-    content: '[' counter(refs) '] ';
-    font-weight: 700;
-    color: var(--color-acento-fuerte);
-    text-indent: 0;
-    margin-right: 0.3em;
   }
   .referencias__lista a {
     display: block;
