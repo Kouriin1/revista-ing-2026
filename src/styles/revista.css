@@ -700,6 +700,49 @@
   text-align: center;
 }
 
+/* ── Salto directo a una página (input dentro de la píldora de controles) ── */
+.pf-salto {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: rgba(255,255,255,0.5);
+}
+.pf-salto__input {
+  width: 46px;
+  padding: 5px 2px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  transition: border-color 200ms, background 200ms;
+}
+.pf-salto__input::placeholder {
+  color: rgba(255,255,255,0.55);
+}
+.pf-salto__input:focus {
+  outline: none;
+  border-color: var(--color-dorado);
+  background: rgba(255,255,255,0.12);
+}
+/* Sin flechitas de spinner: el campo es para teclear y dar Enter */
+.pf-salto__input::-webkit-outer-spin-button,
+.pf-salto__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.pf-salto__input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.pf-salto__total {
+  white-space: nowrap;
+}
+
 /* Permitir gestos táctiles en móviles */
 .pf-libro .stf__wrapper { touch-action: pan-y; }
 .pf-libro { touch-action: manipulation; }
@@ -736,6 +779,22 @@
   font-family: var(--font-serif);
   font-size: 0.72rem;
   line-height: 1.6;
+  /* La tarjeta es papel crema FIJO, pero el sitio alrededor puede estar en
+     modo oscuro: las variables de tema resolvían a texto crema (invisible
+     sobre el papel) y fondos oscuros (los cuadros negros de las tablas).
+     Aquí se fuerzan a sus valores de impresión, igual que en el libro. */
+  --color-fondo: #FDFCF7;
+  --color-fondo-alt: #F5F3EB;
+  --color-texto: #1A1A1A;
+  --color-texto-suave: #4A4A4A;
+  --color-texto-tenue: #8A8A8A;
+  --color-titulo: #002147;
+  --color-acento: #C5A059;
+  --color-acento-fuerte: #8e7239;
+  --color-linea-base: #E2DDD0;
+  --color-linea-suave: #EFEBE0;
+  --color-enlace: #1a3a66;
+  --color-enlace-hover: #8e7239;
 }
 
 /* Portada en móvil: fondo oscuro tipo cubierta */
@@ -745,6 +804,16 @@
   min-height: 320px;
   position: relative;
   overflow: hidden;
+}
+/* La portada va a sangre y con la proporcion real de la hoja (587x760):
+   con el padding de la tarjeta y una altura fija, la imagen se recortaba
+   y quedaba enmarcada en azul. */
+.pf-mobil-carta:has(.hoja-portada) {
+  padding: 0;
+}
+.pf-mobil-carta .hoja-portada {
+  width: 100%;
+  aspect-ratio: 587 / 760;
 }
 
 /* Contraportada */
@@ -821,13 +890,16 @@
   padding-bottom: 0.35em !important;
   border-bottom: 1.5px solid #C5A059 !important;
 }
+/* H3 igual que en el libro: subtitulo sereno, sin dorado ni cursiva */
 .pf-mobil-carta h3 {
   font-family: var(--font-serif) !important;
   font-size: 0.78rem !important;
-  font-style: italic !important;
-  font-weight: 600 !important;
-  color: #C5A059 !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  color: #1A1A1A !important;
   margin: 0.8em 0 0.2em !important;
+  text-align: justify !important;
+  hyphens: auto !important;
 }
 .pf-mobil-carta p {
   font-size: 0.72rem !important;
@@ -837,9 +909,14 @@
   font-family: var(--font-serif) !important;
   color: #1A1A1A !important;
 }
+/* Negrita igual que en el libro: solo peso tipografico, sin color llamativo
+   ni fondo resaltado (las negrillas de enfasis van discretas; los subtitulos
+   ya tienen su propio estilo). */
 .pf-mobil-carta strong {
-  color: #002147 !important;
-  font-weight: 800 !important;
+  color: #1A1A1A !important;
+  font-weight: 700 !important;
+  background: none !important;
+  padding: 0 !important;
 }
 .pf-mobil-carta ul {
   list-style: none !important;
@@ -866,6 +943,81 @@
   border-radius: 6px !important;
   margin: 0.8em auto !important;
   display: block !important;
+}
+
+/* ── Tablas académicas en móvil: mismos colores de impresión que el libro ──
+   Sin esto, las celdas heredaban colores del tema oscuro y las filas pares
+   salían como cuadros negros con el resto del texto invisible. */
+.pf-mobil-carta .tabla-academica {
+  margin: 0.8em 0 !important;
+}
+.pf-mobil-carta .tabla-academica table,
+.pf-mobil-carta table {
+  width: 100% !important;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.62rem !important;
+  line-height: 1.35 !important;
+}
+.pf-mobil-carta .tabla-academica th,
+.pf-mobil-carta .tabla-academica td,
+.pf-mobil-carta th,
+.pf-mobil-carta td {
+  padding: 4px 6px !important;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+.pf-mobil-carta .tabla-academica__scroll {
+  border-top: 1.5px solid #002147 !important;
+  border-bottom: 1.5px solid #002147 !important;
+}
+.pf-mobil-carta .tabla-academica thead tr,
+.pf-mobil-carta thead tr {
+  border-bottom: 1px solid #002147 !important;
+}
+.pf-mobil-carta th {
+  font-weight: 700 !important;
+  color: #002147 !important;
+  background: none !important;
+}
+.pf-mobil-carta td {
+  color: #1A1A1A !important;
+  background: none !important;
+}
+.pf-mobil-carta .tabla-academica tbody tr:nth-child(even),
+.pf-mobil-carta tbody tr:nth-child(even) {
+  background: rgba(0, 33, 71, 0.05) !important;
+}
+.pf-mobil-carta td strong {
+  color: #002147 !important;
+}
+.pf-mobil-carta .tabla-academica__caption {
+  font-size: 0.68rem !important;
+  margin-bottom: 0.3em !important;
+}
+.pf-mobil-carta .tabla-academica__num {
+  color: #002147 !important;
+}
+.pf-mobil-carta .tabla-academica__titulo {
+  color: #4A4A4A !important;
+}
+.pf-mobil-carta .tabla-academica__nota {
+  font-size: 0.58rem !important;
+  color: #6B6B6B !important;
+  margin-top: 0.3em !important;
+  line-height: 1.35 !important;
+}
+
+/* ── Referencias y pies de figura: colores de impresión ── */
+.pf-mobil-carta .referencias__lista li {
+  color: #3A3A3A !important;
+}
+.pf-mobil-carta .referencias__lista a {
+  color: #1a3a66 !important;
+}
+.pf-mobil-carta figcaption {
+  color: #6B6B6B !important;
 }
 
 /* ==========================================================================

@@ -894,6 +894,22 @@ export default function PageFlipWrapper({ children }: Props) {
   const anterior = () => instanciaRef.current?.flipPrev?.();
   const siguiente = () => instanciaRef.current?.flipNext?.();
 
+  /* Salto directo: se escribe el numero de pagina en el indicador y Enter
+     lleva alli. No toca la revista: solo usa la API de page-flip. */
+  const [salto, setSalto] = useState('');
+  const irAPagina = () => {
+    const n = parseInt(salto, 10);
+    if (!Number.isFinite(n)) return;
+    const destino = Math.min(totalPaginas, Math.max(1, n)) - 1;
+    const pf = instanciaRef.current;
+    try {
+      pf?.flip?.(destino);
+    } catch {
+      pf?.turnToPage?.(destino);
+    }
+    setSalto('');
+  };
+
   /* Que hojas son solo imagen (van a sangre). Se resolvia dentro del map de
      render, lo que reparseaba el HTML de TODAS las paginas en cada render
      (y hay uno por cada pase de hoja). Ahora se calcula una sola vez. */
@@ -1027,9 +1043,27 @@ export default function PageFlipWrapper({ children }: Props) {
           <button type="button" onClick={anterior} aria-label="Página anterior" className="pf-nav">
             ‹ Anterior
           </button>
-          <span className="pf-indicador">
-            {paginaActual + 1} / {totalPaginas}
-          </span>
+          <form
+            className="pf-salto"
+            onSubmit={(e) => {
+              e.preventDefault();
+              irAPagina();
+            }}
+          >
+            <input
+              type="number"
+              min={1}
+              max={totalPaginas}
+              inputMode="numeric"
+              className="pf-salto__input"
+              value={salto}
+              onChange={(e) => setSalto(e.target.value)}
+              placeholder={String(paginaActual + 1)}
+              aria-label={`Ir a la página (1 a ${totalPaginas})`}
+              title="Escribe una página y presiona Enter"
+            />
+            <span className="pf-salto__total">/ {totalPaginas}</span>
+          </form>
           <button type="button" onClick={siguiente} aria-label="Página siguiente" className="pf-nav">
             Siguiente ›
           </button>

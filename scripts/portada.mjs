@@ -2,9 +2,13 @@
  * Genera la portada compuesta a partir de la foto original.
  *
  *  Recompone la foto a la proporcion de la hoja (8.5/11). La foto es mas
- *     ancha de lo que pide la hoja, asi que hay que anadir alto: se rellena
- *     con la misma foto ampliada y desenfocada, y el empalme se difumina para
- *     que no se vea el borde.
+ *  ancha de lo que pide la hoja, asi que hay que anadir alto: las franjas se
+ *  rellenan con la propia foto reflejada (espejo). El espejo es continuo en
+ *  el empalme por construccion, asi que no hay que desenfocar ni difuminar
+ *  nada y la portada queda nitida hasta el borde.
+ *
+ *  Sabe ademas cambiar el "(CEFIA)" de la foto por "(FIA)" reutilizando sus
+ *  propios glifos, pero va desactivado: CEFIA es la sigla correcta.
  *
  * Uso:  npm run portada
  * Solo hay que volver a ejecutarlo si cambia la foto original.
@@ -144,38 +148,22 @@ async function main() {
   // Lienzo con la proporcion de la hoja
   const W = corregida.w;
   const H = Math.round(W / RATIO_HOJA);
-  const yFoto = Math.round((H - corregida.h) / 2);
+  const franjaArriba = Math.max(0, Math.round((H - corregida.h) / 2));
+  const franjaAbajo = Math.max(0, H - corregida.h - franjaArriba);
   console.log(`recorte lateral: ${RECORTE_LATERAL}px por lado -> foto ${W}x${corregida.h}`);
-  console.log(`lienzo: ${W}x${H} (ratio ${(W / H).toFixed(4)}) — la foto va en y=${yFoto} ` +
-    `(franja inventada: ${yFoto}px = ${(yFoto / H * 100).toFixed(1)}% por lado)`);
+  console.log(`lienzo: ${W}x${H} (ratio ${(W / H).toFixed(4)}) — franjas de espejo: ` +
+    `${franjaArriba}px arriba / ${franjaAbajo}px abajo (${(franjaArriba / H * 100).toFixed(1)}% por lado)`);
 
-  // Fondo: la misma foto ampliada a cubrir el lienzo y desenfocada
-  const fondo = await leerRaw(
-    sharp(fotoPng).resize(W, H, { fit: 'cover', position: 'center' }).blur(18),
-  );
-
-  /* Mezcla con los bordes de la foto difuminados hacia el fondo. El
-     difuminado se ajusta a lo que haya que inventar: con una franja pequena no
-     tiene sentido emborronar 70px de foto buena. */
-  const DIFUMINADO = Math.max(18, Math.min(60, Math.round(yFoto * 1.4)));
-  const salida = Buffer.from(fondo.data);
-  for (let y = 0; y < corregida.h; y++) {
-    const yl = yFoto + y;
-    if (yl < 0 || yl >= H) continue;
-    let a = 1;
-    if (y < DIFUMINADO) a = y / DIFUMINADO;
-    else if (y > corregida.h - DIFUMINADO) a = (corregida.h - y) / DIFUMINADO;
-    a = a * a * (3 - 2 * a); // suavizado
-    for (let x = 0; x < W; x++) {
-      const s = idx(corregida, x, y);
-      const d = (yl * W + x) * fondo.c;
-      for (let k = 0; k < 3; k++) {
-        salida[d + k] = Math.round(fondo.data[d + k] * (1 - a) + corregida.data[s + k] * a);
-      }
-    }
-  }
-
-  await sharp(salida, { raw: { width: W, height: H, channels: fondo.c } })
+  /* Las franjas que faltan arriba y abajo se rellenan reflejando la propia
+     foto: el empalme es continuo por construccion y todo queda nitido. */
+  await sharp(fotoPng)
+    .extend({
+      top: franjaArriba,
+      bottom: franjaAbajo,
+      left: 0,
+      right: 0,
+      extendWith: 'mirror',
+    })
     .jpeg({ quality: 92, chromaSubsampling: '4:4:4' })
     .toFile(DESTINO);
 
