@@ -1,16 +1,14 @@
 /**
  * Genera la portada compuesta a partir de la foto original.
  *
- *  1. Cambia "(CEFIA)" por "(FIA)" reutilizando los propios glifos de la
- *     imagen (asi conserva exactamente la tipografia del diseno) y rellenando
- *     el hueco con el degradado del fondo.
- *  2. Recompone la foto a la proporcion de la hoja (8.5/11). La foto es mas
- *     ancha de lo que pide la hoja, asi que hay que anadir alto: las franjas
- *     se rellenan con la propia foto reflejada (espejo). El espejo es continuo
- *     en el empalme por construccion, asi que no hay que desenfocar ni
- *     difuminar nada y la portada queda nitida hasta el borde.
- *     (Antes se rellenaba con la foto ampliada y desenfocada y se difuminaban
- *     ~36px de la foto buena: los bordes de la portada salian borrosos.)
+ *  Recompone la foto a la proporcion de la hoja (8.5/11). La foto es mas
+ *  ancha de lo que pide la hoja, asi que hay que anadir alto: las franjas se
+ *  rellenan con la propia foto reflejada (espejo). El espejo es continuo en
+ *  el empalme por construccion, asi que no hay que desenfocar ni difuminar
+ *  nada y la portada queda nitida hasta el borde.
+ *
+ *  Sabe ademas cambiar el "(CEFIA)" de la foto por "(FIA)" reutilizando sus
+ *  propios glifos, pero va desactivado: CEFIA es la sigla correcta.
  *
  * Uso:  npm run portada
  * Solo hay que volver a ejecutarlo si cambia la foto original.
@@ -32,6 +30,11 @@ const RATIO_HOJA = 8.5 / 11;
    que se recorta son los swooshes decorativos, que ya sangran por el borde.
    Con esto la franja difuminada baja del 7.3% al 2.4% por lado. */
 const RECORTE_LATERAL = 42;
+
+/* La portada dice "(CEFIA)", que es la sigla correcta del centro. En un
+   momento se pidio cambiarla por "(FIA)" y este script sabe hacerlo
+   reutilizando los glifos de la propia imagen; se deja desactivado. */
+const CAMBIAR_CEFIA_POR_FIA = false;
 
 /* Medidas del texto, obtenidas midiendo la imagen (perfil de columnas):
    "(CEFIA)" = "(" 472-474 · "C" 478-489 · "E" 492-500 · "F" 504-512
@@ -126,7 +129,7 @@ async function main() {
   const original = await leerRaw(sharp(ORIGEN));
   console.log(`foto original: ${original.w}x${original.h} (ratio ${(original.w / original.h).toFixed(4)})`);
 
-  const conTexto = await corregirTexto(original);
+  const conTexto = CAMBIAR_CEFIA_POR_FIA ? await corregirTexto(original) : original;
 
   // Recorte lateral antes de componer
   const fotoPng = await sharp(conTexto.data, {
