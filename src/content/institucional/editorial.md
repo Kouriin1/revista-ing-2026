@@ -1,7 +1,7 @@
 ---
 tipo: editorial
 titulo: "Presentación"
-autor: "Coordinación de Investigación FIA-USM"
+autor: "Coordinación de Investigación CEFIA-USM"
 cargo: "Boletín de Investigación de la Facultad de Ingeniería"
 orden: 0
 ---

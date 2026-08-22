@@ -749,12 +749,27 @@
 
 /* Contraportada */
 .pf-mobil-carta:has(.hoja-contraportada),
+/* En movil la contraportada es una tarjeta de alto variable, no una hoja: el
+   cintillo no puede ir anclado al fondo o se monta sobre el logo. Aqui va en
+   el flujo, debajo. Los !important pisan los estilos con scope de index.astro,
+   que tienen la misma especificidad. */
 .pf-mobil-carta .hoja-contraportada {
   background: #00152e;
-  min-height: 220px;
+  min-height: 260px !important;
+  height: auto !important;
+  padding: 48px 20px 40px !important;
   display: flex;
+  flex-direction: column !important;
   align-items: center;
   justify-content: center;
+  gap: 30px;
+}
+.pf-mobil-carta .contraportada__logo {
+  margin-bottom: 0 !important;
+}
+.pf-mobil-carta .contraportada-pie {
+  position: static !important;
+  margin-top: 0 !important;
 }
 
 /* ── CRÍTICO: Deshabilitar dropcap en móvil (causa las letras R, C, P, S enormes) ── */
